@@ -206,6 +206,7 @@ async def op_perform_query(file_path, selected_file):
     verify_dataset_hash(file_path) # HASH_UTILS.py
 
     df = pd.read_csv(file_path)
+    print(f"Initial DataFrame: \n {df}")
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
