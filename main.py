@@ -192,6 +192,9 @@ def group_rows (df):
     group_cols = [col for col in df.columns if col not in attributes]
     sum_cols = [col for col in attributes if col in df.columns]
 
+    print(f"Columns to group by: {group_cols}")
+    print(f"Columns to sum: {sum_cols}")
+
     if group_cols and sum_cols:
         grouped_df = df.groupby(group_cols, as_index=False)[sum_cols].sum()
         return grouped_df
@@ -296,7 +299,7 @@ async def op_perform_query(file_path, selected_file):
     #print(f"Final DataFrame:\n{final_df}")
 
     # Sum the emissions for roll-up and slice
-    group_rows(final_df)
+    final_df = group_rows(final_df)
 
     
     cat_map = OLAPCube.load_category_mappings("cat_map.json")
