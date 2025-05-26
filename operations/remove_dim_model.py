@@ -1,10 +1,12 @@
+# This class can be used both for slicing and roll-up by specifying the columns to remove.
+
 from models.olap_operations import OLAPOperation
 from torch import nn
 import torch
 
-class SliceModel(OLAPOperation):
+class RemoveDimModel(OLAPOperation):
     def __init__(self, remove_columns=None):
-        super(SliceModel, self).__init__()
+        super(RemoveDimModel, self).__init__()
         # ensure to sort the list of columns (1, 2, 3, ...) or to create an empty list
         self.remove_columns = sorted(remove_columns) if remove_columns is not None else []
     

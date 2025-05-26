@@ -10,7 +10,7 @@ from models.olap_cube import OLAPCube
 from operations.filter_model import FilteringModel
 from operations.dicing_model import DicingModel
 from operations.roll_up_model import RollUpModel
-from operations.slice_model import SliceModel
+from operations.remove_dim_model import RemoveDimModel
 import asyncio
 from ezkl_workflow.generate_proof import generate_proof
 from hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash
@@ -136,11 +136,11 @@ def apply_olap_operations(cube, tensor_data, operations):
 
 # This function gives the indices of the columns to be sliced based on the hierarchies name
 def get_dimension_indices_slice(hierarchies_to_slice):
-    with open("DFM/dim_hierarchy_GHGe1.json", "r") as f:
-        hierarchy_data = json.load(f)
+    with open("DFM/DFM_GHGe1.json", "r") as f:
+        DFM_representation = json.load(f)
     
-    dimension_hierarchy = hierarchy_data["dim_hierarchy"]
-    dimension_index = hierarchy_data["dim_index"]
+    dimension_hierarchy = DFM_representation["dim_hierarchy"]
+    dimension_index = DFM_representation["dim_index"]
 
     columns_to_remove = []
     for dim in hierarchies_to_slice:
@@ -153,11 +153,11 @@ def get_dimension_indices_slice(hierarchies_to_slice):
 # This function gives the indices of the dimensions to be rolled up based on the hierarchies name
 # Example: if hierarchies_to_roll_up = [["Date", "Year"], ["Clothes Type", "Category"]], it will return the indices of "Month", "Day" and "Product Name"
 def get_dimension_indices_roll_up(hierarchies_to_roll_up):
-    with open("DFM/dim_hierarchy_GHGe1.json", "r") as f:
-        hierarchy_data = json.load(f)
+    with open("DFM/DFM_GHGe1.json", "r") as f:
+        DFM_representation = json.load(f)
     
-    dimension_hierarchy = hierarchy_data["dim_hierarchy"]
-    dimension_index = hierarchy_data["dim_index"]
+    dimension_hierarchy = DFM_representation["dim_hierarchy"]
+    dimension_index = DFM_representation["dim_index"]
 
     dim_to_remove = []
 
@@ -179,6 +179,25 @@ def get_dimension_indices_roll_up(hierarchies_to_roll_up):
 
     print(f"Indices to remove for roll-up: {indices_to_remove}")
     return indices_to_remove
+
+# This function groups the rows, after the roll-up and slice operations
+def group_rows (df):
+    with open("DFM/DFM_GHGe1.json", "r") as f:
+        DFM_representation = json.load(f)
+    
+    # attritubes to sum ("Total Emissions (kgCO₂e)")
+    attributes = DFM_representation["attributes"] 
+
+    # Group by all columns except those in attributes
+    group_cols = [col for col in df.columns if col not in attributes]
+    sum_cols = [col for col in attributes if col in df.columns]
+
+    if group_cols and sum_cols:
+        grouped_df = df.groupby(group_cols, as_index=False)[sum_cols].sum()
+        return grouped_df
+    else:
+        print("No columns to group by or sum.")
+        return df
 
 
 async def op_perform_query(file_path, selected_file):
@@ -209,16 +228,15 @@ async def op_perform_query(file_path, selected_file):
     columns_to_remove = list(dict.fromkeys(columns_to_slice + columns_to_roll_up)) # columns to remove from the tensor (no duplicates)
 
     operations = [
-        FilteringModel({2:0}), # Material = "Canvas"
-        #SliceModel(columns_to_slice)
-        SliceModel(columns_to_remove)
+        FilteringModel({2:0}), # filter Material = "Canvas"
+        RemoveDimModel(columns_to_remove)
     ]
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, operations)
 
-    print(f"Inital tensor:\n{tensor_data}")
-    print(f"Final tensor:\n{final_tensor}")
+    #print(f"Inital tensor:\n{tensor_data}")
+    #print(f"Final tensor:\n{final_tensor}")
 
     # Export the model in ONNX format
     # Selects the last operation in your OLAP pipeline. This is the model you want to export
@@ -262,7 +280,6 @@ async def op_perform_query(file_path, selected_file):
     non_zero_rows = ~torch.all(final_tensor == 0, dim=1)
     final_tensor = final_tensor[non_zero_rows] # after filtering
 
-
     # Save the final tensor as a CSV file after the query
     final_df = pd.DataFrame(final_tensor.detach().numpy())
 
@@ -276,7 +293,11 @@ async def op_perform_query(file_path, selected_file):
 
     # final_df.columns = [i for i in filtered_columns if i in kept_columns]
     final_df.columns = kept_columns 
-    print(f"Final DataFrame:\n{final_df}")
+    #print(f"Final DataFrame:\n{final_df}")
+
+    # Sum the emissions for roll-up and slice
+    group_rows(final_df)
+
     
     cat_map = OLAPCube.load_category_mappings("cat_map.json")
         #print("Category mappings loaded")
