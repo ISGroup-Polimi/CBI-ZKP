@@ -202,8 +202,9 @@ def group_rows (df):
         print("No columns to group by or sum.")
         return df
 
-
 async def op_perform_query(file_path, selected_file):
+    verify_dataset_hash(file_path) # HASH_UTILS.py
+
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
@@ -300,7 +301,6 @@ async def op_perform_query(file_path, selected_file):
 
     # Sum the emissions for roll-up and slice
     final_df = group_rows(final_df)
-
     
     cat_map = OLAPCube.load_category_mappings("cat_map.json")
         #print("Category mappings loaded")
