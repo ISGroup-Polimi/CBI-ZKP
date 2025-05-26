@@ -32,32 +32,6 @@ class OLAPCube:
     def save_category_mappings(self, path):
         with open(path, "w") as f:
             json.dump(self.category_mappings, f) 
-    
-    """
-    def encode_categorical_columns(self): # called in the construction
-        # Select all columns with object data type (typically strings), categorical_columns is the list of column names that are categorical
-        categorical_columns = self.df.select_dtypes(include=['object']).columns
-        category_mappings = {} # Initialize an empty dictionary to store the mappings
-        for col in categorical_columns:
-            # Transform the categorical column into numeric labels using LabelEncoder
-            self.df[col] = self.label_encoder.fit_transform(self.df[col].astype(str))
-            category_mappings[col] = dict(zip(self.label_encoder.classes_, self.label_encoder.transform(self.label_encoder.classes_)))
-        return category_mappings
-    
-    def save_category_mappings(self, path):
-        def convert(obj): # This function is used to convert the values of the DataFrame to a format that can be serialized to JSON
-            if isinstance(obj, dict):
-                return {k: convert(v) for k, v in obj.items()}
-            elif isinstance(obj, list):
-                return [convert(v) for v in obj]
-            elif hasattr(obj, "item"):
-                return int(obj)
-            else:
-                return int(obj) if isinstance(obj, float) and obj.is_integer() else obj
-        
-        with open(path, "w") as f:
-            json.dump(convert(self.category_mappings), f)    
-    """
 
     def load_category_mappings(path):
         with open(path, "r") as f:

@@ -147,7 +147,7 @@ def get_dimension_indices_slice(hierarchies_to_slice):
         columns_to_remove.extend(dimension_hierarchy[dim])
 
     indices_to_remove = [dimension_index[col] for col in columns_to_remove]
-    print(f"Indices to remove: {indices_to_remove}")
+    #print(f"Indices to remove: {indices_to_remove}")
     return indices_to_remove
 
 # This function gives the indices of the dimensions to be rolled up based on the hierarchies name
@@ -172,12 +172,12 @@ def get_dimension_indices_roll_up(hierarchies_to_roll_up):
         for i in range(idx + 1, len(dim_of_hierarchy)):
             dim_to_remove.append(dim_of_hierarchy[i]) 
 
-    print(f"Dimensions to remove for roll-up: {dim_to_remove}")
+    #print(f"Dimensions to remove for roll-up: {dim_to_remove}")
 
     # Convert the dimension names to their corresponding indices
     indices_to_remove = [dimension_index[dim] for dim in dim_to_remove]       
 
-    print(f"Indices to remove for roll-up: {indices_to_remove}")
+    #print(f"Indices to remove for roll-up: {indices_to_remove}")
     return indices_to_remove
 
 # This function groups the rows, after the roll-up and slice operations
@@ -192,8 +192,8 @@ def group_rows (df):
     group_cols = [col for col in df.columns if col not in attributes]
     sum_cols = [col for col in attributes if col in df.columns]
 
-    print(f"Columns to group by: {group_cols}")
-    print(f"Columns to sum: {sum_cols}")
+    #print(f"Columns to group by: {group_cols}")
+    #print(f"Columns to sum: {sum_cols}")
 
     if group_cols and sum_cols:
         grouped_df = df.groupby(group_cols, as_index=False)[sum_cols].sum()
@@ -215,8 +215,8 @@ async def op_perform_query(file_path, selected_file):
     cube.save_category_mappings("cat_map.json") # save the mappings (categorical values - indexes) to a JSON file
     tensor_data = cube.to_tensor()
 
-    print(f"DataFrame after dropping NaN values: \n {df}") # categorical columns are already encoded as integers
-    print(f"OLAP cube: {cube}")
+    #print(f"DataFrame after dropping NaN values: \n {df}") # categorical columns are already encoded as integers
+    #print(f"OLAP cube: {cube}")
     
     """
     # Define the list of OLAP operations to apply
@@ -345,7 +345,7 @@ async def CLI_perform_query():
     await op_prepare_query(file_path, selected_file) # MAIN.py
 
 async def op_prepare_query(file_path, selected_file): 
-    
+    #     query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
     query_dimensions = ["Product Name", "Category", "Material", "Year", "Month", "Day", "Total Emissions (kgCO₂e)"]
 
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
@@ -354,7 +354,6 @@ async def op_prepare_query(file_path, selected_file):
         print("Query contains disallowed dimensions.")
         return
     print("Query is allowed. Proceeding with query execution...")
-    
     
     try:
         await op_perform_query(file_path, selected_file) # MAIN.py
