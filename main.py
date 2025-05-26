@@ -232,7 +232,7 @@ async def op_perform_query(file_path, selected_file):
     columns_to_remove = list(dict.fromkeys(columns_to_slice + columns_to_roll_up)) # columns to remove from the tensor (no duplicates)
 
     operations = [
-        FilteringModel({2:0}), # filter Material = "Canvas"
+        FilteringModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
         RemoveDimModel(columns_to_remove)
     ]
 
@@ -344,8 +344,8 @@ async def CLI_perform_query():
     await op_prepare_query(file_path, selected_file) # MAIN.py
 
 async def op_prepare_query(file_path, selected_file): 
-    """
-    query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
+    
+    query_dimensions = ["Product Name", "Category", "Material", "Year", "Month", "Day", "Total Emissions (kgCO₂e)"]
 
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
@@ -353,7 +353,7 @@ async def op_prepare_query(file_path, selected_file):
         print("Query contains disallowed dimensions.")
         return
     print("Query is allowed. Proceeding with query execution...")
-    """
+    
     
     try:
         await op_perform_query(file_path, selected_file) # MAIN.py
