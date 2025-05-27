@@ -9,7 +9,6 @@ import sys
 from models.olap_cube import OLAPCube
 from operations.slice_model import SliceModel
 from operations.dicing_model import DicingModel
-from operations.rollup_model import RollUpModel
 from operations.remove_dim_model import RemoveDimModel
 import asyncio
 from ezkl_workflow.generate_proof import generate_proof
