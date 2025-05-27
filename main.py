@@ -227,7 +227,7 @@ async def op_perform_query(file_path, selected_file):
     ]
     """
     hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
-    columns_to_rollup = get_dim_indices_rollup([["Date", "Year"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+    columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
 
     columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
 
