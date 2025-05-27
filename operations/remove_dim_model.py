@@ -1,5 +1,4 @@
-# This class can be used both for slicing and roll-up by specifying the columns to remove.
-
+# This class is used to remove dimension for rollup operations
 from models.olap_operations import OLAPOperation
 from torch import nn
 import torch

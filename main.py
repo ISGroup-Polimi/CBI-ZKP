@@ -7,9 +7,9 @@ from ezkl import ezkl
 import time
 import sys
 from models.olap_cube import OLAPCube
-from operations.filter_model import FilteringModel
+from operations.slice_model import SliceModel
 from operations.dicing_model import DicingModel
-from operations.roll_up_model import RollUpModel
+from operations.rollup_model import RollUpModel
 from operations.remove_dim_model import RemoveDimModel
 import asyncio
 from ezkl_workflow.generate_proof import generate_proof
@@ -134,8 +134,8 @@ def apply_olap_operations(cube, tensor_data, operations):
         result_tensor = cube.execute_model(operation, result_tensor)
     return result_tensor
 
-# This function gives the indices of the columns to be sliced based on the hierarchies name
-def get_dimension_indices_slice(hierarchies_to_slice):
+# This function gives the indices of the columns to roll-up based on the hierarchies names
+def get_hier_indices_rollup(hierarchies_to_rollup):
     with open("DFM/DFM_GHGe1.json", "r") as f:
         DFM_representation = json.load(f)
     
@@ -143,16 +143,16 @@ def get_dimension_indices_slice(hierarchies_to_slice):
     dimension_index = DFM_representation["dim_index"]
 
     columns_to_remove = []
-    for dim in hierarchies_to_slice:
+    for dim in hierarchies_to_rollup:
         columns_to_remove.extend(dimension_hierarchy[dim])
 
     indices_to_remove = [dimension_index[col] for col in columns_to_remove]
     #print(f"Indices to remove: {indices_to_remove}")
     return indices_to_remove
 
-# This function gives the indices of the dimensions to be rolled up based on the hierarchies name
+# This function gives the indices of the dimensions to be rolled up based on the dimensions name
 # Example: if hierarchies_to_roll_up = [["Date", "Year"], ["Clothes Type", "Category"]], it will return the indices of "Month", "Day" and "Product Name"
-def get_dimension_indices_roll_up(hierarchies_to_roll_up):
+def get_dim_indices_rollup(dimensions_to_rollup):
     with open("DFM/DFM_GHGe1.json", "r") as f:
         DFM_representation = json.load(f)
     
@@ -161,7 +161,7 @@ def get_dimension_indices_roll_up(hierarchies_to_roll_up):
 
     dim_to_remove = []
 
-    for dim in hierarchies_to_roll_up:
+    for dim in dimensions_to_rollup:
         hierarchy_name = dim[0] # "Date" or "Clothes Type"
         dim_of_hierarchy = dimension_hierarchy[hierarchy_name] # ["Year", "Month", "Day"] or ["Category", "Product Name"]
         # Get the index of dim[1] (dimension we want to do the rollup) in the hierarchy list
@@ -177,10 +177,10 @@ def get_dimension_indices_roll_up(hierarchies_to_roll_up):
     # Convert the dimension names to their corresponding indices
     indices_to_remove = [dimension_index[dim] for dim in dim_to_remove]       
 
-    #print(f"Indices to remove for roll-up: {indices_to_remove}")
+    #print(f"Indices to remove for roll-up dim: {indices_to_remove}")
     return indices_to_remove
 
-# This function groups the rows, after the roll-up and slice operations
+# This function groups the rows after the roll-up operation
 def group_rows (df):
     with open("DFM/DFM_GHGe1.json", "r") as f:
         DFM_representation = json.load(f)
@@ -227,13 +227,13 @@ async def op_perform_query(file_path, selected_file):
         DicingModel({2: 2, 21: [3, 4], 27: 4})  # Dicing operation
     ]
     """
-    columns_to_slice = get_dimension_indices_slice(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
-    columns_to_roll_up = get_dimension_indices_roll_up([["Date", "Year"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+    hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+    columns_to_rollup = get_dim_indices_rollup([["Date", "Year"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
 
-    columns_to_remove = list(dict.fromkeys(columns_to_slice + columns_to_roll_up)) # columns to remove from the tensor (no duplicates)
+    columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
 
     operations = [
-        FilteringModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
+        SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
         RemoveDimModel(columns_to_remove)
     ]
 
