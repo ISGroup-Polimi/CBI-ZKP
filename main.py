@@ -233,7 +233,7 @@ async def op_perform_query(file_path, selected_file):
 
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
-        DicingModel({2: [0, 3]})
+        DicingModel({2: [0, 3]}),
         RemoveDimModel(columns_to_remove)
     ]
 
