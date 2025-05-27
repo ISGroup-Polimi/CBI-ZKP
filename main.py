@@ -232,7 +232,7 @@ async def op_perform_query(file_path, selected_file):
     columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
 
     operations = [
-        SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
+        SliceModel({2: [0, 4]}), # filter column 2 with value ==0 ->  Material = "Canvas"
         RemoveDimModel(columns_to_remove)
     ]
 
