@@ -201,24 +201,24 @@ async def op_prepare_query(file_path):
     # columns in the original file
     df = pd.read_csv(file_path)
     columns = df.columns.tolist()
+    column_indexes = [(col, idx) for idx, col in enumerate(columns)] # get idx of each column
 
     # define the OLAP operations to apply
     hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
     columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
 
-    columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
+    columns_to_remove_idx = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
     #
-    print(f"Columns to remove: {columns_to_remove}")
-
+    print(f"Columns to remove: {columns_to_remove_idx}")
 
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
         DicingModel({2: [0, 3]}),
-        RollUpModel(columns_to_remove)
+        RollUpModel(columns_to_remove_idx)
     ]
 
     # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
-    query_dimensions = [col for col in columns if col not in columns_to_remove]
+    query_dimensions = [col for col in columns if col not in columns_to_remove_idx]
     #
     print(f"Query dimensions: {query_dimensions}")
 
@@ -230,13 +230,13 @@ async def op_prepare_query(file_path):
     print("Query is allowed. Proceeding with query execution...")
     
     try:
-        await op_perform_query(file_path, operations, columns_to_remove) # MAIN.py
+        await op_perform_query(file_path, operations, columns_to_remove_idx) # MAIN.py
         print("Query executed successfully.")
     except Exception as e:
         print(f"Failed to perform query: {e}")
         return    
     
-async def op_perform_query(file_path, operations, columns_to_remove):
+async def op_perform_query(file_path, operations, columns_to_remove_idx):
     selected_file = os.path.basename(file_path)
 
     df = pd.read_csv(file_path)
@@ -318,7 +318,7 @@ async def op_perform_query(file_path, operations, columns_to_remove):
     
     # Remove columns of the slice
     all_indices = list(range(len(cube.df.columns)))
-    kept_indices = [i for i in all_indices if i not in columns_to_remove]
+    kept_indices = [i for i in all_indices if i not in columns_to_remove_idx]
     kept_columns = [cube.df.columns[i] for i in kept_indices]
 
     # final_df.columns = [i for i in filtered_columns if i in kept_columns]
