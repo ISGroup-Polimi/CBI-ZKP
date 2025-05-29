@@ -329,6 +329,10 @@ async def op_perform_query(file_path, operations, columns_to_remove):
     final_cube = OLAPCube(final_df, category_mappings=filtered_cat_map)
         #print("Final cube created")
     final_decoded_cube = final_cube.decode_categorical_columns()
+    # Year, Month, Day convert to int
+    for col in ["Year", "Month", "Day"]:
+        if col in final_decoded_cube.columns:
+            final_decoded_cube[col] = final_decoded_cube[col].astype(int)
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
     mod_selected_file = "mod_" + selected_file # mod = modified
