@@ -207,8 +207,9 @@ async def op_prepare_query(file_path):
     columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
 
     columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
-
+    #
     print(f"Columns to remove: {columns_to_remove}")
+
 
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
@@ -218,6 +219,8 @@ async def op_prepare_query(file_path):
 
     # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
     query_dimensions = [col for col in columns if col not in columns_to_remove]
+    #
+    print(f"Query dimensions: {query_dimensions}")
 
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
