@@ -208,6 +208,8 @@ async def op_prepare_query(file_path):
 
     columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
 
+    print(f"Columns to remove: {columns_to_remove}")
+
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
         DicingModel({2: [0, 3]}),
