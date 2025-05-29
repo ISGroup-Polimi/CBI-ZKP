@@ -298,7 +298,7 @@ async def op_perform_query(file_path, operations, columns_to_remove):
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=20)
+    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
 
     # Print and save the final tensor after applying the OLAP operations in human-readable format
     # Remove rows from final_tensor that are all zeros
