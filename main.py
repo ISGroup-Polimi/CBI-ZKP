@@ -224,6 +224,7 @@ async def op_prepare_query(file_path):
     query_dimensions = [col for col in columns if col not in columns_to_remove]
     #
     print(f"Query dimensions: {query_dimensions}")
+    print([repr(dim) for dim in query_dimensions])
 
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
