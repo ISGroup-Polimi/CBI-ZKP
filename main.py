@@ -9,7 +9,7 @@ import sys
 from models.olap_cube import OLAPCube
 from operations.slice_model import SliceModel
 from operations.dicing_model import DicingModel
-from operations.remove_dim_model import RemoveDimModel
+from operations.rollup_model import RollUpModel
 import asyncio
 from ezkl_workflow.generate_proof import generate_proof
 from hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash
@@ -20,7 +20,7 @@ output_dir = './output'
 os.makedirs(output_dir, exist_ok=True)
 
 def load_contract_address(contract_name):
-    """Load the contract address from the configuration file."""
+    # Load the contract address from the configuration file
     config_path = os.path.join(os.path.dirname(__file__), 'config', 'contract_addresses.json')
     with open(config_path, 'r') as f:
         contract_addresses = json.load(f)
@@ -39,17 +39,16 @@ def op_generate_file():
     generator_choice = input("Enter your choice (1 or 2): ")
 
     if generator_choice == "1":
-        generate_CSV_1(1000, 1, output_file="GHGe1.csv") # CSV_Generator1.py
+        generate_CSV_1(5000, 1, output_file="GHGe1.csv") # CSV_Generator1.py
         print("File generated with Generator 1.")
     elif generator_choice == "2":
-        generate_CSV_2(1000, 1, output_file="GHGe2.csv") # CSV_Generator2.py
+        generate_CSV_2(5000, 1, output_file="GHGe2.csv") # CSV_Generator2.py
         print("File generated with Generator 2.")
     else:
         print("Invalid choice. Returning to previous menu.")
-    
 
 def CLI_publish_hash():
-    # Make the user select a file to publish with CLI
+    # Make the user select a file to publish with CLI in data/uploaded directory
     uploaded_files_dir = os.path.join('data', 'uploaded')
     files = os.listdir(uploaded_files_dir)
     if not files:
@@ -89,39 +88,6 @@ def CLI_publish_hash():
 def op_publish_hash(file_path):
     return publish_hash(file_path) # HASH_UTILS.py
 
-# ??
-def op_verify_dataset_hash():
-    try:
-        published_hash_path = os.path.join('data', 'published_hash.json')
-        if not os.path.exists(published_hash_path):
-            print("\nNo published hashes found.")
-            return
-
-        with open(published_hash_path, 'r') as f:
-            published_hashes = json.load(f)
-
-        if not published_hashes:
-            print("\nNo hashes available in the published file.")
-            return
-
-        print("\nAvailable published hashes:")
-        for idx, (file_name, hash_value) in enumerate(published_hashes.items()):
-            print(f"[{idx + 1}] File: {file_name} - Hash: {hash_value}")
-
-        file_index = int(input("Select a file to verify by index: ")) - 1
-        if file_index < 0 or file_index >= len(published_hashes):
-            print("Invalid index selected.")
-            return
-
-        selected_file = list(published_hashes.keys())[file_index]
-        selected_hash = published_hashes[selected_file]
-
-        file_path = os.path.join('data', 'uploaded', selected_file)
-
-        verify_dataset_hash(file_path)
-        print(f"Hash for {selected_file} verified successfully ({selected_hash}).")
-    except Exception as e:
-        print(f"Failed to verify hash: {e}")
 
 # This function applies a sequence of OLAP operations to a data tensor using an OLAP cube object:
 # - cube instance of OLAPCube from olap_cube.py -> tell how to apply OLAP operations to the data
@@ -132,6 +98,7 @@ def apply_olap_operations(cube, tensor_data, operations):
     for operation in operations:
         result_tensor = cube.execute_model(operation, result_tensor)
     return result_tensor
+
 
 # This function gives the indices of the columns to roll-up based on the hierarchies names
 def get_hier_indices_rollup(hierarchies_to_rollup):
@@ -201,8 +168,71 @@ def group_rows (df):
         print("No columns to group by or sum.")
         return df
 
-async def op_perform_query(file_path, selected_file):
+# This function makes the user select a file to query with CLI
+async def CLI_query():
+    published_hash_path = os.path.join('data', 'published_hash.json')
+
+    if not os.path.exists(published_hash_path):
+        print("\nNo published hashes file found.")
+        return
+    
+    with open(published_hash_path, 'r') as f:
+        published_hashes = json.load(f)
+    if not published_hashes:
+        print("\nNo hashes available in the published file.")
+        return
+    
+    print("\nAvailable published hashes:")
+    for idx, (file_name, hash_value) in enumerate(published_hashes.items()):
+        print(f"[{idx + 1}] File: {file_name} - Hash: {hash_value}")
+    file_index = int(input("Select a file to query by index: ")) - 1
+    if file_index < 0 or file_index >= len(published_hashes):
+        print("Invalid index selected.")
+        return
+    
+    selected_file = list(published_hashes.keys())[file_index]
+    file_path = os.path.join('data', 'uploaded', selected_file)
+
+    await op_prepare_query(file_path) # MAIN.py
+
+async def op_prepare_query(file_path): 
     verify_dataset_hash(file_path) # HASH_UTILS.py
+
+    # columns in the original file
+    df = pd.read_csv(file_path)
+    columns = df.columns.tolist()
+
+    # define the OLAP operations to apply
+    hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+    columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+
+    columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
+
+    operations = [
+        #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
+        DicingModel({2: [0, 3]}),
+        RollUpModel(columns_to_remove)
+    ]
+
+    # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
+    query_dimensions = [col for col in columns if col not in columns_to_remove]
+
+    is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
+
+    if not is_query_allowed:
+        print("Query contains disallowed dimensions.")
+        return
+    print("Query is allowed. Proceeding with query execution...")
+    
+    try:
+        await op_perform_query(file_path, operations, columns_to_remove) # MAIN.py
+        print("Query executed successfully.")
+    except Exception as e:
+        print(f"Failed to perform query: {e}")
+        return    
+    
+async def op_perform_query(file_path, operations, columns_to_remove):
+    selected_file = os.path.basename(file_path)
 
     df = pd.read_csv(file_path)
     print(f"Initial DataFrame: \n {df}")
@@ -226,16 +256,6 @@ async def op_perform_query(file_path, selected_file):
         DicingModel({2: 2, 21: [3, 4], 27: 4})  # Dicing operation
     ]
     """
-    hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
-    columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
-
-    columns_to_remove = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
-
-    operations = [
-        #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
-        DicingModel({2: [0, 3]}),
-        RemoveDimModel(columns_to_remove)
-    ]
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, operations)
@@ -317,66 +337,21 @@ async def op_perform_query(file_path, selected_file):
     final_df.to_csv(csv_output_path, index=False)
     print(f"Query result saved to {csv_output_path}")
 
-# This function makes the user select a file to query with CLI
-async def CLI_perform_query():
-    published_hash_path = os.path.join('data', 'published_hash.json')
-
-    if not os.path.exists(published_hash_path):
-        print("\nNo published hashes file found.")
-        return
-    
-    with open(published_hash_path, 'r') as f:
-        published_hashes = json.load(f)
-    if not published_hashes:
-        print("\nNo hashes available in the published file.")
-        return
-    
-    print("\nAvailable published hashes:")
-    for idx, (file_name, hash_value) in enumerate(published_hashes.items()):
-        print(f"[{idx + 1}] File: {file_name} - Hash: {hash_value}")
-    file_index = int(input("Select a file to query by index: ")) - 1
-    if file_index < 0 or file_index >= len(published_hashes):
-        print("Invalid index selected.")
-        return
-    
-    selected_file = list(published_hashes.keys())[file_index]
-    file_path = os.path.join('data', 'uploaded', selected_file)
-
-    await op_prepare_query(file_path, selected_file) # MAIN.py
-
-async def op_prepare_query(file_path, selected_file): 
-    #     query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
-    query_dimensions = ["Product Name", "Category", "Material", "Year", "Month", "Day", "Total Emissions (kgCO₂e)"]
-
-    is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
-
-    if not is_query_allowed:
-        print("Query contains disallowed dimensions.")
-        return
-    print("Query is allowed. Proceeding with query execution...")
-    
-    try:
-        await op_perform_query(file_path, selected_file) # MAIN.py
-        print("Query executed successfully.")
-    except Exception as e:
-        print(f"Failed to perform query: {e}")
-        return    
-
 async def main():
 
     while True:
         print("\nSelect an option:")
-        print("[1] Login as Organization 1")
-        print("[2] Login as Organization 2")
+        print("[1] Login as Organization 1 (data provider)")
+        print("[2] Login as Organization 2 (data receiver)")
         print("[3] Exit")
         choice = input("Enter your choice (1, 2, or 3): ")
 
         if choice == "1":  # -------------------------------------- ORG 1
-            print("You selected: Login as ORG 1")
+            print("You selected: Login as ORG 1 (data provider)")
             print("\nSelect an option:")
             print("[1] Upload File")
             print("[2] Publish Hash")
-            sub_choice = input("Enter your choice (1, 2, or 3): ")
+            sub_choice = input("Enter your choice (1 or 2): ")
 
             if sub_choice == "1":  # UPLOAD FILE
                 op_generate_file()
@@ -388,14 +363,14 @@ async def main():
                 print("Invalid choice. Returning to main menu.")
 
         elif choice == "2":  # ------------------------------------- ORG 2
-            print("You selected: Login as ORG 2")
+            print("You selected: Login as ORG 2 (data receiver)")
             print("\nSelect an option:")
             print("[1] Perform Query")
             sub_choice = input("Enter your choice (1 or 2): ")
 
             if sub_choice == "1":  # PERFORM QUERY
                 try:
-                    await CLI_perform_query()
+                    await CLI_query()
                 except Exception as e:
                     print(f"Failed to perform query: {e}")
 

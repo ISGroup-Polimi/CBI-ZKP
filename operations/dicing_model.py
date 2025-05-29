@@ -10,10 +10,11 @@ class DicingModel(OLAPOperation):
     def forward(self, x):
         mask = torch.ones(x.size(0), dtype=torch.bool)
         for column, value in self.conditions.items():
-            if isinstance(value, list):
+            # check if the value is a list (for multiple values in the same column)
+            if isinstance(value, list): 
                 temp_mask = torch.zeros(x.size(0), dtype=torch.bool)
                 for val in value:
-                    temp_mask = temp_mask | (x[:, column] == val)
+                    temp_mask = temp_mask | (x[:, column] == val) # | is OR operation
                 mask = mask & temp_mask
             else:
                 mask = mask & (x[:, column] == value)

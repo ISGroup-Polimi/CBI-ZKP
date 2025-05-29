@@ -5,16 +5,11 @@ contract DataFactModel {
     struct Dimensions {
         bool ProductName;
         bool Category;
-        bool Supplier;
-        bool ExpirationDate;
-        bool MonthOfSale;
-        bool QuarterOfSale;
-        bool BimonthOfSale;
-        bool YearOfSale;
-        bool City;
-        bool Province;
-        bool Region;
-        bool TypeOfSale;
+        bool Material;
+        bool Year;
+        bool Month;
+        bool Day;
+        bool TotalEmissionsKgCO2e;
     }
 
     Dimensions public allowedDimensions;
@@ -22,32 +17,24 @@ contract DataFactModel {
     event QueryCheck(address indexed user, string[] queryDimensions);
 
     constructor() {
-        allowedDimensions.ProductName = true;
-        allowedDimensions.Category = true;
-        allowedDimensions.Supplier = true;
-        allowedDimensions.MonthOfSale = true;
-        allowedDimensions.QuarterOfSale = true;
-        allowedDimensions.BimonthOfSale = true;
-        allowedDimensions.YearOfSale = true;
-        allowedDimensions.City = true;
-        allowedDimensions.Province = true;
-        allowedDimensions.Region = true;
-        allowedDimensions.TypeOfSale = true;
+        allowedDimensions.ProductName = false;
+        allowedDimensions.Category = false;
+        allowedDimensions.Material = true;
+        allowedDimensions.Year = true;
+        allowedDimensions.Month = true;
+        allowedDimensions.Day = false;
+        allowedDimensions.TotalEmissionsKgCO2e = true;
     }
 
     function isQueryAllowed(string[] memory queryDimensions) public view returns (bool) {
         for (uint i = 0; i < queryDimensions.length; i++) {
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("ProductName")) && !allowedDimensions.ProductName) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Product Name")) && !allowedDimensions.ProductName) return false;
             if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Category")) && !allowedDimensions.Category) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Supplier")) && !allowedDimensions.Supplier) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("MonthOfSale")) && !allowedDimensions.MonthOfSale) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("QuarterOfSale")) && !allowedDimensions.QuarterOfSale) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("BimonthOfSale")) && !allowedDimensions.BimonthOfSale) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("YearOfSale")) && !allowedDimensions.YearOfSale) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("City")) && !allowedDimensions.City) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Province")) && !allowedDimensions.Province) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Region")) && !allowedDimensions.Region) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("TypeOfSale")) && !allowedDimensions.TypeOfSale) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Material")) && !allowedDimensions.Material) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Year")) && !allowedDimensions.Year) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Month")) && !allowedDimensions.Month) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Day")) && !allowedDimensions.Day) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Total Emissions (kgCO₂e)")) && !allowedDimensions.TotalEmissionsKgCO2e) return false;
         }
         return true;
     }

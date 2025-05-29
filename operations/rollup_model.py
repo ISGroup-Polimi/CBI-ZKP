@@ -3,10 +3,10 @@ from models.olap_operations import OLAPOperation
 from torch import nn
 import torch
 
-class RemoveDimModel(OLAPOperation):
+class RollUpModel(OLAPOperation):
     def __init__(self, remove_columns=None):
-        super(RemoveDimModel, self).__init__()
-        # ensure to sort the list of columns (1, 2, 3, ...) or to create an empty list
+        super(RollUpModel, self).__init__()
+        # ensure to sort the list of columns (1, 2, 3, ...) if present else create an empty list
         self.remove_columns = sorted(remove_columns) if remove_columns is not None else []
     
     def forward(self, x):
@@ -21,10 +21,13 @@ class RemoveDimModel(OLAPOperation):
                 ranges_to_keep.append((start, col))
             start = col + 1
         
-        # Aggiungi l'ultimo intervallo se c'è ancora qualcosa dopo l'ultima colonna rimossa
+        # Aggiungi l'ultimo intervallo se c'è ancora qualcosa dopo l'ultima colonna rimossa 
+        # es. [1, ..., 5] e remove_columns = [2, 3] -> append [4, 5]
         if start < x.size(1):
             ranges_to_keep.append((start, x.size(1)))
         
-        # Concatena le parti da mantenere
+        # x_kept_parts lista di tensori x[:, s:e]
+        # x[:, s:e] prende tutte le righe ":" e le colonne da "s" a "e"
         x_kept_parts = [x[:, s:e] for s, e in ranges_to_keep]
+        # Concatena x_kept_parts lungo la dimensione delle colonne (dim=1)
         return torch.cat(x_kept_parts, dim=1)

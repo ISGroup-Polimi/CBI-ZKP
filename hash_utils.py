@@ -77,19 +77,20 @@ CONTRACT_ABI_QUERY_ALLOWED = json.loads('''
 ''')
 
 def setup_web3():
+    # Create web3 instance that tries to connect to Ethereum node running locally on the machine
     web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
     if not web3.is_connected():
         logging.error("Failed to connect to the blockchain.")
         raise ConnectionError("Failed to connect to the blockchain.")
     return web3
 
+# It retrieves the contract instance using the address and ABI
+# If the contract is not deployed at the given address, it will be deployed
 def get_contract(web3, address, abi):
-    # It retrieves the contract instance using the address and ABI
-    # If the contract is not deployed at the given address, it will be deployed
     return web3.eth.contract(address=address, abi=abi)
 
 def calculate_file_hash(file_path):
-    """Calculate the SHA-256 hash of a file."""
+    # Calculate the SHA-256 hash of a file
     hasher = hashlib.sha256()
     try:
         with open(file_path, 'rb') as f:
@@ -108,7 +109,7 @@ def publish_hash(file_path):
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     web3 = setup_web3()
-    # call to get (create) the contract instance
+    # call to get or create the contract instance
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_SET_HASH) # hash_utils.py
 
     account = web3.eth.accounts[0]
