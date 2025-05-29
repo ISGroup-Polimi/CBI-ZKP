@@ -53,7 +53,7 @@ def generate_CSV_1(num_rows, seed, output_file="GHGe1.csv"):
             "Month": random_date.month,
             "Day": random_date.day,
             "Product Name": product["name"],
-            "Total Emissions (kgCO₂e)": total_emission
+            "Total Emissions (kgCO2e)": total_emission
         }
         data.append(row)
 
@@ -66,7 +66,7 @@ def generate_CSV_1(num_rows, seed, output_file="GHGe1.csv"):
             "Year",
             "Month",
             "Day",
-            "Total Emissions (kgCO₂e)"
+            "Total Emissions (kgCO2e)"
         ])
         for row in data:
             writer.writerow([
@@ -76,7 +76,7 @@ def generate_CSV_1(num_rows, seed, output_file="GHGe1.csv"):
                 row["Year"],
                 row["Month"],
                 row["Day"],
-                row["Total Emissions (kgCO₂e)"]
+                row["Total Emissions (kgCO2e)"]
             ])
     
     print(f"CSV generated: {output_file}")

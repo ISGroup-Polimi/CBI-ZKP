@@ -34,7 +34,7 @@ contract DataFactModel {
             if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Year")) && !allowedDimensions.Year) return false;
             if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Month")) && !allowedDimensions.Month) return false;
             if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Day")) && !allowedDimensions.Day) return false;
-            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Total Emissions (kgCO₂e)")) && !allowedDimensions.TotalEmissionsKgCO2e) return false;
+            if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Total Emissions (kgCO2e)")) && !allowedDimensions.TotalEmissionsKgCO2e) return false;
         }
         return true;
     }

@@ -55,12 +55,12 @@ def generate_CSV_2(num_rows, seed, output_file="GHGe2.csv"):
             "Category",
             "City",
             "Country",
-            "Emissions Raw Materials per unit (kgCO₂e)",
-            "Emissions Manufacturing per unit (kgCO₂e)",
-            "Emissions Transport per unit (kgCO₂e)",
-            "Total Emissions per unit (kgCO₂e)",
+            "Emissions Raw Materials per unit (kgCO2e)",
+            "Emissions Manufacturing per unit (kgCO2e)",
+            "Emissions Transport per unit (kgCO2e)",
+            "Total Emissions per unit (kgCO2e)",
             "Quantity",
-            "Total Emissions (kgCO₂e)",
+            "Total Emissions (kgCO2e)",
         ])
 
         for row in data:
