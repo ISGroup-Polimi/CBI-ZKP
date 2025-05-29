@@ -201,7 +201,6 @@ async def op_prepare_query(file_path):
     # columns in the original file
     df = pd.read_csv(file_path)
     columns = df.columns.tolist()
-    column_indexes = [(col, idx) for idx, col in enumerate(columns)] # get idx of each column
 
     # define the OLAP operations to apply
     hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
@@ -209,7 +208,11 @@ async def op_prepare_query(file_path):
 
     columns_to_remove_idx = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
     #
-    print(f"Columns to remove: {columns_to_remove_idx}")
+    print(f"Columns to remove(idx): {columns_to_remove_idx}")
+
+    # Get the column names corresponding to columns_to_remove_idx
+    columns_to_remove = [columns[i] for i in columns_to_remove_idx]
+    print(f"Columns to remove (names): {columns_to_remove}")
 
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
@@ -218,7 +221,7 @@ async def op_prepare_query(file_path):
     ]
 
     # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
-    query_dimensions = [col for col in columns if col not in columns_to_remove_idx]
+    query_dimensions = [col for col in columns if col not in columns_to_remove]
     #
     print(f"Query dimensions: {query_dimensions}")
 
