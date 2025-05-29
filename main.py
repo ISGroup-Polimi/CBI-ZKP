@@ -334,8 +334,11 @@ async def op_perform_query(file_path, operations, columns_to_remove):
         if col in final_decoded_cube.columns:
             final_decoded_cube[col] = final_decoded_cube[col].astype(int)
     # "Total Emissions (kgCO₂e)" round to 1 decimal place
+    # change CSV output format to 1 decimal place
     if "Total Emissions (kgCO₂e)" in final_decoded_cube.columns:
         final_decoded_cube["Total Emissions (kgCO₂e)"] = final_decoded_cube["Total Emissions (kgCO₂e)"].round(1)
+    # print the final decoded cube with 1 decimal place for floats
+    pd.set_option('display.float_format', '{:.1f}'.format)
 
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
