@@ -39,10 +39,10 @@ def op_generate_file():
     generator_choice = input("Enter your choice (1 or 2): ")
 
     if generator_choice == "1":
-        generate_CSV_1(5000, 1, output_file="GHGe1.csv") # CSV_Generator1.py
+        generate_CSV_1(2500, 1, output_file="GHGe1.csv") # CSV_Generator1.py
         print("File generated with Generator 1.")
     elif generator_choice == "2":
-        generate_CSV_2(5000, 1, output_file="GHGe2.csv") # CSV_Generator2.py
+        generate_CSV_2(2500, 1, output_file="GHGe2.csv") # CSV_Generator2.py
         print("File generated with Generator 2.")
     else:
         print("Invalid choice. Returning to previous menu.")
