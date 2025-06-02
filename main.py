@@ -126,17 +126,17 @@ def CLI_update_file():
         print("Invalid number entered. Operation cancelled.")
         return
     
-    base, ext = os.path.splitext(file_name)
-    new_filename = base + "_" + date + ext
+    #base, ext = os.path.splitext(file_name)
+    # new_filename = base + "_" + date + ext
 
     # Get the number of rows in the selected file
     num_rows = pd.read_csv(file_path).shape[0] + rows_to_add
 
     # Generate new rows using the appropriate generator based on file type
     if files[file_index].startswith("GHGe1"):
-        generate_CSV_1(num_rows, 1, new_filename)
+        generate_CSV_1(num_rows, 1, file_name)
     elif files[file_index].startswith("GHGe2"):
-        generate_CSV_2(num_rows, 1, new_filename)
+        generate_CSV_2(num_rows, 1, file_name)
     else:
         print("Unknown file type. Cannot generate new rows.")
         return
