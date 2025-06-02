@@ -7,11 +7,10 @@ class OLAPCube:
     def __init__(self, df, category_mappings=None): # The constructor receives as input a >..
         self.df = df                                #  ..< pandas DataFrame (df) 
         self.label_encoder = LabelEncoder() # Initialize an instance of LabelEncoder, which is then assigned to the attribute label_encoder
-        if category_mappings is not None:
+        if category_mappings is not None: # If category_mappings is provided, it will be used to encode the categorical columns
             self.category_mappings = category_mappings
             # Encode columns using the provided mapping
             for col, mapping in self.category_mappings.items():
-                #? inv_mapping = {v: k for k, v in mapping.items()}
                 self.df[col] = self.df[col].map(lambda x: mapping.get(str(x), x))
         else:
             self.category_mappings = self.encode_categorical_columns()

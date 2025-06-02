@@ -146,7 +146,7 @@ def get_dim_indices_rollup(dimensions_to_rollup):
     #print(f"Indices to remove for roll-up dim: {indices_to_remove}")
     return indices_to_remove
 
-# This function groups the rows after the roll-up operation
+# This function groups the rows after the roll-up operation (sum the emissions of rows with same dimensions)
 def group_rows (df):
     with open("DFM/DFM_GHGe1.json", "r") as f:
         DFM_representation = json.load(f)
@@ -195,6 +195,9 @@ async def CLI_query():
 
     await op_prepare_query(file_path) # MAIN.py
 
+# This function:
+# - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
+# - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
 async def op_prepare_query(file_path): 
     verify_dataset_hash(file_path) # HASH_UTILS.py
 
@@ -202,17 +205,24 @@ async def op_prepare_query(file_path):
     df = pd.read_csv(file_path)
     columns = df.columns.tolist()
 
+    """
+    # Define the list of OLAP operations to apply
+    operations = [
+        # SlicingModel and DicingModel are subclasses of OLAPOperation
+        # {14: 1, 21: 12, 27: 0} is a dictionary where the keys are column indices and the values are the values to filter by
+        SlicingModel({14: 1, 21: 12, 27: 0}),  # Slicing operation: select rows where column 14 is ==1, ...
+        DicingModel({2: 2, 21: [3, 4], 27: 4})  # Dicing operation
+    ]
+    """
+
     # define the OLAP operations to apply
     hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
     columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
 
     columns_to_remove_idx = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
-    #
-    print(f"Columns to remove(idx): {columns_to_remove_idx}")
-
+    
     # Get the column names corresponding to columns_to_remove_idx
     columns_to_remove = [columns[i] for i in columns_to_remove_idx]
-    print(f"Columns to remove (names): {columns_to_remove}")
 
     operations = [
         #SliceModel({2:0}), # filter column 2 with value ==0 ->  Material = "Canvas"
@@ -222,9 +232,6 @@ async def op_prepare_query(file_path):
 
     # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
     query_dimensions = [col for col in columns if col not in columns_to_remove]
-    #
-    print(f"Query dimensions: {query_dimensions}")
-    print([repr(dim) for dim in query_dimensions])
 
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
@@ -243,6 +250,7 @@ async def op_prepare_query(file_path):
 async def op_perform_query(file_path, operations, columns_to_remove_idx):
     selected_file = os.path.basename(file_path)
 
+    # dataframe is a bidimensional data structure with rows and columns
     df = pd.read_csv(file_path)
     print(f"Initial DataFrame: \n {df}")
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
@@ -255,16 +263,6 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
     #print(f"DataFrame after dropping NaN values: \n {df}") # categorical columns are already encoded as integers
     #print(f"OLAP cube: {cube}")
-    
-    """
-    # Define the list of OLAP operations to apply
-    operations = [
-        # SlicingModel and DicingModel are subclasses of OLAPOperation
-        # {14: 1, 21: 12, 27: 0} is a dictionary where the keys are column indices and the values are the values to filter by
-        SlicingModel({14: 1, 21: 12, 27: 0}),  # Slicing operation: select rows where column 14 is ==1, ...
-        DicingModel({2: 2, 21: [3, 4], 27: 4})  # Dicing operation
-    ]
-    """
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, operations)
@@ -273,27 +271,32 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     #print(f"Final tensor:\n{final_tensor}")
 
     # Export the model in ONNX format
-    # Selects the last operation in your OLAP pipeline. This is the model you want to export
+    # Selects the last operation, which represents the final transformation of the tensor data
     final_operation = operations[-1]  
     # ONNX export requires the model and the input tensor to be on the same device (usually CPU for interoperability), we move the model to CPU
+    # "device" specifies where (on which hardware) the model will be run, in this case on CPU
     final_operation.to(torch.device("cpu"))
-    # Sets the model to evaluation mode
+    # Sets the model to evaluation mode (alternative to train mode) to disable dropout and batch normalization layers
     final_operation.eval()
 
     model_onnx_path = os.path.join(output_dir, 'model.onnx')
-    torch.onnx.export(final_operation,               # model being run
-                      tensor_data,                   # model input (or a tuple for multiple inputs)
-                      model_onnx_path,               # where to save the model (can be a file or file-like object)
+    # to export the model torch.nn.Module to ONNX format
+    torch.onnx.export(final_operation,               # model to be exported, nn.Module subclass
+                      tensor_data,                   # example input used to trace the computation graph of the model
+                      model_onnx_path,               # where to save the model
                       export_params=True,            # store the trained parameter weights inside the model file
                       opset_version=11,              # the ONNX version to export the model to
-                      do_constant_folding=True,      # whether to execute constant folding for optimization
+                      do_constant_folding=True,      # enables optimization by evaluating constant expressions at export time
                       input_names=['input'],         # the model's input names
                       output_names=['output'])       # the model's output names
 
+    # load the ONNX model from the file to the python object onnx_model
     onnx_model = onnx.load(model_onnx_path)
+    # Run a validation check to ensure the model is well-formed and valid according to the ONNX specification
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
+    ### Prepare the input (input shape, input data, output data) for the proof generation
     # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D 
     d = ((tensor_data).detach().numpy()).reshape([-1])
     # Create a dictionary "data"
@@ -307,7 +310,9 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
+    proof_path, vk_path = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
+
+
 
     # Print and save the final tensor after applying the OLAP operations in human-readable format
     # Remove rows from final_tensor that are all zeros
