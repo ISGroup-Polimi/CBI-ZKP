@@ -112,13 +112,36 @@ def CLI_update_file():
         print("Invalid index selected.")
         return
     file_path = os.path.join(uploaded_files_dir, files[file_index])
+    file_name = os.path.basename(file_path) # includes the extension
 
     # Ask the user for the string to append to the filename (date of the update)
-    append_str = input("Please write the date of the update").strip()
-    if not append_str:
+    date = input("Please write the date of the update").strip()
+    if not date:
         print("No date entered. Operation cancelled.")
         return
+    # Ask the user how many new rows to add
+    try:
+        num_rows = int(input("How many new rows do you want to add? "))
+    except ValueError:
+        print("Invalid number entered. Operation cancelled.")
+        return
+    
+    base, ext = os.path.splitext(file_name)
+    new_filename = base + "_" + date + ext
 
+    # Generate new rows using the appropriate generator based on file type
+    if files[file_index].startswith("GHGe1"):
+        generate_CSV_1(num_rows, 1, new_filename)
+    elif files[file_index].startswith("GHGe2"):
+        generate_CSV_2(num_rows, 1, new_filename)
+    else:
+        print("Unknown file type. Cannot generate new rows.")
+        return
+
+    # Update metadata for the new file
+    update_metadata(file_path, date)
+
+    """"
     # Split the filename and extension
     base, ext = os.path.splitext(files[file_index])
     new_filename = f"{base}_{append_str}{ext}"
@@ -128,6 +151,7 @@ def CLI_update_file():
     with open(file_path, 'rb') as src, open(new_file_path, 'wb') as dst:
         dst.write(src.read())
     print(f"File copied to {new_file_path}")
+    """
     
 
 def CLI_publish_hash():
