@@ -32,6 +32,50 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
+def update_metadata(file_path, update_date=None):
+
+    metadata_path = os.path.join('data', 'metadata.json')
+    os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
+
+    # Load or create metadata.json
+    if os.path.exists(metadata_path):
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+    else:
+        metadata = {}
+
+    file_name = os.path.basename(file_path)
+
+    # Get the number of rows in the CSV file
+    try:
+        n_rows = pd.read_csv(file_path).shape[0]
+    except Exception as e:
+        print(f"Error reading file {file_path}: {e}")
+        return
+
+    # If the file is not in metadata (new)
+    if file_name not in metadata:
+        metadata[file_name] = {"Initial": [0, n_rows]}
+
+    # If the file is in metadata (existing)
+    else:
+        # Update existing entry
+        updates = metadata[file_name]
+
+        # Find last interval's end
+        last_key = list(updates.keys())[-1]
+        last_end = updates[last_key][1]
+        # 
+        updates[update_date] = [last_end, n_rows]
+        metadata[file_name] = updates
+
+    # Save back to metadata.json
+    with open(metadata_path, 'w') as f:
+        json.dump(metadata, f, indent=4)
+
+    print(f"Metadata updated for file {file_name}.")
+
+
 def op_generate_file():
     print("\nSelect a generator to use:")
     print("[1] Generator 1")
@@ -39,13 +83,52 @@ def op_generate_file():
     generator_choice = input("Enter your choice (1 or 2): ")
 
     if generator_choice == "1":
-        generate_CSV_1(2000, 1, output_file="GHGe1.csv") # CSV_Generator1.py
+        output_file = "GHGe1.csv"
+        generate_CSV_1(2000, 1, output_file) # CSV_Generator1.py
         print("File generated with Generator 1.")
     elif generator_choice == "2":
-        generate_CSV_2(2000, 1, output_file="GHGe2.csv") # CSV_Generator2.py
+        output_file="GHGe2.csv"
+        generate_CSV_2(2000, 1, output_file) # CSV_Generator2.py
         print("File generated with Generator 2.")
     else:
         print("Invalid choice. Returning to previous menu.")
+
+    file_path = os.path.join('data', 'uploaded', output_file)
+    
+    update_metadata(file_path)
+
+def CLI_update_file():
+    # Make the user select a file to update 
+    uploaded_files_dir = os.path.join('data', 'uploaded')
+    files = os.listdir(uploaded_files_dir)
+    if not files:
+        print("No files available in the uploaded directory.")
+        return
+    print("Available files:")
+    for idx, file in enumerate(files):
+        print(f"[{idx + 1}] {file}")
+    file_index = int(input("Select a file to publish by index: ")) - 1
+    if file_index < 0 or file_index >= len(files):
+        print("Invalid index selected.")
+        return
+    file_path = os.path.join(uploaded_files_dir, files[file_index])
+
+    # Ask the user for the string to append to the filename (date of the update)
+    append_str = input("Please write the date of the update").strip()
+    if not append_str:
+        print("No date entered. Operation cancelled.")
+        return
+
+    # Split the filename and extension
+    base, ext = os.path.splitext(files[file_index])
+    new_filename = f"{base}_{append_str}{ext}"
+    new_file_path = os.path.join(uploaded_files_dir, new_filename)
+
+    # Copy the file for now
+    with open(file_path, 'rb') as src, open(new_file_path, 'wb') as dst:
+        dst.write(src.read())
+    print(f"File copied to {new_file_path}")
+    
 
 def CLI_publish_hash():
     # Make the user select a file to publish with CLI in data/uploaded directory
@@ -242,7 +325,6 @@ async def op_prepare_query(file_path):
     
     try:
         await op_perform_query(file_path, operations, columns_to_remove_idx) # MAIN.py
-        print("Query executed successfully.")
     except Exception as e:
         print(f"Failed to perform query: {e}")
         return    
@@ -354,6 +436,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
+    print("Query executed successfully.")
+
     mod_selected_file = "mod_" + selected_file # mod = modified
     csv_output_path = os.path.join('data', 'modified', mod_selected_file)
     os.makedirs(os.path.dirname(csv_output_path), exist_ok=True)
@@ -391,13 +475,17 @@ async def main():
             print("\nSelect an option:")
             print("[1] Upload File")
             print("[2] Publish Hash")
-            sub_choice = input("Enter your choice (1 or 2): ")
+            print("[3] Update file")
+            sub_choice = input("Enter your choice (1, 2, or 3): ")
 
             if sub_choice == "1":  # UPLOAD FILE
                 op_generate_file()
 
             elif sub_choice == "2":  # PUBLISH HASH
                 CLI_publish_hash()
+
+            elif sub_choice == "3":  # UPDATE FILE
+                CLI_update_file()
 
             else:
                 print("Invalid choice. Returning to main menu.")
