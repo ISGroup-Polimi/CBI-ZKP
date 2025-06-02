@@ -115,19 +115,22 @@ def CLI_update_file():
     file_name = os.path.basename(file_path) # includes the extension
 
     # Ask the user for the string to append to the filename (date of the update)
-    date = input("Please write the date of the update").strip()
+    date = input("Please write the date of the update: ").strip()
     if not date:
         print("No date entered. Operation cancelled.")
         return
     # Ask the user how many new rows to add
     try:
-        num_rows = int(input("How many new rows do you want to add? "))
+        rows_to_add = int(input("How many new rows do you want to add? "))
     except ValueError:
         print("Invalid number entered. Operation cancelled.")
         return
     
     base, ext = os.path.splitext(file_name)
     new_filename = base + "_" + date + ext
+
+    # Get the number of rows in the selected file
+    num_rows = pd.read_csv(file_path).shape[0] + rows_to_add
 
     # Generate new rows using the appropriate generator based on file type
     if files[file_index].startswith("GHGe1"):
