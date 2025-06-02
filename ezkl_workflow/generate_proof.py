@@ -62,7 +62,6 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         # Witness generation needed to create the proof
         # Witness is a JSON file that contains the input data and intermediate values computed by the circuit
         res = await ezkl.gen_witness(input_json_path, compiled_filename, witness_path)
-        print(res)
         if res:
             print("EZKL Witness Generation successful")
     except Exception as e:
@@ -73,8 +72,8 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         # Proof generation
         # "single" indicates that we are generating a single proof for the circuit
         res = ezkl.prove(witness_path, compiled_filename, pk_path, proof_path, "single")
-        assert res == True
-        print(f"EZKL Proof Generation: {res}")
+        if res:
+            print(f"EZKL Proof Generation: {res}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -86,7 +85,8 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
             return proof_path, settings_filename, vk_path
     except Exception as e:
         print(f"An error occurred: {e}")
-        return None, None, None
+    
+    return None, None, None
 
 if __name__ == "__main__":
     import sys
