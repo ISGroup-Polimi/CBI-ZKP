@@ -3,7 +3,7 @@ import json
 import hashlib
 import logging
 from web3 import Web3
-from pymerkle import MerkleTree
+#from pymerkle import MerkleTree
 import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
@@ -156,7 +156,7 @@ def verify_query_allowed(query_dimensions, contract_address):
     except Exception as e:
         logging.error(f"Failed to verify query: {e}")
         raise
-    
+
 """
 def calculate_merkle_root(file_path):
     df = pd.read_csv(file_path)
