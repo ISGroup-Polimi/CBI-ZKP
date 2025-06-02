@@ -360,6 +360,23 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     final_df.to_csv(csv_output_path, index=False)
     print(f"Query result saved to {csv_output_path}")
 
+    CLI_verify_proof(file_path, proof_path, vk_path, settings_filename) # MAIN.py
+
+def CLI_verify_proof(file_path, proof_path, vk_path, settings_filename):
+    print(f"\nDo you want to verify the proof for the file '{os.path.basename(file_path)}'?")
+    print("[1] Yes")
+    print("[2] No")
+    choice = input("Enter your choice (1 or 2): ")
+
+    if choice == "1":
+        try:
+            ezkl.verify(proof_path, vk_path, settings_filename)
+            print("Proof verification completed.")
+        except Exception as e:
+            print(f"Proof verification failed: {e}")
+    else:
+        print("Proof verification skipped.")
+
 async def main():
 
     while True:
@@ -400,7 +417,7 @@ async def main():
             else:
                 print("Invalid choice. Returning to main menu.")
 
-        elif choice == "3":  # -------------------------------------EXIT
+        elif choice == "3":  # ------------------------------------- EXIT
             print("Exiting the program.")
             break
 

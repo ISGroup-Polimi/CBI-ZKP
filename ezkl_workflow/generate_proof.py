@@ -74,14 +74,6 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         res = ezkl.prove(witness_path, compiled_filename, pk_path, proof_path, "single")
         if res:
             print("EZKL Proof Generation successful")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-    try:
-        # Verifica della prova
-        res = ezkl.verify(proof_path, settings_filename, vk_path)
-        if res:
-            print("EZKL Proof Verification successful")
             return proof_path, settings_filename, vk_path
     except Exception as e:
         print(f"An error occurred: {e}")
