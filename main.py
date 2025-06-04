@@ -10,6 +10,7 @@ import sys
 import asyncio
 
 from models.olap_cube import OLAPCube
+from models.olap_with_hash import OLAPWithHash
 from operations.slice_model import SliceModel
 from operations.dicing_model import DicingModel
 from operations.rollup_model import RollUpModel
@@ -372,8 +373,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
-    #calculated_hash = calculate_file_hash(file_path) # hash_utils.py
-    #bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
+    data_hash_hex = calculate_file_hash(file_path)  # returns hex string
+    data_hash_int = int(data_hash_hex, 16)          # convert to integer
 
     # Initialize the OLAP cube and transform the data into a tensor
     #cube = OLAPCube(df, bytes32_hash)
@@ -395,9 +396,12 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     final_operation = operations[-1]  
     # ONNX export requires the model and the input tensor to be on the same device (usually CPU for interoperability), we move the model to CPU
     # "device" specifies where (on which hardware) the model will be run, in this case on CPU
+    """
     final_operation.to(torch.device("cpu"))
     # Sets the model to evaluation mode (alternative to train mode) to disable dropout and batch normalization layers
     final_operation.eval()
+
+
 
     model_onnx_path = os.path.join(output_dir, 'model.onnx')
     # to export the model torch.nn.Module to ONNX format
@@ -409,6 +413,21 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
                       do_constant_folding=True,      # enables optimization by evaluating constant expressions at export time
                       input_names=['input'],         # the model's input names
                       output_names=['output'])       # the model's output names
+    """
+    model = OLAPWithHash(final_operation)
+    model.eval()
+    data_hash_tensor = torch.tensor([data_hash_int], dtype=torch.float32)
+
+    model_onnx_path = os.path.join(output_dir, 'model.onnx')
+    torch.onnx.export(model,
+                      (tensor_data, data_hash_tensor),
+                      model_onnx_path,
+                      export_params=True,
+                      opset_version=11,
+                      input_names=['input', 'data_hash'],
+                      output_names=['output', 'public_data_hash']
+    )
+
 
     # load the ONNX model from the file to the python object onnx_model
     onnx_model = onnx.load(model_onnx_path)
@@ -421,6 +440,7 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     ### Prepare the input (input shape, input data, output data) for the proof generation
     # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D 
     d = ((tensor_data).detach().numpy()).reshape([-1])
+    """
     # Create a dictionary "data"
     data = dict(
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
@@ -428,6 +448,14 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
         output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()],
         #data_hash = [cube.data_hash]
     )
+    """
+    data = dict(
+        input_shapes=[tensor_data.shape],
+        input_data=[d.tolist()],
+        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()],
+        data_hash=[data_hash_int]
+    )
+
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
