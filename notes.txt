@@ -6,6 +6,8 @@ python main.py
 pipreqs --force --ignore .venv,.history
 pip install -r requirements.txt
 
+cd ~/.ezkl/srs/
+
 [0] Product Name
 [1] Category
 [2] Material
