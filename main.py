@@ -450,11 +450,11 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     )
     """
     data = dict(
-        input_shapes=[tensor_data.shape],
-        input_data=[d.tolist()],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()],
-        data_hash=[data_hash_int]
+        input_shapes=[tensor_data.shape, [1]],
+        input_data=[d.tolist(), [data_hash_int]],
+        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist(), [data_hash_int]]
     )
+
 
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
