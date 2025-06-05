@@ -377,14 +377,6 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, operations)
 
-    assert not np.isnan(tensor_data.detach().numpy()).any(), "NaN in tensor_data"
-    assert not np.isnan(final_tensor.detach().numpy()).any(), "NaN in final_tensor"
-    assert not np.isinf(tensor_data.detach().numpy()).any(), "Inf in tensor_data"
-    assert not np.isinf(final_tensor.detach().numpy()).any(), "Inf in final_tensor"
-
-    print(f"Shape of tensor_data: {tensor_data.shape}")
-    print(f"Shape of final_tensor: {final_tensor.shape}")
-
     #print(f"Inital tensor:\n{tensor_data}")
     #print(f"Final tensor:\n{final_tensor}")
 
@@ -393,7 +385,6 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     final_operation = operations[-1]  
     # ONNX export requires the model and the input tensor to be on the same device (usually CPU for interoperability), we move the model to CPU
     # "device" specifies where (on which hardware) the model will be run, in this case on CPU
-    """
     final_operation.to(torch.device("cpu"))
     # Sets the model to evaluation mode (alternative to train mode) to disable dropout and batch normalization layers
     final_operation.eval()
@@ -410,21 +401,7 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
                       do_constant_folding=True,      # enables optimization by evaluating constant expressions at export time
                       input_names=['input'],         # the model's input names
                       output_names=['output'])       # the model's output names
-    """
-    model = OLAPWithHash(final_operation)
-    model.eval()
-    data_hash_float = float(data_hash_int % (2**53))
-    data_hash_tensor = torch.tensor([data_hash_float], dtype=torch.float32)
 
-    model_onnx_path = os.path.join(output_dir, 'model.onnx')
-    torch.onnx.export(model,
-                      (tensor_data, data_hash_tensor),
-                      model_onnx_path,
-                      export_params=True,
-                      opset_version=11,
-                      input_names=['input', 'data_hash'],
-                      output_names=['output', 'public_data_hash']
-    )
 
 
     # load the ONNX model from the file to the python object onnx_model
@@ -446,12 +423,6 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
-
-    print("AAAAAAAAAAAAAAAAAAAAAAAA")
-    with open(input_json_path) as f: # check if the problem is in the input JSON file format
-        json.load(f)
-    print("ZZZZZZZZZZZZZZZZZZZZZZZZ")
-
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
     proof_path, vk_path, settings_filename = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
