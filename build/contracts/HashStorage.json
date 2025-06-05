@@ -43,9 +43,9 @@
       "constant": true
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_hash\",\"type\":\"bytes32\"}],\"name\":\"setHash\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"storedHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/HashStorage.sol\":\"HashStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/HashStorage.sol\":{\"keccak256\":\"0xffd1eb5ebfcd6fe414505a5ec0ada451ed989f48193bb83a34b761b9f0d6a6e7\",\"urls\":[\"bzz-raw://a23da1cfbb0d2e47c4684ae4c4dfad2af8861f8825a85080ba501de196444f8d\",\"dweb:/ipfs/QmbhTvzzRahKfiGj3zGhicpNpkAVaWP5AwCNjg7TVEY9dm\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610176806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212201f8ba14dfcf435a10ef377f40ccf065eb77bd9344dafdf43020c29dfa95648d764736f6c63430008000033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212201f8ba14dfcf435a10ef377f40ccf065eb77bd9344dafdf43020c29dfa95648d764736f6c63430008000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_hash\",\"type\":\"bytes32\"}],\"name\":\"setHash\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"storedHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/HashStorage.sol\":\"HashStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/HashStorage.sol\":{\"keccak256\":\"0x17bccb9d222eebe1d947a1d4434f29735ed3361639e9a15abf0669159544cdc8\",\"urls\":[\"bzz-raw://246b86a4d8d59ce05f7a7f4d9c18a5a7a8ef3a9d7d9a30db35e78c0c7614a7c5\",\"dweb:/ipfs/QmefmGA7386DjQS55AogAYejgnP68D4s7dp8ZYNMRX1k62\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610176806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202f07205ec6be7ecc7348b439e5d5355ee486abe5a1de61c58fb8b783b63b63ac64736f6c63430008000033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202f07205ec6be7ecc7348b439e5d5355ee486abe5a1de61c58fb8b783b63b63ac64736f6c63430008000033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -641,10 +641,10 @@
       "name": "#utility.yul"
     }
   ],
-  "sourceMap": "57:234:1:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "57:234:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;119:76;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;85:25;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;203:85;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;119:76;182:5;169:10;:18;;;;119:76;:::o;85:25::-;;;;:::o;203:85::-;243:7;270:10;;263:17;;203:85;:::o;7:139:2:-;;91:6;78:20;69:29;;107:33;134:5;107:33;:::i;:::-;59:87;;;;:::o;152:262::-;;260:2;248:9;239:7;235:23;231:32;228:2;;;276:1;273;266:12;228:2;319:1;344:53;389:7;380:6;369:9;365:22;344:53;:::i;:::-;334:63;;290:117;218:196;;;;:::o;420:118::-;507:24;525:5;507:24;:::i;:::-;502:3;495:37;485:53;;:::o;544:222::-;;675:2;664:9;660:18;652:26;;688:71;756:1;745:9;741:17;732:6;688:71;:::i;:::-;642:124;;;;:::o;772:77::-;;838:5;827:16;;817:32;;;:::o;855:122::-;928:24;946:5;928:24;:::i;:::-;921:5;918:35;908:2;;967:1;964;957:12;908:2;898:79;:::o",
-  "source": "// contracts/HashStorage.sol\r\npragma solidity ^0.8.0;\r\n\r\ncontract HashStorage {\r\n    bytes32 public storedHash;\r\n\r\n    function setHash(bytes32 _hash) public {\r\n        storedHash = _hash;\r\n    }\r\n\r\n    function getHash() public view returns (bytes32) {\r\n        return storedHash;\r\n    }\r\n}\r\n",
-  "sourcePath": "C:\\Users\\nicoc\\Documents\\Code\\Tesi\\Project_Carboni\\contracts\\HashStorage.sol",
+  "sourceMap": "54:224:1:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "54:224:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;113:74;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;81:25;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;193:83;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;113:74;175:5;162:10;:18;;;;113:74;:::o;81:25::-;;;;:::o;193:83::-;233:7;259:10;;252:17;;193:83;:::o;7:139:2:-;;91:6;78:20;69:29;;107:33;134:5;107:33;:::i;:::-;59:87;;;;:::o;152:262::-;;260:2;248:9;239:7;235:23;231:32;228:2;;;276:1;273;266:12;228:2;319:1;344:53;389:7;380:6;369:9;365:22;344:53;:::i;:::-;334:63;;290:117;218:196;;;;:::o;420:118::-;507:24;525:5;507:24;:::i;:::-;502:3;495:37;485:53;;:::o;544:222::-;;675:2;664:9;660:18;652:26;;688:71;756:1;745:9;741:17;732:6;688:71;:::i;:::-;642:124;;;;:::o;772:77::-;;838:5;827:16;;817:32;;;:::o;855:122::-;928:24;946:5;928:24;:::i;:::-;921:5;918:35;908:2;;967:1;964;957:12;908:2;898:79;:::o",
+  "source": "// contracts/HashStorage.sol\npragma solidity ^0.8.0;\n\ncontract HashStorage {\n    bytes32 public storedHash;\n\n    function setHash(bytes32 _hash) public {\n        storedHash = _hash;\n    }\n\n    function getHash() public view returns (bytes32) {\n        return storedHash;\n    }\n}\n",
+  "sourcePath": "/home/carboni/Carboni_Thesis/contracts/HashStorage.sol",
   "ast": {
     "absolutePath": "project:/contracts/HashStorage.sol",
     "exportedSymbols": {
@@ -664,7 +664,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "30:23:1"
+        "src": "29:23:1"
       },
       {
         "abstract": false,
@@ -687,7 +687,7 @@
             "name": "storedHash",
             "nodeType": "VariableDeclaration",
             "scope": 416,
-            "src": "85:25:1",
+            "src": "81:25:1",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -698,7 +698,7 @@
               "id": 396,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "85:7:1",
+              "src": "81:7:1",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -710,7 +710,7 @@
             "body": {
               "id": 406,
               "nodeType": "Block",
-              "src": "158:37:1",
+              "src": "152:35:1",
               "statements": [
                 {
                   "expression": {
@@ -725,7 +725,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 397,
-                      "src": "169:10:1",
+                      "src": "162:10:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
@@ -739,13 +739,13 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 399,
-                      "src": "182:5:1",
+                      "src": "175:5:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
                       }
                     },
-                    "src": "169:18:1",
+                    "src": "162:18:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -753,7 +753,7 @@
                   },
                   "id": 405,
                   "nodeType": "ExpressionStatement",
-                  "src": "169:18:1"
+                  "src": "162:18:1"
                 }
               ]
             },
@@ -775,7 +775,7 @@
                   "name": "_hash",
                   "nodeType": "VariableDeclaration",
                   "scope": 407,
-                  "src": "136:13:1",
+                  "src": "130:13:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -786,7 +786,7 @@
                     "id": 398,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "136:7:1",
+                    "src": "130:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -795,16 +795,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "135:15:1"
+              "src": "129:15:1"
             },
             "returnParameters": {
               "id": 401,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "158:0:1"
+              "src": "152:0:1"
             },
             "scope": 416,
-            "src": "119:76:1",
+            "src": "113:74:1",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
@@ -813,7 +813,7 @@
             "body": {
               "id": 414,
               "nodeType": "Block",
-              "src": "252:36:1",
+              "src": "242:34:1",
               "statements": [
                 {
                   "expression": {
@@ -822,7 +822,7 @@
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
                     "referencedDeclaration": 397,
-                    "src": "270:10:1",
+                    "src": "259:10:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -831,7 +831,7 @@
                   "functionReturnParameters": 411,
                   "id": 413,
                   "nodeType": "Return",
-                  "src": "263:17:1"
+                  "src": "252:17:1"
                 }
               ]
             },
@@ -846,7 +846,7 @@
               "id": 408,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "219:2:1"
+              "src": "209:2:1"
             },
             "returnParameters": {
               "id": 411,
@@ -859,7 +859,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 415,
-                  "src": "243:7:1",
+                  "src": "233:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -870,7 +870,7 @@
                     "id": 409,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "243:7:1",
+                    "src": "233:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -879,20 +879,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "242:9:1"
+              "src": "232:9:1"
             },
             "scope": 416,
-            "src": "203:85:1",
+            "src": "193:83:1",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
         "scope": 417,
-        "src": "57:234:1"
+        "src": "54:224:1"
       }
     ],
-    "src": "30:263:1"
+    "src": "29:250:1"
   },
   "compiler": {
     "name": "solc",
@@ -902,12 +902,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x3C9D0EBBdd7090ec8094bc242006aa12B83520eA",
-      "transactionHash": "0xa5b793bbaac7e51793ad4ddd02d29f5ef746b948793542d5306bb6314b4edc11"
+      "address": "0x634317E033ad8F44075cd483a4f6139E9Dea69e7",
+      "transactionHash": "0x9d02e33b0cd6007e40b6e9f80e487ffd79d0b9829592dc984eba97b5ba6f5e27"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-05-20T07:45:10.707Z",
+  "updatedAt": "2025-05-29T09:47:34.663Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
