@@ -4,23 +4,18 @@ import pandas as pd
 import torch
 import onnx
 from ezkl import ezkl
-from web3 import Web3
-import numpy as np
-
+import time
 import sys
-import asyncio
-
 from models.olap_cube import OLAPCube
 from models.olap_with_hash import OLAPWithHash
 from operations.slice_model import SliceModel
 from operations.dicing_model import DicingModel
 from operations.rollup_model import RollUpModel
-
+import asyncio
 from ezkl_workflow.generate_proof import generate_proof
-from hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash, calculate_file_hash
+from hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash
 from data_generators.CSV_Generator1 import generate_CSV_1
 from data_generators.CSV_Generator2 import generate_CSV_2
-
 
 output_dir = './output'
 os.makedirs(output_dir, exist_ok=True)
@@ -367,18 +362,11 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
     # dataframe is a bidimensional data structure with rows and columns
     df = pd.read_csv(file_path)
-
-    # subset = df.iloc[0:2000] # select the first 2000 rows of the DataFrame
-
     print(f"Initial DataFrame: \n {df}")
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
-    data_hash_hex = calculate_file_hash(file_path)  # returns hex string
-    data_hash_int = int(data_hash_hex, 16)          # convert to integer
-
     # Initialize the OLAP cube and transform the data into a tensor
-    #cube = OLAPCube(df, bytes32_hash)
     cube = OLAPCube(df)
     cube.save_category_mappings("cat_map.json") # save the mappings (categorical values - indexes) to a JSON file
     tensor_data = cube.to_tensor()
@@ -445,8 +433,6 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
-    # data_hash = calculate_file_hash(file_path) # HASH_UTILS.py
-    """
     ### Prepare the input (input shape, input data, output data) for the proof generation
     # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D 
     d = ((tensor_data).detach().numpy()).reshape([-1])
@@ -455,20 +441,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     data = dict(
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
         input_data=[d.tolist()],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()],
-        #data_hash = [cube.data_hash]
+        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
     )
-    """
-    data = dict(
-        input_shapes=[tensor_data.shape, [1]],
-        input_data=[tensor_data.detach().numpy().reshape([-1]).tolist(), [data_hash_float]],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist(), [data_hash_float]]
-    )
-
-    print("Input min/max:", np.min(tensor_data.detach().numpy()), np.max(tensor_data.detach().numpy()))
-    print("Output min/max:", np.min(final_tensor.detach().numpy()), np.max(final_tensor.detach().numpy()))
-
-
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
@@ -542,17 +516,12 @@ def CLI_verify_proof(file_path, proof_path, vk_path, settings_filename):
 
     if choice == "1":
         try:
-            res = op_verify_proof(proof_path, vk_path, settings_filename)
-            if res:
-                print("Proof verification completed.")
+            ezkl.verify(proof_path, vk_path, settings_filename)
+            print("Proof verification completed.")
         except Exception as e:
             print(f"Proof verification failed: {e}")
     else:
         print("Proof verification skipped.")
-
-def op_verify_proof(proof_path, vk_path, settings_filename):
-    return ezkl.verify(proof_path, vk_path, settings_filename)
-
 
 async def main():
 

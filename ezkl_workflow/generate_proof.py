@@ -13,7 +13,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     
     # ezkl.gen_settings() -> Generate a settings file analyzing the ONNX model, to create the zero-knowledge proof circuit
     # The file contains all the necessary configuration parameters (like input/output shapes, precision, and circuit options)
-    res = ezkl.gen_settings(model_onnx_path, settings_filename)                                                 # GEN SETTINGS
+    res = ezkl.gen_settings(model_onnx_path, settings_filename)
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
 
@@ -29,11 +29,11 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
     # cd ~/.ezkl/srs/
-    # ezkl.get_srs() -> generate or download the SRS file needed for zero-knowledge proofs
+    # ezkl.get_srs() -> library to generate or download the SRS file needed for zero-knowledge proofs
     #   logrows: Security parameter that determines the size of the SRS (the number of rows is 2^logrows)
     try:
         print(f"Attempting to get SRS with logrows={logrows}")
-        res = await ezkl.get_srs(settings_filename, logrows=logrows)                                             # GET SRS
+        res = await ezkl.get_srs(settings_filename, logrows=logrows)
         assert res == True
         print(f"EZKL Get SRS: {res}")
     except Exception as e:
@@ -43,13 +43,13 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # ezkl.calibrate_settings() -> analyze the input data and model to adjust parameters (like scaling, precision, and ranges) in your settings.json 
     #   to ensure the circuit will work correctly and efficiently for your specific data
     # "resources" argument specifies the directory where ezkl will store calibration resources and temporary files generated during the calibration process
-    res = await ezkl.calibrate_settings(input_json_path, model_onnx_path, settings_filename, "resources")        # CALIBRATE SETTINGS
+    res = await ezkl.calibrate_settings(input_json_path, model_onnx_path, settings_filename, "resources")
     assert res == True
     print(f"EZKL Calibrate settings: {res}")
 
     # This function compiles your ONNX model and the calibrated settings into a zero-knowledge proof circuit
     # This step is essential before running setup, witness, or proof generation
-    res = ezkl.compile_circuit(model_onnx_path, compiled_filename, settings_filename)                            # COMPILE CIRCUIT
+    res = ezkl.compile_circuit(model_onnx_path, compiled_filename, settings_filename)
     assert res == True
     print(f"EZKL Compile circuit: {res}")
 
@@ -62,7 +62,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     pk_path = os.path.join(output_dir, 'test.pk') # Proving Key (to generate the proof)
     vk_path = os.path.join(output_dir, 'test.vk') # Verifying Key (to verify the proof)
     # ezkl.setup() -> This function generates the proving and verifying keys needed for the zero-knowledge proof
-    res = ezkl.setup(compiled_filename, vk_path, pk_path)                                                         # SETUP PROOF
+    res = ezkl.setup(compiled_filename, vk_path, pk_path)
     assert res == True
     print(f"EZKL Setup: {res}")
 
@@ -70,7 +70,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     try:
         # Witness generation needed to create the proof
         # Witness is a JSON file that contains the input data and intermediate values computed by the circuit
-        res = await ezkl.gen_witness(input_json_path, compiled_filename, witness_path)                           # GENERATE WITNESS
+        res = await ezkl.gen_witness(input_json_path, compiled_filename, witness_path)
         if res:
             print("EZKL Witness Generation successful")
     except Exception as e:
