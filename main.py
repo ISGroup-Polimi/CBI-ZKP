@@ -416,7 +416,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     """
     model = OLAPWithHash(final_operation)
     model.eval()
-    data_hash_tensor = torch.tensor([data_hash_int], dtype=torch.float32)
+    data_hash_float = float(data_hash_int % (2**53))
+    data_hash_tensor = torch.tensor([data_hash_float], dtype=torch.float32)
 
     model_onnx_path = os.path.join(output_dir, 'model.onnx')
     torch.onnx.export(model,
@@ -451,8 +452,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     """
     data = dict(
         input_shapes=[tensor_data.shape, [1]],
-        input_data=[tensor_data.detach().numpy().tolist(), [data_hash_int]],
-        output_data=[final_tensor.detach().numpy().tolist(), [data_hash_int]]
+        input_data=[tensor_data.detach().numpy().tolist(), [data_hash_float]],
+        output_data=[final_tensor.detach().numpy().tolist(), [data_hash_float]]
     )
 
 
