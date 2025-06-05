@@ -17,16 +17,6 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
 
-    # --- Overwrite the scale dimension in settings.json ---
-    with open(settings_filename, 'r') as f:
-        settings = json.load(f)
-    settings['scale'] = 21  # or a higher value if needed
-    with open(settings_filename, 'w') as f:
-        json.dump(settings, f, indent=4)
-    print(f"Manually set scale to {settings['scale']} in settings.json")
-    # ---------------------------------------------
-
-
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
     # cd ~/.ezkl/srs/
     # ezkl.get_srs() -> library to generate or download the SRS file needed for zero-knowledge proofs
