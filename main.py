@@ -394,6 +394,9 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     assert not np.isinf(tensor_data.detach().numpy()).any(), "Inf in tensor_data"
     assert not np.isinf(final_tensor.detach().numpy()).any(), "Inf in final_tensor"
 
+    print(f"Shape of tensor_data: {tensor_data.shape}")
+    print(f"Shape of final_tensor: {final_tensor.shape}")
+
     #print(f"Inital tensor:\n{tensor_data}")
     #print(f"Final tensor:\n{final_tensor}")
 
