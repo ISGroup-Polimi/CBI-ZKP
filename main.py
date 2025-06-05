@@ -465,13 +465,16 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
         output_data=[final_tensor.detach().numpy().reshape([-1]).tolist(), [data_hash_float]]
     )
 
+    print("Input min/max:", np.min(tensor_data.detach().numpy()), np.max(tensor_data.detach().numpy()))
+    print("Output min/max:", np.min(final_tensor.detach().numpy()), np.max(final_tensor.detach().numpy()))
+
 
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     print("AAAAAAAAAAAAAAAAAAAAAAAA")
-    with open(input_json_path) as f:
+    with open(input_json_path) as f: # check if the problem is in the input JSON file format
         json.load(f)
     print("ZZZZZZZZZZZZZZZZZZZZZZZZ")
 
