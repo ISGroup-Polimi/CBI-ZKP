@@ -20,7 +20,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # --- Overwrite the scale dimension in settings.json ---
     with open(settings_filename, 'r') as f:
         settings = json.load(f)
-    settings['scale'] = 15  # or a higher value if needed
+    settings['scale'] = 19  # or a higher value if needed
     with open(settings_filename, 'w') as f:
         json.dump(settings, f, indent=4)
     print(f"Manually set scale to {settings['scale']} in settings.json")
