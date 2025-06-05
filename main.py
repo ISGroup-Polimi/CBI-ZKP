@@ -461,8 +461,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     """
     data = dict(
         input_shapes=[tensor_data.shape, [1]],
-        input_data=[tensor_data.detach().numpy().tolist(), [data_hash_float]],
-        output_data=[final_tensor.detach().numpy().tolist(), [data_hash_float]]
+        input_data=[tensor_data.detach().numpy().reshape([-1]).tolist(), [data_hash_float]],
+        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist(), [data_hash_float]]
     )
 
 
