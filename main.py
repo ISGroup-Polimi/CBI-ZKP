@@ -467,9 +467,11 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
+    print("AAAAAAAAAAAAAAAAAAAAAAAA")
     with open(input_json_path) as f:
         json.load(f)
-    
+    print("ZZZZZZZZZZZZZZZZZZZZZZZZ")
+
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
     proof_path, vk_path, settings_filename = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
