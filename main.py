@@ -5,6 +5,7 @@ import torch
 import onnx
 from ezkl import ezkl
 from web3 import Web3
+import numpy as np
 
 import sys
 import asyncio
@@ -387,6 +388,11 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, operations)
+
+    assert not np.isnan(tensor_data.detach().numpy()).any(), "NaN in tensor_data"
+    assert not np.isnan(final_tensor.detach().numpy()).any(), "NaN in final_tensor"
+    assert not np.isinf(tensor_data.detach().numpy()).any(), "Inf in tensor_data"
+    assert not np.isinf(final_tensor.detach().numpy()).any(), "Inf in final_tensor"
 
     #print(f"Inital tensor:\n{tensor_data}")
     #print(f"Final tensor:\n{final_tensor}")
