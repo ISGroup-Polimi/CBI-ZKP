@@ -436,11 +436,11 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
     # data_hash = calculate_file_hash(file_path) # HASH_UTILS.py
-
+    """
     ### Prepare the input (input shape, input data, output data) for the proof generation
     # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D 
     d = ((tensor_data).detach().numpy()).reshape([-1])
-    """
+
     # Create a dictionary "data"
     data = dict(
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
@@ -451,8 +451,8 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     """
     data = dict(
         input_shapes=[tensor_data.shape, [1]],
-        input_data=[d.tolist(), [data_hash_int]],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist(), [data_hash_int]]
+        input_data=[tensor_data.detach().numpy().tolist(), [data_hash_int]],
+        output_data=[final_tensor.detach().numpy().tolist(), [data_hash_int]]
     )
 
 
