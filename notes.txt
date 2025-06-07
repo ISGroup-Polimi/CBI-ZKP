@@ -3,6 +3,9 @@ geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,per
 truffle compile
     python copy_contracts_script.py
 truffle migrate
+
+in /Carboni_Thesis
+    python3 -m Org1.main
 python main.py
 
 pipreqs --force --ignore .venv,.history

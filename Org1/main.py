@@ -22,7 +22,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 def load_contract_address(contract_name):
     # Load the contract address from the configuration file
-    config_path = os.path.join(os.path.dirname(__file__), 'Blockchain', 'config', 'contract_addresses.json')
+    config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Blockchain', 'config', 'contract_addresses.json')
     with open(config_path, 'r') as f:
         contract_addresses = json.load(f)
     return contract_addresses.get(contract_name)
