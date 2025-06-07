@@ -46,14 +46,13 @@ async def CLI_query():
         return
     
     selected_file = list(published_hashes.keys())[file_index]
-    file_path = os.path.join('data', 'uploaded', selected_file)
 
-    await op_prepare_query(file_path) # MAIN.py
+    await op_prepare_query(selected_file) # MAIN.py
 
 # This function:
 # - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
-async def op_prepare_query(file_path): 
+async def op_prepare_query(selected_file): 
     # TO BE DONE
     #                   verify_dataset_hash(file_path) # HASH_UTILS.py
 
@@ -74,7 +73,7 @@ async def op_prepare_query(file_path):
     print("Query is allowed. Proceeding with query execution...")
 
     try:
-        final_tensor, columns_to_remove_idx = await op_perform_query(file_path, operations, columns_to_remove_idx) # MAIN ORG1.py
+        final_tensor, columns_to_remove_idx = await op_perform_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
         show_result(final_tensor, columns_to_remove_idx)
     except Exception as e:
         print(f"Failed to perform query: {e}")

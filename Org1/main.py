@@ -115,10 +115,10 @@ def apply_olap_operations(cube, tensor_data, operations):
     return result_tensor
 
 
-async def op_perform_query(file_path, operations, columns_to_remove_idx):
+async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     decoded_operations = decode_operations(operations, columns_to_remove_idx)
 
-    selected_file = os.path.basename(file_path)
+    file_path = os.path.join('Org1', 'data', 'uploaded', selected_file)
 
     # dataframe is a bidimensional data structure with rows and columns
     df = pd.read_csv(file_path)
