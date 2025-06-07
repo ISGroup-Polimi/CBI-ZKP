@@ -28,7 +28,7 @@ module.exports = async function (deployer) {
   };
 
   // Save contract addresses to a JSON file
-  const filePath = path.join(__dirname, '../config/contract_addresses.json');
+  const filePath = path.join(__dirname, './contract_addresses.json');
   fs.writeFileSync(filePath, JSON.stringify(addresses, null, 2));
 
   console.log("Contract addresses saved to contract_addresses.json");
