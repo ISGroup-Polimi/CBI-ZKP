@@ -2,7 +2,7 @@ import asyncio
 import json
 import os
 import sys
-import ezkl
+from ezkl import ezkl
 import torch
 import pandas as pd
 
