@@ -33,30 +33,6 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
-async def main():
-
-    print("ORG 1 (data provider) select an option:")
-    print("[1] Upload (Generate) File")
-    print("[2] Publish Hash")
-    print("[3] Update file")
-    sub_choice = input("Enter your choice (1, 2, or 3): ")
-
-    if sub_choice == "1":  # UPLOAD FILE
-        op_generate_file()
-
-    elif sub_choice == "2":  # PUBLISH HASH
-        CLI_publish_hash()
-
-    elif sub_choice == "3":  # UPDATE FILE
-        print("Update file functionality is not implemented yet.")
-        #CLI_update_file()
-
-    else:
-        print("Invalid choice. Returning to main menu.")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
 def op_generate_file():
     print("\nSelect a generator to use:")
     print("[1] Generator 1")
@@ -118,6 +94,26 @@ def CLI_publish_hash():
 
 def op_publish_hash(file_path):
     return publish_hash(file_path) # HASH_UTILS.py
+
+def decode_operations(operations, columns_to_remove_idx):
+    decoded_ops = []
+    if "Dicing" in operations:
+        for dicing_args in operations["Dicing"]:
+            decoded_ops.append(DicingModel(dicing_args))
+    if "Rollup" in operations:
+        decoded_ops.append(RollUpModel(columns_to_remove_idx))
+    return decoded_ops
+
+# This function applies a sequence of OLAP operations to a data tensor using an OLAP cube object:
+# - cube instance of OLAPCube from olap_cube.py -> tell how to apply OLAP operations to the data
+# - tensor_data: the data tensor to be processed
+# - operations: a list of OLAP operations to be applied
+def apply_olap_operations(cube, tensor_data, operations):
+    result_tensor = tensor_data
+    for operation in operations:
+        result_tensor = cube.execute_model(operation, result_tensor)
+    return result_tensor
+
 
 async def op_perform_query(file_path, operations, columns_to_remove_idx):
     decoded_operations = decode_operations(operations, columns_to_remove_idx)
@@ -188,24 +184,27 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
     return final_tensor, columns_to_remove_idx
 
-    
 
-def decode_operations(operations, columns_to_remove_idx):
-    decoded_ops = []
-    if "Dicing" in operations:
-        for dicing_args in operations["Dicing"]:
-            decoded_ops.append(DicingModel(dicing_args))
-    if "Rollup" in operations:
-        decoded_ops.append(RollUpModel(columns_to_remove_idx))
-    return decoded_ops
+async def main():
 
-# This function applies a sequence of OLAP operations to a data tensor using an OLAP cube object:
-# - cube instance of OLAPCube from olap_cube.py -> tell how to apply OLAP operations to the data
-# - tensor_data: the data tensor to be processed
-# - operations: a list of OLAP operations to be applied
-def apply_olap_operations(cube, tensor_data, operations):
-    result_tensor = tensor_data
-    for operation in operations:
-        result_tensor = cube.execute_model(operation, result_tensor)
-    return result_tensor
+    print("ORG 1 (data provider) select an option:")
+    print("[1] Upload (Generate) File")
+    print("[2] Publish Hash")
+    print("[3] Update file")
+    sub_choice = input("Enter your choice (1, 2, or 3): ")
 
+    if sub_choice == "1":  # UPLOAD FILE
+        op_generate_file()
+
+    elif sub_choice == "2":  # PUBLISH HASH
+        CLI_publish_hash()
+
+    elif sub_choice == "3":  # UPDATE FILE
+        print("Update file functionality is not implemented yet.")
+        #CLI_update_file()
+
+    else:
+        print("Invalid choice. Returning to main menu.")
+
+if __name__ == "__main__":
+    asyncio.run(main())
