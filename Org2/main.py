@@ -23,30 +23,6 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
-async def main():
-
-    print("ORG 2 (data receiver) select an option:")
-    print("[1] Perform Query")
-    print("[2] Verify Proof")
-    sub_choice = input("Enter your choice (1 or 2): ")
-
-    if sub_choice == "1":  # PERFORM QUERY
-        try:
-            await CLI_query()
-        except Exception as e:
-            print(f"Failed to perform query: {e}")
-
-    elif sub_choice == "2":  # VERIFY PROOF
-        try:
-            op_verify_proof()
-        except Exception as e:
-            print(f"Failed to verify proof: {e}")
-    else:
-        print("Invalid choice. Returning to main menu.")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
 # This function makes the user select a file to query with CLI
 async def CLI_query():
     published_hash_path = os.path.join('Shared', 'published_hash.json')
@@ -270,4 +246,26 @@ def decode_categorical_columns(final_df, filtered_cat_map):
         decoded_df[col] = decoded_df[col].map(inv_mapping)
     return decoded_df
     
-    
+async def main():
+
+    print("ORG 2 (data receiver) select an option:")
+    print("[1] Perform Query")
+    print("[2] Verify Proof")
+    sub_choice = input("Enter your choice (1 or 2): ")
+
+    if sub_choice == "1":  # PERFORM QUERY
+        try:
+            await CLI_query()
+        except Exception as e:
+            print(f"Failed to perform query: {e}")
+
+    elif sub_choice == "2":  # VERIFY PROOF
+        try:
+            op_verify_proof()
+        except Exception as e:
+            print(f"Failed to verify proof: {e}")
+    else:
+        print("Invalid choice. Returning to main menu.")
+
+if __name__ == "__main__":
+    asyncio.run(main())
