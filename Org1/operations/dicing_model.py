@@ -1,4 +1,4 @@
-from models.olap_operations import OLAPOperation
+from ..models.olap_operations import OLAPOperation
 import torch
 from torch import nn
 

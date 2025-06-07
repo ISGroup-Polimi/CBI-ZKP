@@ -1,5 +1,5 @@
 # This class is used to remove dimension for rollup operations
-from models.olap_operations import OLAPOperation
+from ..models.olap_operations import OLAPOperation
 from torch import nn
 import torch
 

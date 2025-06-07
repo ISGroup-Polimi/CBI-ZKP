@@ -2,7 +2,7 @@
 # -> filter to have only the rows where column 14 is ==1, column 21 is ==12 and column 27 is ==0
 
 import torch
-from models.olap_operations import OLAPOperation
+from ..models.olap_operations import OLAPOperation
 from torch import nn
 
 class SliceModel(OLAPOperation):
