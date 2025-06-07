@@ -1,33 +1,9 @@
 In different terminals:
 geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,personal,net
+truffle compile
+    python copy_contracts_script.py
 truffle migrate
 python main.py
 
 pipreqs --force --ignore .venv,.history
 pip install -r requirements.txt
-
-[0] Product Name
-[1] Category
-[2] Material
-[3] Year
-[4] Month
-[5] Day
-[6] Total Emissions (kgCO2e)
-
-cat_map.json
-{
-    "Product Name": {
-        "Running Shoes": 0,
-        "Slip-On Sneakers": 1,
-        "Tank Top": 2
-    },
-    "Category": {
-        "Shoes": 0,
-        "T-shirt": 1
-    },
-    "Material": {
-        "Canvas": 0,
-        "Cotton": 1,
-        "Synthetic": 2
-    }
-}

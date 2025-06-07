@@ -13,7 +13,7 @@ from operations.dicing_model import DicingModel
 from operations.rollup_model import RollUpModel
 import asyncio
 from ezkl_workflow.generate_proof import generate_proof
-from hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash
+from Org1.hash_utils import verify_dataset_hash, verify_query_allowed, publish_hash
 from data_generators.CSV_Generator1 import generate_CSV_1
 from data_generators.CSV_Generator2 import generate_CSV_2
 
@@ -22,7 +22,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 def load_contract_address(contract_name):
     # Load the contract address from the configuration file
-    config_path = os.path.join(os.path.dirname(__file__), 'config', 'contract_addresses.json')
+    config_path = os.path.join(os.path.dirname(__file__), 'Blockchain', 'config', 'contract_addresses.json')
     with open(config_path, 'r') as f:
         contract_addresses = json.load(f)
     return contract_addresses.get(contract_name)
@@ -33,6 +33,7 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
+"""
 def update_metadata(file_path, update_date=None):
 
     metadata_path = os.path.join('data', 'metadata.json')
@@ -75,7 +76,7 @@ def update_metadata(file_path, update_date=None):
         json.dump(metadata, f, indent=4)
 
     print(f"Metadata updated for file {file_name}.")
-
+"""
 
 def op_generate_file():
     print("\nSelect a generator to use:")
@@ -98,6 +99,7 @@ def op_generate_file():
     
     update_metadata(file_path)
 
+"""
 def CLI_update_file():
     # Make the user select a file to update 
     uploaded_files_dir = os.path.join('data', 'uploaded')
@@ -145,7 +147,7 @@ def CLI_update_file():
     # Update metadata for the new file
     update_metadata(file_path, date)
 
-    """"
+    
     # Split the filename and extension
     base, ext = os.path.splitext(files[file_index])
     new_filename = f"{base}_{append_str}{ext}"
@@ -155,8 +157,8 @@ def CLI_update_file():
     with open(file_path, 'rb') as src, open(new_file_path, 'wb') as dst:
         dst.write(src.read())
     print(f"File copied to {new_file_path}")
-    """
     
+"""
 
 def CLI_publish_hash():
     # Make the user select a file to publish with CLI in data/uploaded directory
@@ -177,7 +179,7 @@ def CLI_publish_hash():
     hash = op_publish_hash(file_path) # MAIN.py
 
     # Save the hash in "published_hash.json" to share it with the customer
-    published_hash_path = os.path.join('data', 'published_hash.json')
+    published_hash_path = os.path.join('Shared', 'published_hash.json')
     os.makedirs(os.path.dirname(published_hash_path), exist_ok=True)  # Ensure the directory exists
 
     # Create the file if it doesn't exist
@@ -198,7 +200,6 @@ def CLI_publish_hash():
 
 def op_publish_hash(file_path):
     return publish_hash(file_path) # HASH_UTILS.py
-
 
 # This function applies a sequence of OLAP operations to a data tensor using an OLAP cube object:
 # - cube instance of OLAPCube from olap_cube.py -> tell how to apply OLAP operations to the data
@@ -327,8 +328,8 @@ async def op_prepare_query(file_path):
     """
 
     # define the OLAP operations to apply
-    hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
-    columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM/dimensions_hierarchy_GHGe1.json"
+    hierarchies_to_rollup = get_hier_indices_rollup(["Clothes Type"]) # using dimensions hierarchy from "DFM_GHGe1.json"
+    columns_to_rollup = get_dim_indices_rollup([["Date", "Month"]]) # using dimensions hierarchy from "DFM_GHGe1.json"
 
     columns_to_remove_idx = list(dict.fromkeys(hierarchies_to_rollup + columns_to_rollup)) # columns to remove from the tensor (no duplicates)
     

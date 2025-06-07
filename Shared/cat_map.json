@@ -1,0 +1,47 @@
+{
+    "Product Name": {
+        "Basic T-shirt": 0,
+        "Cargo Pants": 1,
+        "Chino Pants": 2,
+        "Denim Jacket": 3,
+        "Formal Shirt": 4,
+        "Knitted Sweater": 5,
+        "Leather Boots": 6,
+        "Light Jacket": 7,
+        "Oversized Hoodie": 8,
+        "Printed T-shirt": 9,
+        "Raincoat": 10,
+        "Running Shoes": 11,
+        "Shorts": 12,
+        "Slim Fit Jeans": 13,
+        "Slip-On Sneakers": 14,
+        "Summer Dress": 15,
+        "Tank Top": 16,
+        "Tracksuit Pants": 17,
+        "Winter Coat": 18,
+        "Zip Hoodie": 19
+    },
+    "Category": {
+        "Dress": 0,
+        "Jacket": 1,
+        "Jeans": 2,
+        "Pants": 3,
+        "Shirt": 4,
+        "Shoes": 5,
+        "Shorts": 6,
+        "Sweater": 7,
+        "Sweatshirt": 8,
+        "T-shirt": 9
+    },
+    "Material": {
+        "Canvas": 0,
+        "Cotton": 1,
+        "Denim": 2,
+        "Leather": 3,
+        "Linen": 4,
+        "Organic Cotton": 5,
+        "Polyester": 6,
+        "Synthetic": 7,
+        "Wool": 8
+    }
+}
