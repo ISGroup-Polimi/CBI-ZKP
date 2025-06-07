@@ -11,8 +11,8 @@ from Org1.main import op_perform_query
 
 def load_contract_address(contract_name):
     # Load the contract address from the configuration file
-    config_path = os.path.join(os.path.dirname(__file__), 'Blockchain', 'contract_addresses.json')
-    with open(config_path, 'r') as f:
+    project_root = os.path.dirname(os.path.dirname(__file__))
+    config_path = os.path.join(project_root, 'Blockchain', 'contract_addresses.json')    with open(config_path, 'r') as f:
         contract_addresses = json.load(f)
     return contract_addresses.get(contract_name)
 

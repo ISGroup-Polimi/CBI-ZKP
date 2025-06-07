@@ -9,6 +9,8 @@ cd Blockchain/
     truffle compile 
         (compile .sol contracts into .json and place them in Blockchain/build/contracts)
     truffle migrate
+        (execute migrations script: 1_deploy_contracts.js and 2_deploy_contracts.js
+         publish contract_addresses.json in Blockchain folder)
 
 in /Carboni_Thesis
     python3 -m Org1.main
