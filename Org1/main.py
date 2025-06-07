@@ -187,24 +187,30 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 
 async def main():
 
-    print("ORG 1 (data provider) select an option:")
-    print("[1] Upload (Generate) File")
-    print("[2] Publish Hash")
-    print("[3] Update file")
-    sub_choice = input("Enter your choice (1, 2, or 3): ")
+    while True:
+        print("ORG 1 (data provider) select an option:")
+        print("[1] Upload (Generate) File")
+        print("[2] Publish Hash")
+        print("[3] Update file")
+        print("[0] Exit")
+        sub_choice = input("Enter your choice (1, 2, 3, or 0): ")
 
-    if sub_choice == "1":  # UPLOAD FILE
-        op_generate_file()
+        if sub_choice == "1":  # UPLOAD FILE
+            op_generate_file()
 
-    elif sub_choice == "2":  # PUBLISH HASH
-        CLI_publish_hash()
+        elif sub_choice == "2":  # PUBLISH HASH
+            CLI_publish_hash()
 
-    elif sub_choice == "3":  # UPDATE FILE
-        print("Update file functionality is not implemented yet.")
-        #CLI_update_file()
+        elif sub_choice == "3":  # UPDATE FILE
+            print("Update file functionality is not implemented yet.")
+            #CLI_update_file()
 
-    else:
-        print("Invalid choice. Returning to main menu.")
+        elif sub_choice == "0":
+            print("Exiting.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     asyncio.run(main())

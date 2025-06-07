@@ -248,24 +248,30 @@ def decode_categorical_columns(final_df, filtered_cat_map):
     
 async def main():
 
-    print("ORG 2 (data receiver) select an option:")
-    print("[1] Perform Query")
-    print("[2] Verify Proof")
-    sub_choice = input("Enter your choice (1 or 2): ")
+    while True:
+        print("ORG 2 (data receiver) select an option:")
+        print("[1] Perform Query")
+        print("[2] Verify Proof")
+        print("[0] Exit")
+        sub_choice = input("Enter your choice (1, 2, or 0): ")
 
-    if sub_choice == "1":  # PERFORM QUERY
-        try:
-            await CLI_query()
-        except Exception as e:
-            print(f"Failed to perform query: {e}")
+        if sub_choice == "1":  # PERFORM QUERY
+            try:
+                await CLI_query()
+            except Exception as e:
+                print(f"Failed to perform query: {e}")
 
-    elif sub_choice == "2":  # VERIFY PROOF
-        try:
-            op_verify_proof()
-        except Exception as e:
-            print(f"Failed to verify proof: {e}")
-    else:
-        print("Invalid choice. Returning to main menu.")
+        elif sub_choice == "2":  # VERIFY PROOF
+            try:
+                op_verify_proof()
+            except Exception as e:
+                print(f"Failed to verify proof: {e}")
+
+        elif sub_choice == "0":
+            print("Exiting ORG 2 menu.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     asyncio.run(main())
