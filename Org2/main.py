@@ -185,7 +185,7 @@ def show_result(final_tensor, columns_to_remove_idx):
     # Sum the emissions for roll-up and slice
     final_df = group_rows(final_df)
 
-    with open("cat_map.json", "r") as f:
+    with open("Shared/cat_map.json", "r") as f:
         cat_map =  json.load(f)
     
         #print("Category mappings loaded")
