@@ -12,7 +12,7 @@ from Org1.hash_utils import publish_hash
 from Org1.operations.slice_model import SliceModel
 from Org1.operations.dicing_model import DicingModel
 from Org1.operations.rollup_model import RollUpModel
-from Org1.models import OLAPCube
+from Org1.models.olap_cube import OLAPCube
 from Org1.ezkl_workflow.generate_proof import generate_proof
 
 from Org2.main import show_result
