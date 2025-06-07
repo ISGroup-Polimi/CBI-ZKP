@@ -9,6 +9,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
 
     # Generazione delle impostazioni usando ezkl
     settings_filename = os.path.join('Shared', 'proof', 'settings.json')
+    os.makedirs(os.path.dirname(settings_filename), exist_ok=True)
     compiled_filename = os.path.join(output_dir, 'circuit.compiled')
     
     # ezkl.gen_settings() -> Generate a settings file analyzing the ONNX model, to create the zero-knowledge proof circuit
