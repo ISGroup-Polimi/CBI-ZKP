@@ -98,7 +98,8 @@ async def op_prepare_query(file_path):
     print("Query is allowed. Proceeding with query execution...")
 
     try:
-        await op_perform_query(file_path, operations, columns_to_remove_idx) # MAIN ORG1.py
+        final_tensor, columns_to_remove_idx = await op_perform_query(file_path, operations, columns_to_remove_idx) # MAIN ORG1.py
+        show_result(final_tensor, columns_to_remove_idx)
     except Exception as e:
         print(f"Failed to perform query: {e}")
         return    

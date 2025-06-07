@@ -15,7 +15,6 @@ from Org1.operations.rollup_model import RollUpModel
 from Org1.models.olap_cube import OLAPCube
 from Org1.ezkl_workflow.generate_proof import generate_proof
 
-from Org2.main import show_result
 
 output_dir = os.path.join('Org1', 'output')
 os.makedirs(output_dir, exist_ok=True)
@@ -187,7 +186,7 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
     await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
 
-    show_result(final_tensor, columns_to_remove_idx)
+    return final_tensor, columns_to_remove_idx
 
     
 
