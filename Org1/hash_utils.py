@@ -8,7 +8,7 @@ from web3 import Web3
 logging.basicConfig(level=logging.INFO)
 
 # Load contract addresses from configuration file
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config', 'contract_addresses.json')
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'Blockchain', 'contract_addresses.json')
 with open(CONFIG_PATH, 'r') as f:
     contract_addresses = json.load(f)
 
