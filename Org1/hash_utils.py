@@ -4,7 +4,6 @@ import hashlib
 import logging
 from web3 import Web3
 #from pymerkle import MerkleTree
-import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 
