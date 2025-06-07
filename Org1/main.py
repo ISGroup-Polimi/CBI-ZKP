@@ -188,7 +188,7 @@ async def op_perform_query(file_path, operations, columns_to_remove_idx):
 async def main():
 
     while True:
-        print("ORG 1 (data provider) select an option:")
+        print("\nORG 1 (data provider) select an option:")
         print("[1] Upload (Generate) File")
         print("[2] Publish Hash")
         print("[3] Update file")

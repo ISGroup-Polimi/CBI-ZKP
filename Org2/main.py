@@ -249,7 +249,7 @@ def decode_categorical_columns(final_df, filtered_cat_map):
 async def main():
 
     while True:
-        print("ORG 2 (data receiver) select an option:")
+        print("\nORG 2 (data receiver) select an option:")
         print("[1] Perform Query")
         print("[2] Verify Proof")
         print("[0] Exit")

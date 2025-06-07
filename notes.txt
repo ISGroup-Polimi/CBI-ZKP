@@ -14,7 +14,7 @@ cd Blockchain/
 
 in /Carboni_Thesis
     python3 -m Org1.main
-python main.py
+    python3 -m Org2.main
 
 pipreqs --force --ignore .venv,.history
 pip install -r requirements.txt
