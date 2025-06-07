@@ -125,7 +125,7 @@ def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
             print(f"Dimension {dimensions_to_rollup} not found in hierarchy {hierarchy_to_rollup}.")
         
         for i in range(idx + 1, len(dim_of_hierarchy)):
-            dim_to_remove.extend(dim_of_hierarchy[i]) 
+            dim_to_remove.append(dim_of_hierarchy[i])
 
     # Convert the dimension names to their corresponding indices
     indices_to_remove = [dim_index[dim] for dim in dim_to_remove]       
