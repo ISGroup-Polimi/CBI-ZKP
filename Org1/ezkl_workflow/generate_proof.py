@@ -82,11 +82,9 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
 
     # ------------------
     try:
-        with open(settings_filename, 'r') as f:
-            content = f.read()
-        print("Settings file content before verification:", content[:200])  # print first 200 chars
-        ezkl.verify(proof_path, vk_path, settings_filename)
-        print("Proof verification completed.")
+        res = ezkl.verify(proof_path, settings_filename, vk_path)
+        if res:
+            print("EZKL Proof Verification successful")
     except Exception as e:
         print(f"Proof verification failed: {e}")
     
