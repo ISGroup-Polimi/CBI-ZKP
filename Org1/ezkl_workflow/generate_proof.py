@@ -77,8 +77,6 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     except Exception as e:
         print(f"An error occurred: {e}")
     
-    return None, None, None
-
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 5:
