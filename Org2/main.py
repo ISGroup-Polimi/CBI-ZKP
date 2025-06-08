@@ -153,6 +153,8 @@ def op_verify_proof():
     if not os.path.exists(settings_filename):
         print("Settings file not found.")
         return
+    
+    print("Starting proof verification...")
 
     try:
         ezkl.verify(proof_path, vk_path, settings_filename)

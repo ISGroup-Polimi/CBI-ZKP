@@ -2,6 +2,8 @@ git checkout -- config/contract_addresses.json
 git checkout -b separated-projects origin/separated-projects
 ???
 
+git clean -fd
+
 In different terminals:
 geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,personal,net
 
@@ -18,3 +20,8 @@ in /Carboni_Thesis
 
 pipreqs --force --ignore .venv,.history
 pip install -r requirements.txt
+
+
+git add .
+git commit -m "Update contract addresses and fix build artifacts"
+git push origin separated-projects
