@@ -76,6 +76,12 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
             print("EZKL Proof Generation successful")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+    try:
+        ezkl.verify(proof_path, vk_path, settings_filename)
+        print("Proof verification completed.")
+    except Exception as e:
+        print(f"Proof verification failed: {e}")
     
 if __name__ == "__main__":
     import sys
