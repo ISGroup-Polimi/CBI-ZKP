@@ -9,6 +9,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
 
     # Generazione delle impostazioni usando ezkl
     settings_filename = os.path.join('Shared', 'proof', 'settings.json')
+    print(f"!!! Settings file will be generated at: {settings_filename}")
     os.makedirs(os.path.dirname(settings_filename), exist_ok=True)
     compiled_filename = os.path.join(output_dir, 'circuit.compiled')
     
@@ -77,6 +78,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+    print(f"!!! Settings file will be generated at: {settings_filename}")
 
     # ------------------
     try:
