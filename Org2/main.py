@@ -47,7 +47,7 @@ async def CLI_query():
     
     selected_file = list(published_hashes.keys())[file_index]
 
-    await op_prepare_query(selected_file) # MAIN.py
+    await op_prepare_query(selected_file) # MAIN2.py
 
 # This function:
 # - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
