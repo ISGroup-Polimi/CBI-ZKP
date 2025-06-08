@@ -157,8 +157,9 @@ def op_verify_proof():
     print("Starting proof verification...")
 
     try:
-        ezkl.verify(proof_path, vk_path, settings_filename)
-        print("Proof verification completed.")
+        res = ezkl.verify(proof_path, settings_filename, vk_path)
+        if res:
+            print("EZKL Proof Verification successful")
     except Exception as e:
         print(f"Proof verification failed: {e}")
 

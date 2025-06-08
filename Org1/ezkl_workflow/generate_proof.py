@@ -79,14 +79,6 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         print(f"An error occurred: {e}")
 
     print(f"!!! Settings file will be generated at: {settings_filename}")
-
-    # ------------------
-    try:
-        res = ezkl.verify(proof_path, settings_filename, vk_path)
-        if res:
-            print("EZKL Proof Verification successful")
-    except Exception as e:
-        print(f"Proof verification failed: {e}")
     
 if __name__ == "__main__":
     import sys
