@@ -79,4 +79,4 @@ def generate_CSV_1(num_rows, seed, output_file="GHGe1.csv"):
                 row["Total Emissions (kgCO2e)"]
             ])
     
-    print(f"CSV generated: {output_file}")
+    print(f"\nCSV generated: {output_file}")

@@ -59,9 +59,9 @@ def CLI_publish_hash():
     uploaded_files_dir = os.path.join('Org1', 'data', 'uploaded')
     files = os.listdir(uploaded_files_dir)
     if not files:
-        print("No files available in the uploaded directory.")
+        print("\nNo files available in the uploaded directory.")
         return
-    print("Available files:")
+    print("\nAvailable files:")
     for idx, file in enumerate(files):
         print(f"[{idx + 1}] {file}")
     file_index = int(input("Select a file to publish by index: ")) - 1
@@ -70,6 +70,7 @@ def CLI_publish_hash():
         return
     file_path = os.path.join(uploaded_files_dir, files[file_index])
 
+    print("\n")
     hash = op_publish_hash(file_path) # MAIN.py
 
     # Save the hash in "published_hash.json" to share it with the customer
@@ -112,6 +113,7 @@ def apply_olap_operations(cube, tensor_data, operations):
     result_tensor = tensor_data
     for operation in operations:
         result_tensor = cube.execute_model(operation, result_tensor)
+    print("OLAP operations applied successfully.")
     return result_tensor
 
 
@@ -188,7 +190,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 async def main():
 
     while True:
-        print("\nORG 1 (data provider) select an option:")
+        print("\n\nORG 1 (data provider) select an option:")
         print("[1] Upload (Generate) File")
         print("[2] Publish Hash")
         print("[3] Update file")

@@ -84,4 +84,4 @@ def generate_CSV_2(num_rows, seed, output_file="GHGe2.csv"):
                 e_tot,
             ])
 
-    print(f"CSV generated: {filename}")
+    print(f"\nCSV generated: {filename}")

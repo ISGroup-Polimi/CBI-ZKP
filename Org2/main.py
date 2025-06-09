@@ -45,6 +45,8 @@ async def CLI_query():
         print("Invalid index selected.")
         return
     
+    print("\n")
+    
     selected_file = list(published_hashes.keys())[file_index]
 
     await op_prepare_query(selected_file) # MAIN2.py
@@ -70,7 +72,7 @@ async def op_prepare_query(selected_file):
     if not is_query_allowed:
         print("Query contains disallowed dimensions.")
         return
-    print("Query is allowed. Proceeding with query execution...")
+    print("Query is allowed. Proceeding with query execution...\n")
 
     try:
         final_tensor, columns_to_remove_idx = await op_perform_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
@@ -251,7 +253,7 @@ def decode_categorical_columns(final_df, filtered_cat_map):
 async def main():
 
     while True:
-        print("\nORG 2 (data receiver) select an option:")
+        print("\n\nORG 2 (data receiver) select an option:")
         print("[1] Perform Query")
         print("[2] Verify Proof")
         print("[0] Exit")
