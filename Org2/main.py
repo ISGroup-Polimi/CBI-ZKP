@@ -156,7 +156,7 @@ def op_verify_proof():
         print("Settings file not found.")
         return
     
-    print("Starting proof verification...")
+    print("\nStarting proof verification...")
 
     try:
         res = ezkl.verify(proof_path, settings_filename, vk_path)

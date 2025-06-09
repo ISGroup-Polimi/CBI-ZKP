@@ -24,4 +24,4 @@ pip install -r requirements.txt
 
 git add .
 git commit -m "Commit message"
-git push origin separated-projects
+git push origin main
