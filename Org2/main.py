@@ -5,7 +5,7 @@ import sys
 import torch
 import pandas as pd
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(file), '../../ezkl')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../ezkl')))
 import ezkl
 
 from Org2.hash_utils import verify_query_allowed

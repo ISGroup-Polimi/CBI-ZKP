@@ -3,7 +3,7 @@ os.environ["RUST_LOG"] = "trace" # !RUST_LOG=trace
 import json
 import asyncio
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(file), '../../ezkl')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../ezkl')))
 import ezkl
 
 async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
