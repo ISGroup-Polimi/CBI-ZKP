@@ -2,6 +2,7 @@ import os
 os.environ["RUST_LOG"] = "trace" # !RUST_LOG=trace
 import json
 import asyncio
+import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../ezkl')))
 import ezkl
