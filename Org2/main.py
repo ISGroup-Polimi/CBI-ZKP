@@ -2,9 +2,11 @@ import asyncio
 import json
 import os
 import sys
-from ezkl import ezkl
 import torch
 import pandas as pd
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(file), '../../ezkl')))
+import ezkl
 
 from Org2.hash_utils import verify_query_allowed
 from Org1.main import op_perform_query
