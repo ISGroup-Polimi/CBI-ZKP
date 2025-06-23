@@ -98,6 +98,12 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
     print("Poseidon hash of input:", poseidon_hash)
 
+    # Save the Poseidon hash to pos_hash.json if it does not exist
+    pos_hash_path = os.path.join(output_dir, "pos_hash.json")
+    if not os.path.exists(pos_hash_path):
+        with open(pos_hash_path, "w") as f:
+            json.dump({"poseidon_hash": poseidon_hash}, f, indent=4)
+
     
 if __name__ == "__main__":
     import sys
