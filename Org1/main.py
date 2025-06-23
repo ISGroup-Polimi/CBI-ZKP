@@ -171,8 +171,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
+    """
     graph = onnx_model.graph
-
     
     # Create a Flatten node to flatten the input tensor to 1D
     flatten_node = helper.make_node(
@@ -209,7 +209,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.save(onnx_model, model_onnx_path)
 
     print("test3")
-    
+    """
 
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(
