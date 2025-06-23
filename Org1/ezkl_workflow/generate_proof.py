@@ -26,7 +26,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # Hash the input(s) with the Poseidon hash function inside the zero-knowledge circuit
     with open(settings_filename, "r") as f:
         settings = json.load(f)
-    settings["input_visibility"] = "hashed/public"
+    settings["run_args"]["input_visibility"] = "hashed/public"
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
 
