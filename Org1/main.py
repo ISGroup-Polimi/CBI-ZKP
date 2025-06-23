@@ -184,8 +184,6 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     graph.node.append(flatten_node)   
 
     print("test1")
-    onnx.checker.check_model(onnx_model) 
-    print("test2")
     
     # Add the Poseidon node
     poseidon_node = helper.make_node(
@@ -196,9 +194,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     )
     graph.node.append(poseidon_node)
 
-    print("test3")
-    onnx.checker.check_model(onnx_model) 
-    print("test4")
+    print("test2")
+
     
     # Add the hash as a model output
     poseidon_output = helper.make_tensor_value_info(
@@ -211,9 +208,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     # Save the modified model
     onnx.save(onnx_model, model_onnx_path)
 
-    print("test5")
-    onnx.checker.check_model(onnx_model) 
-    print("test6")
+    print("test3")
     
 
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
