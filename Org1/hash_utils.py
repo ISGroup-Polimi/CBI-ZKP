@@ -111,7 +111,9 @@ def calculate_poseidon_hash(file_path):
         file_bytes = f.read()
     # Convert bytes to a list of integers (field elements)
     field_elements = list(file_bytes)
-    poseidon_hash = ezkl.poseidon_hash(field_elements)
+    # Convert each integer to string
+    field_elements_str = [str(x) for x in field_elements]
+    poseidon_hash = ezkl.poseidon_hash(field_elements_str)
     return poseidon_hash
 
 
