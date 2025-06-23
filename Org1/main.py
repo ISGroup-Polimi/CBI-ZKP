@@ -170,6 +170,49 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
+    """
+    # Create a Flatten node to flatten the input tensor to 1D
+    flatten_node = helper.make_node(
+        'Flatten',
+        inputs=['input'],
+        outputs=['input_flat'],
+        name='FlattenInput'
+    )
+    graph.node.append(flatten_node)   
+
+    print("test1")
+    onnx.checker.check_model(onnx_model) 
+    print("test2")
+    
+    # Add the Poseidon node
+    poseidon_node = helper.make_node(
+        'Poseidon',
+        inputs=['input_flat'],
+        outputs=['poseidon_hash'],
+        name='PoseidonHash'
+    )
+    graph.node.append(poseidon_node)
+
+    print("test3")
+    onnx.checker.check_model(onnx_model) 
+    print("test4")
+    
+    # Add the hash as a model output
+    poseidon_output = helper.make_tensor_value_info(
+        'poseidon_hash',
+        TensorProto.INT64,  # or .FLOAT ? (to do)
+        [1]
+    )
+    graph.output.append(poseidon_output)
+
+    # Save the modified model
+    onnx.save(onnx_model, model_onnx_path)
+
+    print("test5")
+    onnx.checker.check_model(onnx_model) 
+    print("test6")
+    """
+
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis

@@ -3,7 +3,6 @@ import json
 import hashlib
 import logging
 from web3 import Web3
-import ezkl
 #from pymerkle import MerkleTree
 
 logging.basicConfig(level=logging.INFO)
@@ -106,31 +105,11 @@ def calculate_file_hash(file_path):
 def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
-def calculate_poseidon_hash(file_path):
-    field_modulus = 21888242871839275222246405745257275088548364400416034343698204186575808495617
-    with open(file_path, 'rb') as f:
-        file_bytes = f.read()
-    # Chunk bytes into 31-byte chunks (fits in BN254 field)
-    chunk_size = 31
-    field_elements = []
-    for i in range(0, len(file_bytes), chunk_size):
-        chunk = file_bytes[i:i+chunk_size]
-        # Convert chunk to integer (big endian)
-        chunk_int = int.from_bytes(chunk, byteorder='big')
-        # Reduce mod field modulus
-        chunk_int = chunk_int % field_modulus
-        field_elements.append(str(chunk_int))
-    poseidon_hash = ezkl.poseidon_hash(field_elements)
-    return poseidon_hash
-
 
 def publish_hash(file_path):
-    
     calculated_hash = calculate_file_hash(file_path) # hash_utils.py
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
-    
-    calculated_pos_hash = calculate_poseidon_hash(file_path) 
-    print(f"Calculated hash Pos: {calculated_pos_hash}")
+
 
     web3 = setup_web3()
     # call to get or create the contract instance
