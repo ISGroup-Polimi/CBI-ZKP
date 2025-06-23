@@ -21,7 +21,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     res = ezkl.gen_settings(model_onnx_path, settings_filename)
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
-
+    """
     # Update settings to use hashed/public input visibility
     # Hash the input(s) with the Poseidon hash function inside the zero-knowledge circuit
     with open(settings_filename, "r") as f:
@@ -29,6 +29,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     settings["run_args"]["input_visibility"] = "Hashed"
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
+    """
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
     # cd ~/.ezkl/srs/
