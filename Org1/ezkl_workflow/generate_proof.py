@@ -3,7 +3,6 @@ os.environ["RUST_LOG"] = "trace" # !RUST_LOG=trace
 import json
 import asyncio
 import sys
-
 import ezkl
 
 print("EZKL module path:", ezkl.__file__)

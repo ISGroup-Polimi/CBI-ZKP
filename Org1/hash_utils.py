@@ -3,6 +3,7 @@ import json
 import hashlib
 import logging
 from web3 import Web3
+import ezkl
 #from pymerkle import MerkleTree
 
 logging.basicConfig(level=logging.INFO)
@@ -106,8 +107,12 @@ def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
 def publish_hash(file_path):
+    
     calculated_hash = calculate_file_hash(file_path) # hash_utils.py
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
+    
+    calculated_hash_pos = ezkl.poseidon_hash(file_path)
+    print(f"Calculated hash Pos: {calculated_hash_pos}")
 
     web3 = setup_web3()
     # call to get or create the contract instance
