@@ -114,8 +114,7 @@ def calculate_poseidon_hash(file_path):
     digest_int = int(digest, 16)
     field_modulus = 21888242871839275222246405745257275088548364400416034343698204186575808495617
     digest_int = digest_int % field_modulus
-    # Pass as integer, not string
-    poseidon_hash = ezkl.poseidon_hash([digest_int])
+    poseidon_hash = ezkl.poseidon_hash([str(digest_int)])  # Pass as decimal string
     return poseidon_hash
 
 
