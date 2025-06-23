@@ -106,13 +106,22 @@ def calculate_file_hash(file_path):
 def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
+def calculate_poseidon_hash(file_path):
+    with open(file_path, 'rb') as f:
+        file_bytes = f.read()
+    # Convert bytes to a list of integers (field elements)
+    field_elements = list(file_bytes)
+    poseidon_hash = ezkl.poseidon_hash(field_elements)
+    return poseidon_hash
+
+
 def publish_hash(file_path):
     
     calculated_hash = calculate_file_hash(file_path) # hash_utils.py
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
     
-    calculated_hash_pos = ezkl.poseidon_hash(file_path)
-    print(f"Calculated hash Pos: {calculated_hash_pos}")
+    calculated_pos_hash = calculate_poseidon_hash(file_path) 
+    print(f"Calculated hash Pos: {calculated_pos_hash}")
 
     web3 = setup_web3()
     # call to get or create the contract instance
