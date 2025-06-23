@@ -107,14 +107,20 @@ def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
 def calculate_poseidon_hash(file_path):
-    import hashlib
+    field_modulus = 21888242871839275222246405745257275088548364400416034343698204186575808495617
     with open(file_path, 'rb') as f:
         file_bytes = f.read()
-    digest = hashlib.sha256(file_bytes).hexdigest()
-    digest_int = int(digest, 16)
-    field_modulus = 21888242871839275222246405745257275088548364400416034343698204186575808495617
-    digest_int = digest_int % field_modulus
-    poseidon_hash = ezkl.poseidon_hash([str(digest_int)])  # Pass as decimal string
+    # Chunk bytes into 31-byte chunks (fits in BN254 field)
+    chunk_size = 31
+    field_elements = []
+    for i in range(0, len(file_bytes), chunk_size):
+        chunk = file_bytes[i:i+chunk_size]
+        # Convert chunk to integer (big endian)
+        chunk_int = int.from_bytes(chunk, byteorder='big')
+        # Reduce mod field modulus
+        chunk_int = chunk_int % field_modulus
+        field_elements.append(str(chunk_int))
+    poseidon_hash = ezkl.poseidon_hash(field_elements)
     return poseidon_hash
 
 
