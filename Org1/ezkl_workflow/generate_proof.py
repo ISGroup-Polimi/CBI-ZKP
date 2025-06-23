@@ -89,6 +89,15 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
+    # Print the Poseidon hash of the input data
+    witness_path = os.path.join(output_dir, "witness.json")
+    with open(witness_path, "r") as f:
+        witness = json.load(f)
+
+    poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
+    print("Poseidon hash of input:", poseidon_hash)
+
     
 if __name__ == "__main__":
     import sys
