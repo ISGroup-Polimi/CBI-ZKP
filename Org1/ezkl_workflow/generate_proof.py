@@ -22,8 +22,10 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
     
-    # Update settings to use hashed/public input visibility
+    # Update settings to use Hashed input visibility
     # Hash the input(s) with the Poseidon hash function inside the zero-knowledge circuit
+    # ezkl hash the input usign Poseidon hash function, 
+    #   and the hash will be included as a public value in the proof and witness.json
     with open(settings_filename, "r") as f:
         settings = json.load(f)
     settings["run_args"]["input_visibility"] = "Private"
