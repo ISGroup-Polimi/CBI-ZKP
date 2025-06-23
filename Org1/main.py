@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 import torch
 import onnx
+from onnx import helper, TensorProto
 
 from Org1.data_generators import CSV_Generator1
 from Org1.data_generators import CSV_Generator2
@@ -170,7 +171,9 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
-    """
+    graph = onnx_model.graph
+
+    
     # Create a Flatten node to flatten the input tensor to 1D
     flatten_node = helper.make_node(
         'Flatten',
@@ -211,7 +214,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     print("test5")
     onnx.checker.check_model(onnx_model) 
     print("test6")
-    """
+    
 
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(

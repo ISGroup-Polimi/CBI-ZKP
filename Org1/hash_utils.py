@@ -110,7 +110,6 @@ def publish_hash(file_path):
     calculated_hash = calculate_file_hash(file_path) # hash_utils.py
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
-
     web3 = setup_web3()
     # call to get or create the contract instance
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_SET_HASH) # hash_utils.py
