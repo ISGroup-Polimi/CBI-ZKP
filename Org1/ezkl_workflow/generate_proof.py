@@ -4,7 +4,6 @@ import json
 import asyncio
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../ezkl')))
 import ezkl
 
 print("EZKL module path:", ezkl.__file__)
