@@ -7,6 +7,9 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../ezkl')))
 import ezkl
 
+print("EZKL module path:", ezkl.__file__)
+print("EZKL dir:", dir(ezkl))
+
 async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # input_json_path for a file with: input shape, input data, output data
 
