@@ -112,10 +112,14 @@ def calculate_poseidon_hash(file_path):
         file_bytes = f.read()
     digest = hashlib.sha256(file_bytes).hexdigest()
     digest_int = int(digest, 16)
-    # Make sure it's less than the field modulus (for BN254)
     field_modulus = 21888242871839275222246405745257275088548364400416034343698204186575808495617
     digest_int = digest_int % field_modulus
-    poseidon_hash = ezkl.poseidon_hash([str(digest_int)])
+    # Try as integer
+    try:
+        poseidon_hash = ezkl.poseidon_hash([digest_int])
+    except Exception:
+        # Fallback to string
+        poseidon_hash = ezkl.poseidon_hash([str(digest_int)])
     return poseidon_hash
 
 
