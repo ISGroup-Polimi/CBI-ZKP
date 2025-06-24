@@ -184,7 +184,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     graph.node.append(flatten_node)   
 
     print("test1")
-    
+
+    """
     # Add the Poseidon node
     poseidon_node = helper.make_node(
         'Poseidon',
@@ -193,6 +194,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         name='PoseidonHash'
     )
     graph.node.append(poseidon_node)
+    """
 
     print("test2")
 
