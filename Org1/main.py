@@ -205,6 +205,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     )
     graph.output.append(poseidon_output)
 
+    onnx.checker.check_model(onnx_model)
+
     # Save the modified model
     onnx.save(onnx_model, model_onnx_path)
 
