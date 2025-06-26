@@ -44,6 +44,9 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
             ]
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
+
+    with open(settings_filename, "r") as f:
+        print("DEBUG settings.json:\n", f.read())
     
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
