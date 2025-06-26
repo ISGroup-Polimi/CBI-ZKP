@@ -170,22 +170,22 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     # Run a validation check to ensure the model is well-formed and valid according to the ONNX specification
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
-
+    """
     
     graph = onnx_model.graph
     
     # Create a Flatten node to flatten the input tensor to 1D
     flatten_node = helper.make_node(
-        'Flatten',
-        inputs=['input'],
-        outputs=['input_flat'],
-        name='FlattenInput'
+        'Flatten',                   # The ONNX operator type
+        inputs=['input'],            # List of input tensor names
+        outputs=['input_flat'],      # List of output tensor names (here: the tensor named "input_flat")
+        name='FlattenInput'          # (Optional) Name for this node in the graph
     )
     graph.node.append(flatten_node)   
 
     print("test1")
 
-    """
+    
     # Add the Poseidon node
     poseidon_node = helper.make_node(
         'Poseidon',
@@ -206,7 +206,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         [1]
     )
     graph.output.append(poseidon_output)
-    """
+    
 
     onnx.checker.check_model(onnx_model)
 
@@ -214,7 +214,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.save(onnx_model, model_onnx_path)
 
     print("test3")
-    
+    """
 
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(
