@@ -37,6 +37,8 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     settings["run_args"]["input_visibility"] = "Hashed"
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
+
+    print("D")
     
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
