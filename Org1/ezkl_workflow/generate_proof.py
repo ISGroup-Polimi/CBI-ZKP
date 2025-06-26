@@ -34,7 +34,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     #   and the hash will be included as a public value in the proof and witness.json
     with open(settings_filename, "r") as f:
         settings = json.load(f)
-    settings["run_args"]["input_visibility"] = "hashed/private"
+    settings["run_args"]["input_visibility"] = "Hashed"
     """
     # Fix required_range_checks format if needed
     if "required_range_checks" in settings:
