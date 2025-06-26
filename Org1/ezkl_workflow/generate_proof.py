@@ -38,10 +38,15 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # Fix required_range_checks format if needed
     if "required_range_checks" in settings:
         rrc = settings["required_range_checks"]
-        if isinstance(rrc, list) and len(rrc) > 0 and isinstance(rrc[0], list):
-            settings["required_range_checks"] = [
-                {"min": x[0], "max": x[1]} for x in rrc
-            ]
+        if isinstance(rrc, list) and len(rrc) > 0 and isinstance(rrc[0], dict):
+            # Already patched, but check order
+            if rrc[0]["min"] != 0:
+                settings["required_range_checks"] = sorted(rrc, key=lambda x: x["min"])
+        elif isinstance(rrc, list) and len(rrc) > 0 and isinstance(rrc[0], list):
+            # Patch and sort
+            patched = [{"min": x[0], "max": x[1]} for x in rrc]
+            settings["required_range_checks"] = sorted(patched, key=lambda x: x["min"])
+            
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
 
