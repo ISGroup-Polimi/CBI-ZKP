@@ -34,13 +34,16 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     #   and the hash will be included as a public value in the proof and witness.json
     with open(settings_filename, "r") as f:
         settings = json.load(f)
-    print("C1")
-    settings["run_args"]["input_visibility"] = "Private"
-    print("C2")
+    settings["run_args"]["input_visibility"] = "Hashed"
+    # Fix required_range_checks format if needed
+    if "required_range_checks" in settings:
+        rrc = settings["required_range_checks"]
+        if isinstance(rrc, list) and len(rrc) > 0 and isinstance(rrc[0], list):
+            settings["required_range_checks"] = [
+                {"min": x[0], "max": x[1]} for x in rrc
+            ]
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
-    
-    print("D")
     
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
