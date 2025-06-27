@@ -20,13 +20,12 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
 
     run_args = ezkl.PyRunArgs()
     run_args.input_visibility = "hashed/public"
-    ezkl.gen_settings(model="network.onnx", output="settings.json", py_run_args=run_args)
 
     print("A")
     
     # ezkl.gen_settings() -> Generate a settings file analyzing the ONNX model, to create the zero-knowledge proof circuit
     # The file contains all the necessary configuration parameters (like input/output shapes, precision, and circuit options)
-    res = ezkl.gen_settings(model_onnx_path, settings_filename)
+    res = ezkl.gen_settings(model_onnx_path, settings_filename, py_run_args=run_args)
     print("B")
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
