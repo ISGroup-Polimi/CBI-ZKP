@@ -31,7 +31,11 @@ git push origin "branch name"
 git checkout "branch-name"
 
 Add swap (sort of virtual memory)
-sudo fallocate -l 8G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
+    sudo fallocate -l 8G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+
+git fetch origin
+git reset --hard origin/"branch-name"
+git clean -fd

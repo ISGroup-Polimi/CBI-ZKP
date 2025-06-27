@@ -7,6 +7,9 @@ import torch
 import onnx
 from onnx import helper, TensorProto
 
+from poseidon import poseidon_params, poseidon_hash
+import numpy as np
+
 from Org1.data_generators import CSV_Generator1
 from Org1.data_generators import CSV_Generator2
 from Org1.hash_utils import publish_hash
@@ -228,7 +231,23 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
+    #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
+
+    # Load your input data (as ezkl would see it)
+    with open("input.json", "r") as f:
+        data = json.load(f)
+    flat_input = np.array(data["input_data"]).flatten().tolist()
+
+    # Convert to field elements (integers)
+    field_inputs = [int(x) for x in flat_input]
+
+    # Get parameters for BN254 (default for ezkl)
+    params = poseidon_params(field_size=254)
+
+    # Compute the hash
+    hash_value = poseidon_hash(field_inputs, params)
+    print("Poseidon hash:", hex(hash_value))
+
 
     return final_tensor, columns_to_remove_idx
 

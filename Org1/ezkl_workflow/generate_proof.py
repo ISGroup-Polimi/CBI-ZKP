@@ -4,6 +4,8 @@ import json
 import asyncio
 import sys
 import ezkl
+from poseidon import poseidon_params, poseidon_hash
+import numpy as np
 
 #print("EZKL module path:", ezkl.__file__)
 #print("EZKL dir:", dir(ezkl))
@@ -113,7 +115,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         witness = json.load(f)
     poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
     print("Poseidon hash of input:", poseidon_hash)
-
+    # c04e340188a01675d8e8864e6d073b68ab0200b16d9afe130116d4827a7bd62f
     """
     # Print the Poseidon hash of the input data
     witness_path = os.path.join(output_dir, "witness.json")
@@ -130,6 +132,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
         with open(pos_hash_path, "w") as f:
             json.dump({"poseidon_hash": poseidon_hash}, f, indent=4)
     """
+
 
     
 if __name__ == "__main__":
