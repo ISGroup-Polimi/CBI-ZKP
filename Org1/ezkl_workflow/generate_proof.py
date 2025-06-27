@@ -4,7 +4,6 @@ import json
 import asyncio
 import sys
 import ezkl
-from poseidon import poseidon_params, poseidon_hash
 import numpy as np
 
 #print("EZKL module path:", ezkl.__file__)
