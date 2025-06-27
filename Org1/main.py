@@ -7,7 +7,7 @@ import torch
 import onnx
 from onnx import helper, TensorProto
 
-from poseidon import poseidon_params, poseidon_hash
+import poseidon 
 import numpy as np
 
 from Org1.data_generators import CSV_Generator1
@@ -242,10 +242,10 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     field_inputs = [int(x) for x in flat_input]
 
     # Get parameters for BN254 (default for ezkl)
-    params = poseidon_params(field_size=254)
+    params = poseidon.poseidon_params(field_size=254)
 
     # Compute the hash
-    hash_value = poseidon_hash(field_inputs, params)
+    hash_value = poseidon.poseidon_hash(field_inputs, params)
     print("Poseidon hash:", hex(hash_value))
 
 
