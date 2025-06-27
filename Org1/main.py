@@ -241,13 +241,9 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     # Convert to field elements (integers)
     field_inputs = [int(x) for x in flat_input]
 
-    # Get parameters for BN254 (default for ezkl)
-    params = poseidon.poseidon_params(field_size=254)
-
     # Compute the hash
-    hash_value = poseidon.poseidon_hash(field_inputs, params)
+    hash_value = poseidon.hash(field_inputs, field_size=254)
     print("Poseidon hash:", hex(hash_value))
-
 
     return final_tensor, columns_to_remove_idx
 
