@@ -236,7 +236,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 
 
     # Load your input data (as ezkl would see it)
-    with open("input.json", "r") as f:
+    with open(input_json_path, "r") as f:
         data = json.load(f)
     flat_input = np.array(data["input_data"]).flatten().tolist()
 
