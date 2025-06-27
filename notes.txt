@@ -27,5 +27,11 @@ pip install -r requirements.txt
 
 git add .
 git commit -m "Commit message"
-git push origin main
+git push origin "branch name"
 git checkout "branch-name"
+
+Add swap (sort of virtual memory)
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
