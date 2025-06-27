@@ -16,6 +16,12 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     os.makedirs(os.path.dirname(settings_filename), exist_ok=True)
     compiled_filename = os.path.join(output_dir, 'circuit.compiled')
 
+    print("0")
+
+    run_args = ezkl.PyRunArgs()
+    run_args.input_visibility = "hashed/public"
+    ezkl.gen_settings(model="network.onnx", output="settings.json", py_run_args=run_args)
+
     print("A")
     
     # ezkl.gen_settings() -> Generate a settings file analyzing the ONNX model, to create the zero-knowledge proof circuit
@@ -25,9 +31,10 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
 
+
     print("C")
     
-    
+    """
     # Update settings to use Hashed input visibility
     # Hash the input(s) with the Poseidon hash function inside the zero-knowledge circuit
     # ezkl hash the input usign Poseidon hash function, 
@@ -35,20 +42,12 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     with open(settings_filename, "r") as f:
         settings = json.load(f)
     settings["run_args"]["input_visibility"] = "Hashed"
-    """
-    # Fix required_range_checks format if needed
-    if "required_range_checks" in settings:
-        rrc = settings["required_range_checks"]
-        if isinstance(rrc, list) and len(rrc) > 0 and isinstance(rrc[0], list):
-            settings["required_range_checks"] = [
-                {"min": x[0], "max": x[1]} for x in rrc
-            ]
-    """
     with open(settings_filename, "w") as f:
         json.dump(settings, f, indent=4)
 
     with open(settings_filename, "r") as f:
         print("DEBUG settings.json:\n", f.read())
+    """
     
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
