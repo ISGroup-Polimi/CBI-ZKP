@@ -7,7 +7,7 @@ import torch
 import onnx
 from onnx import helper, TensorProto
 
-import poseidon 
+from poseidon import hash
 import numpy as np
 
 from Org1.data_generators import CSV_Generator1
@@ -233,8 +233,6 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
 
-
-
     # Load your input data (as ezkl would see it)
     with open(input_json_path, "r") as f:
         data = json.load(f)
@@ -244,7 +242,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     field_inputs = [int(x) for x in flat_input]
 
     # Compute the hash
-    hash_value = poseidon.hash(field_inputs, field_size=254)
+    hash_value = hash(field_inputs, field_size=254)
     print("Poseidon hash:", hex(hash_value))
 
     return final_tensor, columns_to_remove_idx
