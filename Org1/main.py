@@ -239,8 +239,11 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 
     # Convert to field elements (integers)
     field_inputs = [int(x) for x in flat_input]
-    input_rate = len(field_inputs)
-    t = input_rate + 1  # Poseidon state width
+    # input_rate = len(field_inputs)
+    # t = input_rate + 1  # Poseidon state width
+    input_rate = 2  # Number of inputs to the Poseidon hash function
+    t = 3 # Poseidon state width (number of inputs to the hash function)
+    field_inputs = field_inputs[:2]  # how manny elements you want to hash 
 
     security_level = 128
     alpha = 5
