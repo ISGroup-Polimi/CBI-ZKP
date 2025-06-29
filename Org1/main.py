@@ -232,29 +232,27 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
 
-    # Load your input data (as ezkl would see it)
+    # Load input as ezkl would see it
     with open(input_json_path, "r") as f:
         data = json.load(f)
-    flat_input = np.array(data["input_data"]).flatten().tolist()
+    flat_input = np.array(data["input_data"]).flatten()
 
-    # Convert to field elements (integers)
-    field_inputs = [int(x) for x in flat_input]
-    # input_rate = len(field_inputs)
-    # t = input_rate + 1  # Poseidon state width
-    input_rate = 2  # Number of inputs to the Poseidon hash function
-    t = 3 # Poseidon state width (number of inputs to the hash function)
-    field_inputs = field_inputs[:2]  # how manny elements you want to hash 
+    # Apply ezkl scaling
+    input_scale = 7  # set this to match your ezkl settings.json
+    scale = 2 ** input_scale
+    field_inputs = [int(round(x * scale)) for x in flat_input]
 
+    # Use only the first two elements (as ezkl does for t=3)
+    field_inputs = field_inputs[:2]
+
+    # Poseidon parameters
+    prime = poseidon.parameters.prime_254
     security_level = 128
     alpha = 5
+    input_rate = 2
+    t = 3
 
-    # Use BN254 prime for ezkl compatibility
-    prime = poseidon.parameters.prime_254
-
-    # Create Poseidon instance
     poseidon_hasher = poseidon.Poseidon(prime, security_level, alpha, input_rate, t)
-
-    # Compute the hash
     poseidon_digest = poseidon_hasher.run_hash(field_inputs)
     print("Poseidon hash (ezkl params):", hex(int(poseidon_digest)))
 
