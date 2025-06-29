@@ -230,7 +230,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
+    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
 
     # Load input as ezkl would see it
     with open(input_json_path, "r") as f:
