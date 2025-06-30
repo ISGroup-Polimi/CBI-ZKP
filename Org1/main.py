@@ -96,8 +96,8 @@ def CLI_publish_hash():
 
     print(f"Hash for {files[file_index]} published successfully.")
 
-def op_publish_hash(file_path):
-    return publish_hash(file_path) # HASH_UTILS.py
+async def op_publish_hash(file_path):
+    return await publish_hash(file_path) # HASH_UTILS.py
 
 def decode_operations(operations, columns_to_remove_idx):
     decoded_ops = []
