@@ -3,17 +3,42 @@ import ezkl
 import pandas as pd
 from Org1.models.olap_cube import OLAPCube
 import os
+import torch
+import torch.nn as nn
 
-async def calculate_pos_hash (model_onnx_path, file_path, logrows):
+class IdentityModel(nn.Module):
+    def forward(self, x):
+        return x
+
+async def calculate_pos_hash (file_path, logrows = 17):
     output_dir = 'Org1/output'
+    os.makedirs(output_dir, exist_ok=True)
+
+    df = pd.read_csv(file_path)
+    df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
+    df = df.dropna() # Drop rows with NaN values
+    cube = OLAPCube(df)
+    tensor_data = cube.to_tensor()
+
+
+    model_onnx_path = os.path.join(output_dir, 'model.onnx')
+    model = IdentityModel()
+    dummy_input = tensor_data  # Use your actual input shape
+    torch.onnx.export(model, dummy_input, model_onnx_path, input_names=['input'], output_names=['output'])
+
+
+    data = dict(
+        input_shapes=[tensor_data.shape], # shape = how many elements along each axis
+        # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D - list
+        input_data=[(tensor_data).detach().numpy().reshape([-1]).tolist()],
+    )
+    input_json_path = os.path.join(output_dir, 'input.json')
+    with open(input_json_path, 'w') as f:
+        json.dump(data, f) # serialize the data dictionary to a JSON file
 
     settings_filename = os.path.join(output_dir, 'settings.json')
-    os.makedirs(os.path.dirname(settings_filename), exist_ok=True)
-    compiled_filename = os.path.join(output_dir, 'circuit.compiled')
-
     run_args = ezkl.PyRunArgs()
     run_args.input_visibility = "hashed/public"
-
     res = ezkl.gen_settings(model_onnx_path, settings_filename, py_run_args=run_args)
     assert res == True # file successfully generated
 
@@ -26,29 +51,11 @@ async def calculate_pos_hash (model_onnx_path, file_path, logrows):
         print(f"Error during SRS generation: {e}")
         raise
 
-
-    # dataframe is a bidimensional data structure with rows and columns
-    df = pd.read_csv(file_path)
-    df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
-    df = df.dropna() # Drop rows with NaN values
-    cube = OLAPCube(df)
-    tensor_data = cube.to_tensor()
-
-    # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
-    data = dict(
-        input_shapes=[tensor_data.shape], # shape = how many elements along each axis
-        # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D - list
-        input_data=[(tensor_data).detach().numpy().reshape([-1]).tolist()],
-    )
-    input_json_path = os.path.join(output_dir, 'input.json')
-    with open(input_json_path, 'w') as f:
-        json.dump(data, f) # serialize the data dictionary to a JSON file
-
     res = await ezkl.calibrate_settings(input_json_path, model_onnx_path, settings_filename, "resources")
     assert res == True
     print(f"EZKL Calibrate settings: {res}")
 
-
+    compiled_filename = os.path.join(output_dir, 'circuit.compiled')
     res = ezkl.compile_circuit(model_onnx_path, compiled_filename, settings_filename)
     assert res == True
     print(f"EZKL Compile circuit: {res}")
