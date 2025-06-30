@@ -4,7 +4,7 @@ import hashlib
 import logging
 from web3 import Web3
 #from pymerkle import MerkleTree
-from Shared.calculate_pos_hash import calculate_pos_hash  
+# from Shared.calculate_pos_hash import calculate_pos_hash  
 
 logging.basicConfig(level=logging.INFO)
 
