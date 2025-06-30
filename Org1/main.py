@@ -57,7 +57,7 @@ def op_generate_file():
     
     #update_metadata(file_path)
 
-def CLI_publish_hash():
+async def CLI_publish_hash():
     # Make the user select a file to publish with CLI in data/uploaded directory
     uploaded_files_dir = os.path.join('Org1', 'data', 'uploaded')
     files = os.listdir(uploaded_files_dir)
@@ -74,7 +74,7 @@ def CLI_publish_hash():
     file_path = os.path.join(uploaded_files_dir, files[file_index])
 
     print("\n")
-    hash = op_publish_hash(file_path) # MAIN.py
+    hash = await op_publish_hash(file_path) # MAIN.py
 
     # Save the hash in "published_hash.json" to share it with the customer
     published_hash_path = os.path.join('Shared', 'published_hash.json')
@@ -275,7 +275,7 @@ async def main():
             op_generate_file()
 
         elif sub_choice == "2":  # PUBLISH HASH
-            CLI_publish_hash()
+            await CLI_publish_hash()
 
         elif sub_choice == "3":  # UPDATE FILE
             print("Update file functionality is not implemented yet.")
