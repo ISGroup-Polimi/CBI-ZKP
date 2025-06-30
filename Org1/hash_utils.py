@@ -110,6 +110,11 @@ def get_stored_hash(web3, contract):
 async def publish_hash(file_path):
     # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
     calculated_hash = await calculate_pos_hash(file_path)
+    # Fix: extract string if it's a list
+    if isinstance(calculated_hash, list):
+        calculated_hash = calculated_hash[0]
+    if not calculated_hash.startswith("0x"):
+        calculated_hash = "0x" + calculated_hash
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     print("Poseidon hash PUBLISHED:", calculated_hash)
