@@ -97,6 +97,7 @@ def CLI_publish_hash():
     print(f"Hash for {files[file_index]} published successfully.")
 
 def op_publish_hash(file_path):
+
     return publish_hash(file_path) # HASH_UTILS.py
 
 def decode_operations(operations, columns_to_remove_idx):
@@ -223,7 +224,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
         # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D - list
         input_data=[(tensor_data).detach().numpy().reshape([-1]).tolist()],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
+        #output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
     )
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
