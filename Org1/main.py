@@ -224,14 +224,14 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
         # Take PyTorch tensor - detach it from any computation graph - convert it to a NumPy array - flatten it to 1D - list
         input_data=[(tensor_data).detach().numpy().reshape([-1]).tolist()],
-        #output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
+        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
     )
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=14)
+    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
 
     """
     # Load input as ezkl would see it

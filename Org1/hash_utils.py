@@ -4,7 +4,7 @@ import hashlib
 import logging
 from web3 import Web3
 #from pymerkle import MerkleTree
-# from Shared.calculate_pos_hash import calculate_pos_hash  
+from Shared.calculate_pos_hash import calculate_pos_hash  
 
 logging.basicConfig(level=logging.INFO)
 
@@ -106,11 +106,13 @@ def calculate_file_hash(file_path):
 def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
-
 def publish_hash(file_path):
-    calculated_hash = calculate_file_hash(file_path) # hash_utils.py
-    # calculated_hash = calculate_pos_hash(file_path)  # Assuming this function is defined elsewhere
+    # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
+    calculated_hash = calculate_pos_hash(file_path)  # Assuming this function is defined elsewhere
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
+
+    print("Poseidon hash PUBLISHED:", calculated_hash)
+    print("Poseidon hash PUBLISHED bytes32:", bytes32_hash)
 
     web3 = setup_web3()
     # call to get or create the contract instance
