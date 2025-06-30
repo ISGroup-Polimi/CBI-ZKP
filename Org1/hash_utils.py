@@ -107,9 +107,9 @@ def calculate_file_hash(file_path):
 def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
-def publish_hash(file_path):
+async def publish_hash(file_path):
     # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
-    calculated_hash = asyncio.run(calculate_pos_hash(file_path))
+    calculated_hash = await calculate_pos_hash(file_path)
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     print("Poseidon hash PUBLISHED:", calculated_hash)
