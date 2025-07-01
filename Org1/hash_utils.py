@@ -172,13 +172,14 @@ async def publish_hash(file_path):
     """
     calculated_hash = await calculate_pos_hash(file_path)
     """
-
+    calculated_hash = c_pos_hash(file_path)
+    
     # Fix: extract string if it's a list
     if isinstance(calculated_hash, list):
         calculated_hash = calculated_hash[0]
     if not calculated_hash.startswith("0x"):
         calculated_hash = "0x" + calculated_hash
-    calculated_hash = c_pos_hash(file_path)
+    
 
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
