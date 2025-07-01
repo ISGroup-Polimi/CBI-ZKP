@@ -139,12 +139,33 @@ def c_pos_hash(file_path):
     return poseidon_hash
     """
 
-    input_floats = [0.0, 1.0]
+    input_floats = [1.23, 4.56]  # or any test values you want
     scale = 2 ** 13
-    field_elements = [ezkl.float_to_felt(float(x), scale) for x in input_floats]
-    print(field_elements)
 
-    return "Test Poseidon hash"  # Placeholder for actual Poseidon hash calculation
+    clean_floats = []
+    for x in input_floats:
+        try:
+            val = float(x)
+            if not (val == val and abs(val) != float('inf')):  # filter NaN/inf
+                val = 0.0
+            clean_floats.append(val)
+        except Exception:
+            clean_floats.append(0.0)
+
+    field_elements = []
+    for x in clean_floats:
+        try:
+            field_elements.append(ezkl.float_to_felt(x, scale))
+        except Exception as e:
+            print(f"Failed to quantize value: {x} ({e})")
+            raise
+
+    while len(field_elements) < 2:
+        field_elements.append(ezkl.float_to_felt(0.0, scale))
+
+    poseidon_hash = ezkl.poseidon_hash(field_elements)
+    print("ezkl Poseidon hash:", poseidon_hash)
+    return poseidon_hash
 
 async def publish_hash(file_path):
     # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
