@@ -121,7 +121,7 @@ def c_pos_hash(file_path):
     scale = 2 ** 13  # input_scale=7
 
     # Convert floats to field elements (as strings)
-    field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data]
+    field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
 
     # If ezkl expects only 2 elements, pad if needed:
     while len(field_elements) < 2:
