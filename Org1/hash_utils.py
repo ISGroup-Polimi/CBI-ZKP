@@ -3,7 +3,10 @@ import json
 import hashlib
 import logging
 import asyncio
+import ezkl
 from web3 import Web3
+import pandas as pd
+from Org1.models.olap_cube import OLAPCube
 #from pymerkle import MerkleTree
 from Shared.calculate_pos_hash import calculate_pos_hash  
 
@@ -107,18 +110,47 @@ def calculate_file_hash(file_path):
 def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
+def c_pos_hash(file_path):
+    df = pd.read_csv(file_path)
+    df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
+    df = df.dropna() # Drop rows with NaN values
+    cube = OLAPCube(df)
+    tensor_data = cube.to_tensor()
+
+    # same scale as in ezkl settings.json
+    scale = 2 ** 13  # input_scale=7
+
+    # Convert floats to field elements (as strings)
+    field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data]
+
+    # If ezkl expects only 2 elements, pad if needed:
+    while len(field_elements) < 2:
+        field_elements.append(ezkl.float_to_felt(0.0, scale))
+
+    # Now you can get the hash in Python:
+    poseidon_hash = ezkl.poseidon_hash(field_elements)
+    print("ezkl Poseidon hash:", poseidon_hash)
+
+    return poseidon_hash
+
 async def publish_hash(file_path):
     # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
+    """
     calculated_hash = await calculate_pos_hash(file_path)
     # Fix: extract string if it's a list
     if isinstance(calculated_hash, list):
         calculated_hash = calculated_hash[0]
     if not calculated_hash.startswith("0x"):
         calculated_hash = "0x" + calculated_hash
+    """
+    calculated_hash = c_pos_hash(file_path)
+
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     print("Poseidon hash PUBLISHED:", calculated_hash)
     print("Poseidon hash PUBLISHED bytes32:", bytes32_hash)
+    
+
 
     web3 = setup_web3()
     # call to get or create the contract instance
