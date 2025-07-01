@@ -123,7 +123,7 @@ def c_pos_hash(file_path):
     input_floats = [1.23, 4.56]
 
     # same scale as in ezkl settings.json
-    scale = 1  # input_scale
+    scale = 2  # input_scale
 
     # Convert floats to field elements (as strings)
     # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
