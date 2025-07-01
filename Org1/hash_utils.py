@@ -119,11 +119,11 @@ def c_pos_hash(file_path):
     tensor_data = cube.to_tensor()
     """
 
-    """
+    
     input_floats = [1.23, 4.56]
 
     # same scale as in ezkl settings.json
-    scale = 2 ** 13  # input_scale
+    scale = 1  # input_scale
 
     # Convert floats to field elements (as strings)
     # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
@@ -133,15 +133,12 @@ def c_pos_hash(file_path):
     while len(field_elements) < 2:
         field_elements.append(ezkl.float_to_felt(0.0, scale))
 
-    poseidon_hash = ezkl.poseidon_hash(field_elements)
-    print("ezkl Poseidon hash:", poseidon_hash)
-
-    return poseidon_hash
+    
     """
-
     input_floats = [1.23, 4.56]  # or any test values you want
-    scale = 2
+    # scale = 2
 
+    
     clean_floats = []
     for x in input_floats:
         try:
@@ -162,10 +159,13 @@ def c_pos_hash(file_path):
 
     while len(field_elements) < 2:
         field_elements.append(ezkl.float_to_felt(0.0, scale))
+    """
+
 
     poseidon_hash = ezkl.poseidon_hash(field_elements)
     print("ezkl Poseidon hash:", poseidon_hash)
     return poseidon_hash
+    
 
 async def publish_hash(file_path):
     # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
