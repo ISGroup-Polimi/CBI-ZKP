@@ -140,7 +140,7 @@ def c_pos_hash(file_path):
     """
 
     input_floats = [1.23, 4.56]  # or any test values you want
-    scale = 2 ** 7
+    scale = 1
 
     clean_floats = []
     for x in input_floats:
@@ -173,7 +173,7 @@ async def publish_hash(file_path):
     calculated_hash = await calculate_pos_hash(file_path)
     """
     calculated_hash = c_pos_hash(file_path)
-    
+
     # Fix: extract string if it's a list
     if isinstance(calculated_hash, list):
         calculated_hash = calculated_hash[0]
