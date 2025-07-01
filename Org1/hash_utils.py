@@ -140,7 +140,7 @@ def c_pos_hash(file_path):
     """
 
     input_floats = [1.23, 4.56]  # or any test values you want
-    scale = 1
+    scale = 2
 
     clean_floats = []
     for x in input_floats:
