@@ -6,6 +6,7 @@ import asyncio
 import ezkl
 from web3 import Web3
 import pandas as pd
+import numpy as np
 from Org1.models.olap_cube import OLAPCube
 #from pymerkle import MerkleTree
 from Shared.calculate_pos_hash import calculate_pos_hash  
@@ -111,56 +112,38 @@ def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
 def c_pos_hash(file_path):
-    """
+
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
     cube = OLAPCube(df)
     tensor_data = cube.to_tensor()
-    """
 
-    
-    input_floats = [1.23, 4.56]
+    # input_floats = [1.23, 4.56]
 
     # same scale as in ezkl settings.json
-    scale = 2 ** 6 # input_scale
+    scale = 1           # 2 ** 6 input_scale max
+    
+    # Flatten the tensor and clean invalid values
+    flat_tensor = tensor_data.detach().numpy().reshape(-1)
+    flat_tensor = np.nan_to_num(flat_tensor, nan=0.0, posinf=0.0, neginf=0.0)
 
     # Convert floats to field elements (as strings)
-    # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
-    field_elements = [ezkl.float_to_felt(x, scale) for x in input_floats]
-
-    # ezkl expects only 2 elements, pad if needed:
-    while len(field_elements) < 2:
-        field_elements.append(ezkl.float_to_felt(0.0, scale))
-
-    
-    """
-    input_floats = [1.23, 4.56]  # or any test values you want
-    # scale = 2
-
-    
-    clean_floats = []
-    for x in input_floats:
-        try:
-            val = float(x)
-            if not (val == val and abs(val) != float('inf')):  # filter NaN/inf
-                val = 0.0
-            clean_floats.append(val)
-        except Exception:
-            clean_floats.append(0.0)
-
     field_elements = []
-    for x in clean_floats:
+    for x in flat_tensor:
         try:
-            field_elements.append(ezkl.float_to_felt(x, scale))
+            field_elements.append(ezkl.float_to_felt(float(x), scale))
         except Exception as e:
             print(f"Failed to quantize value: {x} ({e})")
             raise
 
+    # Convert floats to field elements (as strings)
+    # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
+    #field_elements = [ezkl.float_to_felt(x, scale) for x in input_floats]
+
+    # ezkl expects only 2 elements, pad if needed:
     while len(field_elements) < 2:
         field_elements.append(ezkl.float_to_felt(0.0, scale))
-    """
-
 
     poseidon_hash = ezkl.poseidon_hash(field_elements)
     print("ezkl Poseidon hash:", poseidon_hash)
