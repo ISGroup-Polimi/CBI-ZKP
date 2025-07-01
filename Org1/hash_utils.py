@@ -122,7 +122,7 @@ def c_pos_hash(file_path):
     # input_floats = [1.23, 4.56]
 
     # same scale as in ezkl settings.json
-    scale = 2 ** 7           # 2 ** 6 input_scale max
+    scale = 2 ** 8           # 2 ** 6 input_scale max
     
     # Flatten the tensor and clean invalid values
     flat_tensor = tensor_data.detach().numpy().reshape(-1)
