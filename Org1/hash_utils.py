@@ -111,17 +111,21 @@ def get_stored_hash(web3, contract):
     return contract.functions.getHash().call()
 
 def c_pos_hash(file_path):
+    """
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
     cube = OLAPCube(df)
     tensor_data = cube.to_tensor()
+    """
+    input_floats = [1.23, 4.56]
 
     # same scale as in ezkl settings.json
     scale = 2 ** 13  # input_scale=7
 
     # Convert floats to field elements (as strings)
-    field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
+    # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
+    field_elements = [ezkl.float_to_felt(x, scale) for x in input_floats]
 
     # If ezkl expects only 2 elements, pad if needed:
     while len(field_elements) < 2:
