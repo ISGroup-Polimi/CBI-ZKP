@@ -17,6 +17,7 @@ from Org1.operations.dicing_model import DicingModel
 from Org1.operations.rollup_model import RollUpModel
 from Org1.models.olap_cube import OLAPCube
 from Org1.ezkl_workflow.generate_proof import generate_proof
+from Org1.data_generators.StarSchemeGenerator import main as star_scheme_main
 
 
 output_dir = os.path.join('Org1', 'output')
@@ -36,7 +37,9 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
+""""
 def op_generate_file():
+
     print("\nSelect a generator to use:")
     print("[1] Generator 1")
     print("[2] Generator 2")
@@ -56,22 +59,19 @@ def op_generate_file():
     #file_path = os.path.join("Org1", 'data', 'uploaded', output_file)
     
     #update_metadata(file_path)
+    """
 
 async def CLI_publish_hash():
-    # Make the user select a file to publish with CLI in data/uploaded directory
-    uploaded_files_dir = os.path.join('Org1', 'data', 'uploaded')
-    files = os.listdir(uploaded_files_dir)
-    if not files:
-        print("\nNo files available in the uploaded directory.")
+    # Try to open "Sale.csv" from Org1/data; if it doesn't exist, show an error and return
+    sale_file_path = os.path.join('Org1', 'data', 'Sale.csv')
+    if os.path.exists(sale_file_path):
+        file_path = sale_file_path
+        files = ['Sale.csv']
+        file_index = 0
+        print('\nAutomatically opened "Sale.csv" from the Org1/data folder.')
+    else:
+        print('\nError: "Sale.csv" not found in the Org1/data folder.')
         return
-    print("\nAvailable files:")
-    for idx, file in enumerate(files):
-        print(f"[{idx + 1}] {file}")
-    file_index = int(input("Select a file to publish by index: ")) - 1
-    if file_index < 0 or file_index >= len(files):
-        print("Invalid index selected.")
-        return
-    file_path = os.path.join(uploaded_files_dir, files[file_index])
 
     print("\n")
     hash = await op_publish_hash(file_path) # MAIN.py
@@ -272,7 +272,7 @@ async def main():
         sub_choice = input("Enter your choice (1, 2, 3, or 0): ")
 
         if sub_choice == "1":  # UPLOAD FILE
-            op_generate_file()
+            star_scheme_main()
 
         elif sub_choice == "2":  # PUBLISH HASH
             await CLI_publish_hash()

@@ -137,10 +137,6 @@ def c_pos_hash(file_path):
             print(f"Failed to quantize value: {x} ({e})")
             raise
 
-    # Convert floats to field elements (as strings)
-    # field_elements = [ezkl.float_to_felt(x, scale) for x in tensor_data.detach().numpy().reshape(-1)]
-    #field_elements = [ezkl.float_to_felt(x, scale) for x in input_floats]
-
     # ezkl expects only 2 elements, pad if needed:
     while len(field_elements) < 2:
         field_elements.append(ezkl.float_to_felt(0.0, scale))

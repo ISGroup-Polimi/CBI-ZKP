@@ -27,7 +27,7 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     res = ezkl.gen_settings(model_onnx_path, settings_filename, py_run_args=run_args)
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
-
+    
 
     print("C")
     
