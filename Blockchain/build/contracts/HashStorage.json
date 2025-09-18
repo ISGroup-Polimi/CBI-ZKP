@@ -43,9 +43,9 @@
       "constant": true
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_hash\",\"type\":\"bytes32\"}],\"name\":\"setHash\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"storedHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/HashStorage.sol\":\"HashStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/HashStorage.sol\":{\"keccak256\":\"0x17bccb9d222eebe1d947a1d4434f29735ed3361639e9a15abf0669159544cdc8\",\"urls\":[\"bzz-raw://246b86a4d8d59ce05f7a7f4d9c18a5a7a8ef3a9d7d9a30db35e78c0c7614a7c5\",\"dweb:/ipfs/QmefmGA7386DjQS55AogAYejgnP68D4s7dp8ZYNMRX1k62\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610176806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202f07205ec6be7ecc7348b439e5d5355ee486abe5a1de61c58fb8b783b63b63ac64736f6c63430008000033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202f07205ec6be7ecc7348b439e5d5355ee486abe5a1de61c58fb8b783b63b63ac64736f6c63430008000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_hash\",\"type\":\"bytes32\"}],\"name\":\"setHash\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"storedHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/HashStorage.sol\":\"HashStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/HashStorage.sol\":{\"keccak256\":\"0xbc76410a4480c096a774a4c68ed288d84d3305e788ed209c93f6a44a10cd97f4\",\"urls\":[\"bzz-raw://5312df80d82c6a5e3785c0fb203a2364faf43f06e1cc66cf12c7c545be986b47\",\"dweb:/ipfs/QmQdJWBumVWrZgc2sGEKnvPVmNxVeE55LPUR4BcozvPXE2\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610176806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202231702e46fe8ab1767d5fa4465d1c4db4658394fbdfb1d6aa2ca3c5c9f46fcd64736f6c63430008000033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80630c4c428514610046578063b0da519514610062578063d13319c414610080575b600080fd5b610060600480360381019061005b91906100cc565b61009e565b005b61006a6100a8565b6040516100779190610104565b60405180910390f35b6100886100ae565b6040516100959190610104565b60405180910390f35b8060008190555050565b60005481565b60008054905090565b6000813590506100c681610129565b92915050565b6000602082840312156100de57600080fd5b60006100ec848285016100b7565b91505092915050565b6100fe8161011f565b82525050565b600060208201905061011960008301846100f5565b92915050565b6000819050919050565b6101328161011f565b811461013d57600080fd5b5056fea26469706673582212202231702e46fe8ab1767d5fa4465d1c4db4658394fbdfb1d6aa2ca3c5c9f46fcd64736f6c63430008000033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -643,20 +643,20 @@
   ],
   "sourceMap": "54:224:1:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "54:224:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;113:74;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;81:25;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;193:83;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;113:74;175:5;162:10;:18;;;;113:74;:::o;81:25::-;;;;:::o;193:83::-;233:7;259:10;;252:17;;193:83;:::o;7:139:2:-;;91:6;78:20;69:29;;107:33;134:5;107:33;:::i;:::-;59:87;;;;:::o;152:262::-;;260:2;248:9;239:7;235:23;231:32;228:2;;;276:1;273;266:12;228:2;319:1;344:53;389:7;380:6;369:9;365:22;344:53;:::i;:::-;334:63;;290:117;218:196;;;;:::o;420:118::-;507:24;525:5;507:24;:::i;:::-;502:3;495:37;485:53;;:::o;544:222::-;;675:2;664:9;660:18;652:26;;688:71;756:1;745:9;741:17;732:6;688:71;:::i;:::-;642:124;;;;:::o;772:77::-;;838:5;827:16;;817:32;;;:::o;855:122::-;928:24;946:5;928:24;:::i;:::-;921:5;918:35;908:2;;967:1;964;957:12;908:2;898:79;:::o",
-  "source": "// contracts/HashStorage.sol\npragma solidity ^0.8.0;\n\ncontract HashStorage {\n    bytes32 public storedHash;\n\n    function setHash(bytes32 _hash) public {\n        storedHash = _hash;\n    }\n\n    function getHash() public view returns (bytes32) {\n        return storedHash;\n    }\n}\n",
-  "sourcePath": "/home/carboni/Carboni_Thesis/contracts/HashStorage.sol",
+  "source": "// contracts/HashStorage.sol\npragma solidity ^0.8.0;\n\ncontract HashStorage {\n    bytes32 public storedHash;\n\n    function setHash(bytes32 _hash) public {\n        storedHash = _hash;\n    }\n\n    function getHash() public view returns (bytes32) {\n        return storedHash;\n    }\n}",
+  "sourcePath": "/home/carboni/Carboni_Thesis/Blockchain/contracts/HashStorage.sol",
   "ast": {
     "absolutePath": "project:/contracts/HashStorage.sol",
     "exportedSymbols": {
       "HashStorage": [
-        416
+        294
       ]
     },
-    "id": 417,
+    "id": 295,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 395,
+        "id": 273,
         "literals": [
           "solidity",
           "^",
@@ -672,9 +672,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 416,
+        "id": 294,
         "linearizedBaseContracts": [
-          416
+          294
         ],
         "name": "HashStorage",
         "nodeType": "ContractDefinition",
@@ -682,11 +682,11 @@
           {
             "constant": false,
             "functionSelector": "b0da5195",
-            "id": 397,
+            "id": 275,
             "mutability": "mutable",
             "name": "storedHash",
             "nodeType": "VariableDeclaration",
-            "scope": 416,
+            "scope": 294,
             "src": "81:25:1",
             "stateVariable": true,
             "storageLocation": "default",
@@ -695,7 +695,7 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 396,
+              "id": 274,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
               "src": "81:7:1",
@@ -708,23 +708,23 @@
           },
           {
             "body": {
-              "id": 406,
+              "id": 284,
               "nodeType": "Block",
               "src": "152:35:1",
               "statements": [
                 {
                   "expression": {
-                    "id": 404,
+                    "id": 282,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 402,
+                      "id": 280,
                       "name": "storedHash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 397,
+                      "referencedDeclaration": 275,
                       "src": "162:10:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
@@ -734,11 +734,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 403,
+                      "id": 281,
                       "name": "_hash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 399,
+                      "referencedDeclaration": 277,
                       "src": "175:5:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
@@ -751,30 +751,30 @@
                       "typeString": "bytes32"
                     }
                   },
-                  "id": 405,
+                  "id": 283,
                   "nodeType": "ExpressionStatement",
                   "src": "162:18:1"
                 }
               ]
             },
             "functionSelector": "0c4c4285",
-            "id": 407,
+            "id": 285,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "setHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 400,
+              "id": 278,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 399,
+                  "id": 277,
                   "mutability": "mutable",
                   "name": "_hash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 407,
+                  "scope": 285,
                   "src": "130:13:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -783,7 +783,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 398,
+                    "id": 276,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "130:7:1",
@@ -798,12 +798,12 @@
               "src": "129:15:1"
             },
             "returnParameters": {
-              "id": 401,
+              "id": 279,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "152:0:1"
             },
-            "scope": 416,
+            "scope": 294,
             "src": "113:74:1",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -811,54 +811,54 @@
           },
           {
             "body": {
-              "id": 414,
+              "id": 292,
               "nodeType": "Block",
               "src": "242:34:1",
               "statements": [
                 {
                   "expression": {
-                    "id": 412,
+                    "id": 290,
                     "name": "storedHash",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 397,
+                    "referencedDeclaration": 275,
                     "src": "259:10:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 411,
-                  "id": 413,
+                  "functionReturnParameters": 289,
+                  "id": 291,
                   "nodeType": "Return",
                   "src": "252:17:1"
                 }
               ]
             },
             "functionSelector": "d13319c4",
-            "id": 415,
+            "id": 293,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 408,
+              "id": 286,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "209:2:1"
             },
             "returnParameters": {
-              "id": 411,
+              "id": 289,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 410,
+                  "id": 288,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 415,
+                  "scope": 293,
                   "src": "233:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -867,7 +867,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 409,
+                    "id": 287,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "233:7:1",
@@ -881,18 +881,18 @@
               ],
               "src": "232:9:1"
             },
-            "scope": 416,
+            "scope": 294,
             "src": "193:83:1",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 417,
+        "scope": 295,
         "src": "54:224:1"
       }
     ],
-    "src": "29:250:1"
+    "src": "29:249:1"
   },
   "compiler": {
     "name": "solc",
@@ -902,12 +902,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x634317E033ad8F44075cd483a4f6139E9Dea69e7",
-      "transactionHash": "0x9d02e33b0cd6007e40b6e9f80e487ffd79d0b9829592dc984eba97b5ba6f5e27"
+      "address": "0xd50F54521bF9856Bb9dbE6d80F46D293B9255AcA",
+      "transactionHash": "0x1f85f1c7ba7c8af7dcf89d1c4c3abe300f0178435244864f0c76a4d31d1924c1"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-05-29T09:47:34.663Z",
+  "updatedAt": "2025-09-18T07:38:09.998Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
