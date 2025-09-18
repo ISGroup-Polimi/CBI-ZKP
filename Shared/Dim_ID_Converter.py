@@ -128,7 +128,7 @@ def CSV_converter(path):
     print(f"Converting file: {csv_filename}")
 
     product_names = get_products_from_ids(df["Product_Id"])
-    categories = get_categories_from_ids(df["Category_Id"])
+    categories = get_categories_from_ids(df["Product_Id"])
     materials = get_materials_from_ids(df["Material_Id"])
     dates = [get_date_from_id(date_id) for date_id in df["Date_Id"]]
 
