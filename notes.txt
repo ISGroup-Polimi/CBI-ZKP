@@ -10,7 +10,7 @@ deactivate
 In different terminals:
 geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,personal,net
 
-cd /Carboni_Thesis/Blockchain
+cd Carboni_Thesis/Blockchain
     truffle compile 
         (compile .sol contracts into .json and place them in Blockchain/build/contracts)
     truffle migrate

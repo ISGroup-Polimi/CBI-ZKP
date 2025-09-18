@@ -63,6 +63,8 @@ with open("Shared/DFM_Sale.json", "r") as f:
 
 products = data["products"]
 
+print(products)
+
 # Return the list of product names from a list of product IDs
 def get_products_from_ids(product_ids):
     result = []
