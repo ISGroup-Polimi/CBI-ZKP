@@ -60,6 +60,8 @@ def Sale_Gen(output_dir="Org1/data"):
 
     # Randomly sample 2000 rows
     num_rows = 2000
+    np.random.seed(1) # For reproducibility
+
     product_ids = np.random.choice(products["Product_Id"], num_rows)
     material_ids = np.random.choice(materials["Material_Id"], num_rows)
     date_ids = np.random.choice(dates["Date_Id"], num_rows)
