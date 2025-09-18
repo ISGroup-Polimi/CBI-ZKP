@@ -294,8 +294,8 @@ async def main():
     while True:
         print("\n\nORG 1 (data provider) select an option:")
         print("[1] Upload (Generate) File")
-        print("[2] Publish Hash")
-        print("[3] Update file")
+        print("[2] Convert File")
+        print("[3] Publish Hash")
         print("[0] Exit")
         sub_choice = input("Enter your choice (1, 2, 3, or 0): ")
 
