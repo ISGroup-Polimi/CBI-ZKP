@@ -99,7 +99,19 @@ categories = data["categories"]
 
 def get_categories_from_ids(category_ids):
     # Create a reverse dictionary to map IDs to names
-    id_to_name = {v: k for k, v in categories.items()}
+    # "categories": {
+    #     "Shoes": [1, 4],
+    #     "Pants": [5, 8],
+    #     "Shirts": [9, 12]
+    # }
+
+    # Build a reverse dictionary: id_to_name maps each product ID to its category name
+    id_to_name = {}
+    for cat_name, id_range in categories.items():
+        # id_range is a list like [start, end]
+        for cid in range(id_range[0], id_range[1] + 1):
+            id_to_name[cid] = cat_name
+
     result = []
     for cid in category_ids:
         if cid not in id_to_name:
