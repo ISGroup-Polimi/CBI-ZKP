@@ -273,6 +273,7 @@ async def main():
 
         if sub_choice == "1":  # UPLOAD FILE
             star_scheme_main()
+            print("File generated using StarSchemeGenerator and saved as 'Sale.csv' in Org1/data folder.")
 
         elif sub_choice == "2":  # PUBLISH HASH
             await CLI_publish_hash()
