@@ -68,6 +68,7 @@ print(products)
 # Return the list of product names from a list of product IDs
 def get_products_from_ids(product_ids):
     print(products)
+    print(product_ids)
     result = []
     for pid in product_ids:
         key = str(pid)
