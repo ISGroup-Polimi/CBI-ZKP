@@ -35,12 +35,13 @@ materials = data["materials"]
 
 # Return the list of material names from a list of material IDs
 def get_materials_from_ids(material_ids):
+    # Create a reverse dictionary to map IDs to names
+    id_to_name = {v: k for k, v in materials.items()}
     result = []
     for mid in material_ids:
-        key = str(mid)
-        if key not in materials:
+        if mid not in id_to_name:
             raise ValueError(f"Material ID '{mid}' not found in materials.")
-        result.append(materials[key])
+        result.append(id_to_name[mid])
     return result
 
 # Return the list of material IDs from a list of material names
@@ -62,19 +63,18 @@ with open("Shared/DFM_Sale.json", "r") as f:
     data = json.load(f) 
 
 products = data["products"]
+# {'Running Shoes': 1, 'Leather Boots': 2, ..., 'Tank Top': 12}
 
-print(products)
 
 # Return the list of product names from a list of product IDs
 def get_products_from_ids(product_ids):
-    print(products)
-    print(product_ids)
+    # Create a reverse dictionary to map IDs to names
+    id_to_name = {v: k for k, v in products.items()}
     result = []
     for pid in product_ids:
-        key = str(pid)
-        if key not in products:
+        if pid not in id_to_name:
             raise ValueError(f"Product ID '{pid}' not found in products.")
-        result.append(products[key])
+        result.append(id_to_name[pid])
     return result
 
 # Return the list of product IDs from a list of product names
@@ -98,12 +98,13 @@ with open("Shared/DFM_Sale.json", "r") as f:
 categories = data["categories"]
 
 def get_categories_from_ids(category_ids):
+    # Create a reverse dictionary to map IDs to names
+    id_to_name = {v: k for k, v in categories.items()}
     result = []
     for cid in category_ids:
-        key = str(cid)
-        if key not in categories:
+        if cid not in id_to_name:
             raise ValueError(f"Category ID '{cid}' not found in categories.")
-        result.append(categories[key])
+        result.append(id_to_name[cid])
     return result
 
 def get_ids_from_categories(category_names):
