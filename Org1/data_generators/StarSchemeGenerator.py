@@ -2,6 +2,9 @@ import pandas as pd
 import os
 import numpy as np
 
+from Shared.Dim_ID_Converter import START_DATE # ="2020-01-01"
+from Shared.Dim_ID_Converter import CSV_converter
+
 def Product_Gen(output_dir="Org1/data"):
     # Define 4 products for each of the 3 categories
     products = [
@@ -39,7 +42,7 @@ def Material_Gen(output_dir="Org1/data"):
 def Date_Gen(output_dir="Org1/data"):
 
     # Generate date range
-    dates = pd.date_range(start="2020-01-01", end="2024-12-31", freq="D")
+    dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
     df = pd.DataFrame({
         "Day": dates.day,
         "Month": dates.month,
@@ -71,13 +74,15 @@ def Sale_Gen(output_dir="Org1/data"):
         "Total_Emissions": emissions
     })
 
-    sales.to_csv(f"{output_dir}/Sale.csv", index=False)
+    sales.to_csv(f"{output_dir}/Sale_Private.csv", index=False)
+    CSV_converter(f"{output_dir}/Sale_Private.csv")
 
 def main():
     Product_Gen()
     Material_Gen()
     Date_Gen()
     Sale_Gen()
+    
 
 if __name__ == "__main__":
     main()

@@ -59,18 +59,18 @@ def op_generate_file():
     #file_path = os.path.join("Org1", 'data', 'uploaded', output_file)
     
     #update_metadata(file_path)
-    """
+"""
 
 async def CLI_publish_hash():
-    # Try to open "Sale.csv" from Org1/data; if it doesn't exist, show an error and return
-    sale_file_path = os.path.join('Org1', 'data', 'Sale.csv')
+    # Try to open "Sale_Private.csv" from Org1/data; if it doesn't exist, show an error and return
+    sale_file_path = os.path.join('Org1', 'data', 'Sale_Private.csv')
     if os.path.exists(sale_file_path):
         file_path = sale_file_path
-        files = ['Sale.csv']
+        files = ['Sale_Private.csv']
         file_index = 0
-        print('\nAutomatically opened "Sale.csv" from the Org1/data folder.')
+        print('\nAutomatically opened "Sale_Private.csv" from the Org1/data folder.')
     else:
-        print('\nError: "Sale.csv" not found in the Org1/data folder.')
+        print('\nError: "Sale_Private.csv" not found in the Org1/data folder.')
         return
 
     print("\n")
@@ -273,7 +273,7 @@ async def main():
 
         if sub_choice == "1":  # UPLOAD FILE
             star_scheme_main()
-            print("File generated using StarSchemeGenerator and saved as 'Sale.csv' in Org1/data folder.")
+            print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/data folder.")
 
         elif sub_choice == "2":  # PUBLISH HASH
             await CLI_publish_hash()

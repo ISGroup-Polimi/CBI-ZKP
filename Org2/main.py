@@ -63,6 +63,7 @@ async def op_prepare_query(selected_file):
     operations = {
         "Rollup": [["Clothes Type"], # rollup hierarchy
                    ["Date", "Month"]], # rollup dimension
+
         "Dicing": [{2: [0, 3]}]
     }
 
@@ -105,8 +106,10 @@ def get_query_dimensions(operations):
     return query_dimensions, columns_to_rollup_idx
 
 # This function gives the indices of the dimensions to be rolled up
-# Example: if hierarchy_to_roll_up = "Date" and dimensions_to_rollup = "Year" -> it will return the indices of "Month", "Day" and "Product Name"
-#          if hierarchy_to_rollup = "Clothes Type" and dimensions_to_rollup = None -> it will return the indices of all dimensions in the hierarchy
+# Example: 
+#   - if hierarchy_to_roll_up = "Date" and dimensions_to_rollup = "Year" -> it will return the indices of "Month", "Day" and "Product Name"
+#   - if hierarchy_to_rollup = "Clothes Type" and dimensions_to_rollup = None -> it will return the indices of all dimensions in the hierarchy
+
 def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
     with open("Shared/DFM_GHGe1.json", "r") as f:
         DFM_representation = json.load(f)
