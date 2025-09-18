@@ -2,10 +2,11 @@ import pandas as pd
 import os
 import numpy as np
 
-from Shared.Dim_ID_Converter import START_DATE # ="2020-01-01"
-from Shared.Dim_ID_Converter import CSV_converter
+from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
-def Product_Gen(output_dir="Org1/data"):
+os.makedirs("Org1/PrivateDB/DimTab", exist_ok=True)
+
+def Product_Gen(output_dir="Org1/PrivateDB/DimTab"):
     # Define 4 products for each of the 3 categories
     products = [
         # Shoes
@@ -28,7 +29,7 @@ def Product_Gen(output_dir="Org1/data"):
     os.makedirs(output_dir, exist_ok=True)
     Products.to_csv(f"{output_dir}/Products.csv", index=False)
 
-def Material_Gen(output_dir="Org1/data"):
+def Material_Gen(output_dir="Org1/PrivateDB/DimTab"):
     materials = [
         {"Material_Id": 1, "Material_Name": "Cotton"},
         {"Material_Id": 2, "Material_Name": "Leather"},
@@ -39,7 +40,7 @@ def Material_Gen(output_dir="Org1/data"):
     os.makedirs(output_dir, exist_ok=True)
     Material.to_csv(f"{output_dir}/Material.csv", index=False)
 
-def Date_Gen(output_dir="Org1/data"):
+def Date_Gen(output_dir="Org1/PrivateDB/DimTab"):
 
     # Generate date range
     dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
@@ -52,11 +53,12 @@ def Date_Gen(output_dir="Org1/data"):
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(f"{output_dir}/Date.csv", index=False)
 
-def Sale_Gen(output_dir="Org1/data"):
+def Sale_Gen(output_dir="Org1/PrivateDB"):
+
     # Load existing tables
-    products = pd.read_csv(f"{output_dir}/Products.csv")
-    materials = pd.read_csv(f"{output_dir}/Material.csv")
-    dates = pd.read_csv(f"{output_dir}/Date.csv")
+    products = pd.read_csv("Org1/PrivateDB/DimTab/Products.csv")
+    materials = pd.read_csv("Org1/PrivateDB/DimTab/Material.csv")
+    dates = pd.read_csv("Org1/PrivateDB/DimTab/Date.csv")
 
     # Randomly sample 2000 rows
     num_rows = 2000
@@ -77,7 +79,6 @@ def Sale_Gen(output_dir="Org1/data"):
     })
 
     sales.to_csv(f"{output_dir}/Sale_Private.csv", index=False)
-    CSV_converter(f"{output_dir}/Sale_Private.csv")
 
 def main():
     Product_Gen()

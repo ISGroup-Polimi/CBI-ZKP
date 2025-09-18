@@ -52,6 +52,8 @@ async def CLI_query():
 
     await op_prepare_query(selected_file) # MAIN2.py
 
+
+
 # This function:
 # - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
@@ -137,6 +139,7 @@ def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
 
     #print(f"Indices to remove for roll-up dim: {indices_to_remove}")
     return indices_to_remove
+
 
 def op_verify_proof():
     proof_folder = 'Shared/proof'

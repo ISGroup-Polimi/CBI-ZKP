@@ -158,10 +158,10 @@ def CSV_converter(path):
         "Total_Emissions": df["Total_Emissions"]
     })
 
-    # Ensure the "test" folder exists
-    os.makedirs("test", exist_ok=True)
+    # Ensure the "Org1/PrivateDB_Converted" folder exists
+    os.makedirs("Org1/PrivateDB_Converted", exist_ok=True)
     
     # filename + "_Converted.csv"
-    output_path = os.path.join("test", f"{os.path.splitext(csv_filename)[0]}_Converted.csv")
+    output_path = os.path.join("Org1/PrivateDB_Converted", f"{os.path.splitext(csv_filename)[0]}_Converted.csv")
     out_df.to_csv(output_path, index=False)
     print(f"Converted CSV saved as '{output_path}'")

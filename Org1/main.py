@@ -18,6 +18,8 @@ from Org1.operations.rollup_model import RollUpModel
 from Org1.models.olap_cube import OLAPCube
 from Org1.ezkl_workflow.generate_proof import generate_proof
 from Org1.data_generators.StarSchemeGenerator import main as star_scheme_main
+from Org1.Dim_ID_Converter import CSV_converter
+
 
 
 output_dir = os.path.join('Org1', 'output')
@@ -260,6 +262,32 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 
     return final_tensor, columns_to_remove_idx
 
+def convert_CSV():
+    db_folder = os.path.join("Org1", "PrivateDB")
+    files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
+
+    if not files:
+        print("No files found in Org1/PrivateDB folder.")
+        return
+    
+    print("\nSelect a file from Org1/PrivateDB to convert:")
+    for idx, fname in enumerate(files):
+        print(f"[{idx+1}] {fname}")
+    choice = input("Enter the number of the file to convert: ")
+    try:
+        idx = int(choice) - 1
+        if idx < 0 or idx >= len(files):
+            print("Invalid selection.")
+            return
+        selected_file = files[idx]
+    except ValueError:
+        print("Invalid input.")
+        return
+    
+    input_path = os.path.join(db_folder, selected_file)
+    
+    CSV_converter(input_path)
+
 
 async def main():
 
@@ -275,12 +303,11 @@ async def main():
             star_scheme_main()
             print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/data folder.")
 
-        elif sub_choice == "2":  # PUBLISH HASH
-            await CLI_publish_hash()
+        elif sub_choice == "2":  # CONVERT FILE
+            convert_CSV()
 
-        elif sub_choice == "3":  # UPDATE FILE
-            print("Update file functionality is not implemented yet.")
-            #CLI_update_file()
+        elif sub_choice == "3":  # PUBLISH HASH
+            await CLI_publish_hash()
 
         elif sub_choice == "0":
             print("Exiting.")
