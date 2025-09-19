@@ -61,7 +61,7 @@ def Sale_Gen(output_dir="Org1/PrivateDB"):
     dates = pd.read_csv("Org1/PrivateDB/DimTab/Date.csv")
 
     # Randomly sample 2000 rows
-    num_rows = 2000
+    num_rows = 500
     np.random.seed(1) # For reproducibility
 
     product_ids = np.random.choice(products["Product_Id"], num_rows)
