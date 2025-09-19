@@ -178,7 +178,7 @@ def show_result(final_tensor, columns_to_remove_idx):
     # filtered_columns = cube.df.columns[:final_df.shape[1]]
     
     # Remove columns of the slice
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     dim_index = DFM_representation["dim_index"]
     kept_columns = [col for col, idx in dim_index.items() if idx not in columns_to_remove_idx]
@@ -212,10 +212,14 @@ def show_result(final_tensor, columns_to_remove_idx):
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
     print("Query executed successfully.")
+
+
     
+
+
     """
     mod_selected_file = "mod_" + selected_file # mod = modified
-    csv_output_path = os.path.join('data', 'modified', mod_selected_file)
+    csv_output_path = os.path.join('Org', 'modified', mod_selected_file)
     os.makedirs(os.path.dirname(csv_output_path), exist_ok=True)
     final_df.to_csv(csv_output_path, index=False)
     print(f"Query result saved to {csv_output_path}")
