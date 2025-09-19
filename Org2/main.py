@@ -76,7 +76,7 @@ async def op_prepare_query(selected_file):
 
     try:
         final_tensor, columns_to_remove_idx = await op_perform_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
-        show_result(final_tensor, columns_to_remove_idx)
+        show_result(selected_file, final_tensor, columns_to_remove_idx)
     except Exception as e:
         print(f"Failed to perform query: {e}")
         return    
@@ -165,7 +165,7 @@ def op_verify_proof():
     except Exception as e:
         print(f"Proof verification failed: {e}")
 
-def show_result(final_tensor, columns_to_remove_idx):
+def show_result(selected_file, final_tensor, columns_to_remove_idx):
     # Print and save the final tensor after applying the OLAP operations in human-readable format
     # Remove rows from final_tensor that are all zeros
     non_zero_rows = ~torch.all(final_tensor == 0, dim=1)
@@ -213,7 +213,17 @@ def show_result(final_tensor, columns_to_remove_idx):
 
     print("Query executed successfully.")
 
+    # Save the final DataFrame as a CSV in Org2/Public
+    output_dir = os.path.join('Org2', 'PublicDB')
+    os.makedirs(output_dir, exist_ok=True)
 
+    # Change the file name from "Private_Converted.csv" to "Public.csv" if present
+    if selected_file.endswith("Private_Converted.csv"):
+        selected_file = selected_file.replace("Private_Converted.csv", "Public.csv")
+
+    output_path = os.path.join(output_dir, selected_file)
+    final_decoded_cube.to_csv(output_path, index=False)
+    print(f"Query result saved to {output_path}")
     
 
 
