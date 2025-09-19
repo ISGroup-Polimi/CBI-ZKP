@@ -128,8 +128,9 @@ def apply_olap_operations(cube, tensor_data, operations):
 #    }
 
 async def op_perform_query(selected_file_name, operations, columns_to_remove_idx):
-    
+    selected_file_name = selected_file_name.replace(".csv", "_Converted.csv")
     print(selected_file_name)
+    
     file_path = os.path.join('Org1', 'PrivateDB_converted', selected_file_name)
 
     df = pd.read_csv(file_path)
