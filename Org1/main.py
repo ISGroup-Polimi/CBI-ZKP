@@ -122,12 +122,15 @@ def apply_olap_operations(cube, tensor_data, operations):
     return result_tensor
 
 
-async def op_perform_query(selected_file, operations, columns_to_remove_idx):
-    decoded_operations = decode_operations(operations, columns_to_remove_idx)
+# operation example:    operations = {
+#        "Rollup": [["Clothes Type"], ["Date", "Month"]], 
+#        "Dicing": [{2: [0, 3]}]
+#    }
 
-    file_path = os.path.join('Org1', 'data', 'uploaded', selected_file)
+async def op_perform_query(selected_file_name, operations, columns_to_remove_idx):
+    
+    file_path = os.path.join('Org1', 'PrivateDB_converted', selected_file_name)
 
-    # dataframe is a bidimensional data structure with rows and columns
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
@@ -142,6 +145,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 
     #print(f"DataFrame after dropping NaN values: \n {df}") # categorical columns are already encoded as integers
     #print(f"OLAP cube: {cube}")
+
+    decoded_operations = decode_operations(operations, columns_to_remove_idx)
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, decoded_operations)
@@ -174,51 +179,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     # Run a validation check to ensure the model is well-formed and valid according to the ONNX specification
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
-    """
-    
-    graph = onnx_model.graph
-    
-    # Create a Flatten node to flatten the input tensor to 1D
-    flatten_node = helper.make_node(
-        'Flatten',                   # The ONNX operator type
-        inputs=['input'],            # List of input tensor names
-        outputs=['input_flat'],      # List of output tensor names (here: the tensor named "input_flat")
-        name='FlattenInput'          # (Optional) Name for this node in the graph
-    )
-    graph.node.append(flatten_node)   
 
-    print("test1")
-
-    
-    # Add the Poseidon node
-    poseidon_node = helper.make_node(
-        'Poseidon',
-        inputs=['input_flat'],
-        outputs=['poseidon_hash'],
-        name='PoseidonHash'
-    )
-    graph.node.append(poseidon_node)
-    
-
-    print("test2")
-
-    
-    # Add the hash as a model output
-    poseidon_output = helper.make_tensor_value_info(
-        'poseidon_hash',
-        TensorProto.INT64,  # or .FLOAT ? (to do)
-        [1]
-    )
-    graph.output.append(poseidon_output)
-    
-
-    onnx.checker.check_model(onnx_model)
-
-    # Save the modified model
-    onnx.save(onnx_model, model_onnx_path)
-
-    print("test3")
-    """
 
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(
@@ -260,7 +221,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     print("Poseidon hash (ezkl params):", hex(int(poseidon_digest)))
     """
 
-    return final_tensor, columns_to_remove_idx
+    return final_tensor
 
 def convert_CSV():
     db_folder = os.path.join("Org1", "PrivateDB")

@@ -48,16 +48,16 @@ async def CLI_query():
     
     print("\n")
     
-    selected_file = list(published_hashes.keys())[file_index]
+    selected_file_name = list(published_hashes.keys())[file_index] # selected_file_name is only the name of the file
 
-    await op_prepare_query(selected_file) # MAIN2.py
+    await op_prepare_query(selected_file_name) # MAIN2.py
 
 
 
 # This function:
 # - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
-async def op_prepare_query(selected_file): 
+async def op_prepare_query(selected_file_name): 
     # TO BE DONE
     #                   verify_dataset_hash(file_path) # HASH_UTILS.py
 
@@ -79,11 +79,13 @@ async def op_prepare_query(selected_file):
     print("Query is allowed. Proceeding with query execution...\n")
 
     try:
-        final_tensor, columns_to_remove_idx = await op_perform_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
+        final_tensor = await op_perform_query(selected_file_name, operations, columns_to_remove_idx) # MAIN ORG1.py
         show_result(final_tensor, columns_to_remove_idx)
     except Exception as e:
         print(f"Failed to perform query: {e}")
         return    
+    
+
 
 def get_query_dimensions(operations):
     columns_to_rollup_idx = []
@@ -94,7 +96,7 @@ def get_query_dimensions(operations):
     # Remove duplicates and sort the indices
     columns_to_rollup_idx = sorted(set(columns_to_rollup_idx))
 
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     columns = list(DFM_representation["dim_index"].keys())
     
@@ -113,7 +115,7 @@ def get_query_dimensions(operations):
 #   - if hierarchy_to_rollup = "Clothes Type" and dimensions_to_rollup = None -> it will return the indices of all dimensions in the hierarchy
 
 def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
 
     dim_hierarchy = DFM_representation["dim_hierarchy"]
@@ -172,8 +174,8 @@ def op_verify_proof():
     except Exception as e:
         print(f"Proof verification failed: {e}")
 
+# This function prints and saves the final tensor after applying the OLAP operations in human-readable format
 def show_result(final_tensor, columns_to_remove_idx):
-    # Print and save the final tensor after applying the OLAP operations in human-readable format
     # Remove rows from final_tensor that are all zeros
     non_zero_rows = ~torch.all(final_tensor == 0, dim=1)
     final_tensor = final_tensor[non_zero_rows] # after filtering
@@ -185,7 +187,7 @@ def show_result(final_tensor, columns_to_remove_idx):
     # filtered_columns = cube.df.columns[:final_df.shape[1]]
     
     # Remove columns of the slice
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     dim_index = DFM_representation["dim_index"]
     kept_columns = [col for col, idx in dim_index.items() if idx not in columns_to_remove_idx]
@@ -201,9 +203,11 @@ def show_result(final_tensor, columns_to_remove_idx):
         cat_map =  json.load(f)
     
         #print("Category mappings loaded")
+
     filtered_cat_map = {col: mapping for col, mapping in cat_map.items() if col in final_df.columns}
     #final_cube = OLAPCube(final_df, category_mappings=filtered_cat_map)
         #print("Final cube created")
+
     final_decoded_cube = decode_categorical_columns(final_df, filtered_cat_map)
     # "Year", "Month", "Day" convert to int
     for col in ["Year", "Month", "Day"]:
@@ -214,15 +218,15 @@ def show_result(final_tensor, columns_to_remove_idx):
     if "Total Emissions (kgCO2e)" in final_decoded_cube.columns:
         final_decoded_cube["Total Emissions (kgCO2e)"] = final_decoded_cube["Total Emissions (kgCO2e)"].round(1)
     # print the final decoded cube with 1 decimal place for floats
-    pd.set_option('display.float_format', '{:.1f}'.format)
+    pd.set_option('display.float_format', '{:.2f}'.format)
 
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
     print("Query executed successfully.")
     
     """
-    mod_selected_file = "mod_" + selected_file # mod = modified
-    csv_output_path = os.path.join('data', 'modified', mod_selected_file)
+    mod_selected_file_name = "mod_" + selected_file_name # mod = modified
+    csv_output_path = os.path.join('data', 'modified', mod_selected_file_name)
     os.makedirs(os.path.dirname(csv_output_path), exist_ok=True)
     final_df.to_csv(csv_output_path, index=False)
     print(f"Query result saved to {csv_output_path}")
@@ -230,7 +234,7 @@ def show_result(final_tensor, columns_to_remove_idx):
 
 # This function groups the rows after the roll-up operation (sum the emissions of rows with same dimensions)
 def group_rows (df):
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     
     # attritubes to sum ("Total Emissions (kgCO2e)")

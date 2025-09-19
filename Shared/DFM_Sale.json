@@ -1,7 +1,10 @@
 {
-    "dimensions": ["Product_Id", "Material_Id", "Date_Id"],
+    "dimensions_Sale": ["Product_Id", "Material_Id", "Date_Id"],
+    "dimensions": ["Product Name", "Category", "Material", "Year", "Month", "Day"],
+
     "attributes": ["Total Emissions (kgCO2e)"],
 
+    
     "materials": {
         "Cotton": 1,
         "Leather": 2,
