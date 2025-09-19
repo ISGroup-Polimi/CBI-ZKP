@@ -6,6 +6,9 @@ import pandas as pd
 import torch
 import onnx
 
+import poseidon
+import numpy as np
+
 from Org1.data_generators import CSV_Generator1
 from Org1.data_generators import CSV_Generator2
 from Org1.hash_utils import publish_hash
@@ -14,6 +17,9 @@ from Org1.operations.dicing_model import DicingModel
 from Org1.operations.rollup_model import RollUpModel
 from Org1.models.olap_cube import OLAPCube
 from Org1.ezkl_workflow.generate_proof import generate_proof
+from Org1.data_generators.StarSchemeGenerator import main as star_scheme_main
+from Org1.Dim_ID_Converter import CSV_converter
+
 
 
 output_dir = os.path.join('Org1', 'output')
@@ -33,7 +39,9 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
+""""
 def op_generate_file():
+
     print("\nSelect a generator to use:")
     print("[1] Generator 1")
     print("[2] Generator 2")
@@ -53,25 +61,22 @@ def op_generate_file():
     #file_path = os.path.join("Org1", 'data', 'uploaded', output_file)
     
     #update_metadata(file_path)
+"""
 
-def CLI_publish_hash():
-    # Make the user select a file to publish with CLI in data/uploaded directory
-    uploaded_files_dir = os.path.join('Org1', 'data', 'uploaded')
-    files = os.listdir(uploaded_files_dir)
-    if not files:
-        print("\nNo files available in the uploaded directory.")
+async def CLI_publish_hash():
+    # Try to open "Sale_Private.csv" from Org1/data; if it doesn't exist, show an error and return
+    sale_file_path = os.path.join('Org1', 'PrivateDB', 'Sale_Private.csv')
+    if os.path.exists(sale_file_path):
+        file_path = sale_file_path
+        files = ['Sale_Private.csv']
+        file_index = 0
+        print('\nAutomatically opened "Sale_Private.csv" from the Org1/PrivateDB folder.')
+    else:
+        print('\nError: "Sale_Private.csv" not found in the Org1/PrivateDB folder.')
         return
-    print("\nAvailable files:")
-    for idx, file in enumerate(files):
-        print(f"[{idx + 1}] {file}")
-    file_index = int(input("Select a file to publish by index: ")) - 1
-    if file_index < 0 or file_index >= len(files):
-        print("Invalid index selected.")
-        return
-    file_path = os.path.join(uploaded_files_dir, files[file_index])
 
     print("\n")
-    hash = op_publish_hash(file_path) # MAIN.py
+    hash = await op_publish_hash(file_path) # MAIN.py
 
     # Save the hash in "published_hash.json" to share it with the customer
     published_hash_path = os.path.join('Shared', 'published_hash.json')
@@ -93,8 +98,8 @@ def CLI_publish_hash():
 
     print(f"Hash for {files[file_index]} published successfully.")
 
-def op_publish_hash(file_path):
-    return publish_hash(file_path) # HASH_UTILS.py
+async def op_publish_hash(file_path):
+    return await publish_hash(file_path) # HASH_UTILS.py
 
 def decode_operations(operations, columns_to_remove_idx):
     decoded_ops = []
@@ -117,12 +122,17 @@ def apply_olap_operations(cube, tensor_data, operations):
     return result_tensor
 
 
-async def op_perform_query(selected_file, operations, columns_to_remove_idx):
-    decoded_operations = decode_operations(operations, columns_to_remove_idx)
+# operation example:    operations = {
+#        "Rollup": [["Clothes Type"], ["Date", "Month"]], 
+#        "Dicing": [{2: [0, 3]}]
+#    }
 
-    file_path = os.path.join('Org1', 'data', 'uploaded', selected_file)
+async def op_perform_query(selected_file_name, operations, columns_to_remove_idx):
+    selected_file_name = selected_file_name.replace(".csv", "_Converted.csv")
+    print(selected_file_name)
 
-    # dataframe is a bidimensional data structure with rows and columns
+    file_path = os.path.join('Org1', 'PrivateDB_Converted', selected_file_name)
+
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
@@ -137,6 +147,8 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
 
     #print(f"DataFrame after dropping NaN values: \n {df}") # categorical columns are already encoded as integers
     #print(f"OLAP cube: {cube}")
+
+    decoded_operations = decode_operations(operations, columns_to_remove_idx)
 
     # Apply the operations to the tensor data 
     final_tensor = apply_olap_operations(cube, tensor_data, decoded_operations)
@@ -170,6 +182,7 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
     onnx.checker.check_model(onnx_model)
     # print(onnx.helper.printable_graph(onnx_model.graph))
 
+
     # Prepare the input (input shape, input data, output data) for the proof generation in a dictionary format
     data = dict(
         input_shapes=[tensor_data.shape], # shape = how many elements along each axis
@@ -182,9 +195,61 @@ async def op_perform_query(selected_file, operations, columns_to_remove_idx):
         json.dump(data, f) # serialize the data dictionary to a JSON file
 
     #await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
+    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
 
-    return final_tensor, columns_to_remove_idx
+    """
+    # Load input as ezkl would see it
+    with open(input_json_path, "r") as f:
+        data = json.load(f)
+    flat_input = np.array(data["input_data"]).flatten()
+
+    # Apply ezkl scaling
+    input_scale = 7  # set this to match your ezkl settings.json
+    scale = 2 ** input_scale
+    field_inputs = [int(round(x * scale)) for x in flat_input]
+
+    # Use only the first two elements (as ezkl does for t=3)
+    field_inputs = field_inputs[:2]
+
+    # Poseidon parameters
+    prime = poseidon.parameters.prime_254
+    security_level = 128
+    alpha = 5
+    input_rate = 2
+    t = 3
+
+    poseidon_hasher = poseidon.Poseidon(prime, security_level, alpha, input_rate, t)
+    poseidon_digest = poseidon_hasher.run_hash(field_inputs)
+    print("Poseidon hash (ezkl params):", hex(int(poseidon_digest)))
+    """
+
+    return final_tensor
+
+def convert_CSV():
+    db_folder = os.path.join("Org1", "PrivateDB")
+    files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
+
+    if not files:
+        print("No files found in Org1/PrivateDB folder.")
+        return
+    
+    print("\nSelect a file from Org1/PrivateDB to convert:")
+    for idx, fname in enumerate(files):
+        print(f"[{idx+1}] {fname}")
+    choice = input("Enter the number of the file to convert: ")
+    try:
+        idx = int(choice) - 1
+        if idx < 0 or idx >= len(files):
+            print("Invalid selection.")
+            return
+        selected_file = files[idx]
+    except ValueError:
+        print("Invalid input.")
+        return
+    
+    input_path = os.path.join(db_folder, selected_file)
+    
+    CSV_converter(input_path)
 
 
 async def main():
@@ -192,20 +257,20 @@ async def main():
     while True:
         print("\n\nORG 1 (data provider) select an option:")
         print("[1] Upload (Generate) File")
-        print("[2] Publish Hash")
-        print("[3] Update file")
+        print("[2] Convert File")
+        print("[3] Publish Hash")
         print("[0] Exit")
         sub_choice = input("Enter your choice (1, 2, 3, or 0): ")
 
         if sub_choice == "1":  # UPLOAD FILE
-            op_generate_file()
+            star_scheme_main()
+            print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/PrivateDB folder.")
 
-        elif sub_choice == "2":  # PUBLISH HASH
-            CLI_publish_hash()
+        elif sub_choice == "2":  # CONVERT FILE
+            convert_CSV()
 
-        elif sub_choice == "3":  # UPDATE FILE
-            print("Update file functionality is not implemented yet.")
-            #CLI_update_file()
+        elif sub_choice == "3":  # PUBLISH HASH
+            await CLI_publish_hash()
 
         elif sub_choice == "0":
             print("Exiting.")

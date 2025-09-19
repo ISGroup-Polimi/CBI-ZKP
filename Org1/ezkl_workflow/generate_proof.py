@@ -1,8 +1,13 @@
 import os
 os.environ["RUST_LOG"] = "trace" # !RUST_LOG=trace
 import json
-from ezkl import ezkl
 import asyncio
+import sys
+import ezkl
+import numpy as np
+
+#print("EZKL module path:", ezkl.__file__)
+#print("EZKL dir:", dir(ezkl))
 
 async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     # input_json_path for a file with: input shape, input data, output data
@@ -11,12 +16,36 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     settings_filename = os.path.join('Shared', 'proof', 'settings.json')
     os.makedirs(os.path.dirname(settings_filename), exist_ok=True)
     compiled_filename = os.path.join(output_dir, 'circuit.compiled')
+
+
+    run_args = ezkl.PyRunArgs()
+    run_args.input_visibility = "hashed/public"
+
     
     # ezkl.gen_settings() -> Generate a settings file analyzing the ONNX model, to create the zero-knowledge proof circuit
     # The file contains all the necessary configuration parameters (like input/output shapes, precision, and circuit options)
-    res = ezkl.gen_settings(model_onnx_path, settings_filename)
+    res = ezkl.gen_settings(model_onnx_path, settings_filename, py_run_args=run_args)
     assert res == True # file successfully generated
     print(f"EZKL Generate settings: {res}")
+    
+
+    print("C")
+    
+    """
+    # Update settings to use Hashed input visibility
+    # Hash the input(s) with the Poseidon hash function inside the zero-knowledge circuit
+    # ezkl hash the input usign Poseidon hash function, 
+    #   and the hash will be included as a public value in the proof and witness.json
+    with open(settings_filename, "r") as f:
+        settings = json.load(f)
+    settings["run_args"]["input_visibility"] = "Hashed"
+    with open(settings_filename, "w") as f:
+        json.dump(settings, f, indent=4)
+
+    with open(settings_filename, "r") as f:
+        print("DEBUG settings.json:\n", f.read())
+    """
+    
 
     # SRS (Structured Reference System) is a set of cryptographic parameters used in zk-SNARKs to generate and verify proofs
     # cd ~/.ezkl/srs/
@@ -76,6 +105,35 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
             print("EZKL Proof Generation successful")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+    witness_path = os.path.join(output_dir, "witness.json")
+    with open(witness_path, "r") as f:
+        witness = json.load(f)
+    poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
+    print("Poseidon hash of input:", poseidon_hash)
+    # c04e340188a01675d8e8864e6d073b68ab0200b16d9afe130116d4827a7bd62f
+    
+    # t = 3 (input rate)
+    # M = 128 (security level)
+    # p = 21888242871839275222246405745257275088548364400416034343698204186575808495617
+    # alpha = 5
+    """
+    # Print the Poseidon hash of the input data
+    witness_path = os.path.join(output_dir, "witness.json")
+    with open(witness_path, "r") as f:
+        witness = json.load(f)
+
+    poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
+    print("Poseidon hash of input:", poseidon_hash)
+
+    # Save the Poseidon hash to Shared/proof/pos_hash.json if it does not exist
+    pos_hash_path = os.path.join('Shared', 'proof', "pos_hash.json")
+    os.makedirs(os.path.dirname(pos_hash_path), exist_ok=True)
+    if not os.path.exists(pos_hash_path):
+        with open(pos_hash_path, "w") as f:
+            json.dump({"poseidon_hash": poseidon_hash}, f, indent=4)
+    """
+
 
     
 if __name__ == "__main__":
