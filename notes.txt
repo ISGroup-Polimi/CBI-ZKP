@@ -39,3 +39,6 @@ Add swap (sort of virtual memory)
 git fetch origin
 git reset --hard origin/"branch-name"
 git clean -fd
+
+See which size of files to push
+git ls-files --stage | awk '{print $4}' | xargs -I{} du -h {} | sort -hr
