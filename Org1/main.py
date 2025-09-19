@@ -65,14 +65,14 @@ def op_generate_file():
 
 async def CLI_publish_hash():
     # Try to open "Sale_Private.csv" from Org1/data; if it doesn't exist, show an error and return
-    sale_file_path = os.path.join('Org1', 'data', 'Sale_Private.csv')
+    sale_file_path = os.path.join('Org1', 'PrivateDB', 'Sale_Private.csv')
     if os.path.exists(sale_file_path):
         file_path = sale_file_path
         files = ['Sale_Private.csv']
         file_index = 0
-        print('\nAutomatically opened "Sale_Private.csv" from the Org1/data folder.')
+        print('\nAutomatically opened "Sale_Private.csv" from the Org1/PrivateDB folder.')
     else:
-        print('\nError: "Sale_Private.csv" not found in the Org1/data folder.')
+        print('\nError: "Sale_Private.csv" not found in the Org1/PrivateDB folder.')
         return
 
     print("\n")
@@ -129,6 +129,7 @@ def apply_olap_operations(cube, tensor_data, operations):
 
 async def op_perform_query(selected_file_name, operations, columns_to_remove_idx):
     
+    print(selected_file_name)
     file_path = os.path.join('Org1', 'PrivateDB_converted', selected_file_name)
 
     df = pd.read_csv(file_path)
@@ -262,7 +263,7 @@ async def main():
 
         if sub_choice == "1":  # UPLOAD FILE
             star_scheme_main()
-            print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/data folder.")
+            print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/PrivateDB folder.")
 
         elif sub_choice == "2":  # CONVERT FILE
             convert_CSV()
