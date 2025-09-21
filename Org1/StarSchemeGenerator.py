@@ -82,7 +82,9 @@ def sale_Gen():
     # ISO format: YYYY-MM-DD HH:MM:SS.mmmmmm
     # ts = datetime.now().isoformat()
     # YYYY-MM-DD HH:MM:SS.sss
-    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    # ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    ts = int(datetime.now().timestamp() * 1000)
+
 
     sales = pd.DataFrame({
         "Product_Id": product_ids,

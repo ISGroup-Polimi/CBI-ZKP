@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 
 git add .
-git commit -m "Commit message"
+git commit -m "Show results"
 git push 
 git checkout "branch-name"
 
