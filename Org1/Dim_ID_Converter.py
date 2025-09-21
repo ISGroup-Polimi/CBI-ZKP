@@ -137,7 +137,7 @@ def CSV_converter(path):
     df = pd.read_csv(path)
 
     csv_filename = os.path.basename(path)
-    print(f"Converting file: {csv_filename}")
+    print(f"\nConverting file: {csv_filename}")
 
     product_names = get_products_from_ids(df["Product_Id"])
     categories = get_categories_from_ids(df["Product_Id"])
