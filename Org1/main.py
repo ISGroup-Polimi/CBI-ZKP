@@ -49,14 +49,11 @@ async def CLI_publish_hash():
         return
 
     print("\n")
-    hash = await op_publish_hash(file_path) # MAIN.py
+    hash = await publish_hash(file_path) # HASH_UTILS.py
 
     share_file(files, file_index, hash) # MAIN.py
 
     print(f"Hash for {files[file_index]} published successfully.")
-
-async def op_publish_hash(file_path):
-    return await publish_hash(file_path) # HASH_UTILS.py
 
 # Share file = publish file name and hash in published_hash.json
 def share_file(files, file_index, hash):

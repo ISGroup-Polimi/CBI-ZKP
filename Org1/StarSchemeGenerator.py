@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
+from datetime import datetime
 
 from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
@@ -60,7 +61,7 @@ def Sale_Gen(output_dir="Org1/PR_DB"):
     materials = pd.read_csv("Org1/PR_DB/DimTab/Material.csv")
     dates = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
 
-    # Randomly sample 2000 rows
+    # Randomly sample 500 rows
     num_rows = 500
     np.random.seed(1) # For reproducibility
 
@@ -71,11 +72,15 @@ def Sale_Gen(output_dir="Org1/PR_DB"):
     # Generate random emissions (between 1 and 100, 2 decimals)
     emissions = np.random.uniform(1, 100, num_rows).round(2)
 
+    # Add timestamp column
+    ts = datetime.now().isoformat()
+
     sales = pd.DataFrame({
         "Product_Id": product_ids,
         "Material_Id": material_ids,
         "Date_Id": date_ids,
-        "Total_Emissions": emissions
+        "Total_Emissions": emissions,
+        "TS": ts
     })
 
     sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)

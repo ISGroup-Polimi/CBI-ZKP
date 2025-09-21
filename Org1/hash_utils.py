@@ -158,13 +158,11 @@ async def publish_hash(file_path):
         calculated_hash = calculated_hash[0]
     if not calculated_hash.startswith("0x"):
         calculated_hash = "0x" + calculated_hash
-    
 
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     print("Poseidon hash PUBLISHED:", calculated_hash)
     print("Poseidon hash PUBLISHED bytes32:", bytes32_hash)
-    
 
 
     web3 = setup_web3()
