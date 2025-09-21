@@ -213,13 +213,13 @@ def show_result(selected_file, final_tensor, columns_to_remove_idx):
 
     print("Query executed successfully.")
 
-    # Save the final DataFrame as a CSV in Org2/Public
-    output_dir = os.path.join('Org2', 'PublicDB')
+    # Save the final DataFrame as a CSV in Org2/PUB
+    output_dir = os.path.join('Org2', 'PUB_DB')
     os.makedirs(output_dir, exist_ok=True)
 
-    # Change the file name from "Private_Converted.csv" to "Public.csv" if present
-    if selected_file.endswith("Private_Converted.csv"):
-        selected_file = selected_file.replace("Private_Converted.csv", "Public.csv")
+    # Change the file name from "PR_C.csv" to "PB.csv" if present
+    if selected_file.endswith("PR_C.csv"):
+        selected_file = selected_file.replace("PR_C.csv", "PB.csv")
 
     output_path = os.path.join(output_dir, selected_file)
     final_decoded_cube.to_csv(output_path, index=False)

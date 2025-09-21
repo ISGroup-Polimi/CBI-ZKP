@@ -4,9 +4,9 @@ import numpy as np
 
 from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
-os.makedirs("Org1/PrivateDB/DimTab", exist_ok=True)
+os.makedirs("Org1/PR_DB/DimTab", exist_ok=True)
 
-def Product_Gen(output_dir="Org1/PrivateDB/DimTab"):
+def Product_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Define 4 products for each of the 3 categories
     products = [
         # Shoes
@@ -29,7 +29,7 @@ def Product_Gen(output_dir="Org1/PrivateDB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     Products.to_csv(f"{output_dir}/Products.csv", index=False)
 
-def Material_Gen(output_dir="Org1/PrivateDB/DimTab"):
+def Material_Gen(output_dir="Org1/PR_DB/DimTab"):
     materials = [
         {"Material_Id": 1, "Material_Name": "Cotton"},
         {"Material_Id": 2, "Material_Name": "Leather"},
@@ -40,7 +40,7 @@ def Material_Gen(output_dir="Org1/PrivateDB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     Material.to_csv(f"{output_dir}/Material.csv", index=False)
 
-def Date_Gen(output_dir="Org1/PrivateDB/DimTab"):
+def Date_Gen(output_dir="Org1/PR_DB/DimTab"):
 
     # Generate date range
     dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
@@ -53,12 +53,12 @@ def Date_Gen(output_dir="Org1/PrivateDB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(f"{output_dir}/Date.csv", index=False)
 
-def Sale_Gen(output_dir="Org1/PrivateDB"):
+def Sale_Gen(output_dir="Org1/PR_DB"):
 
     # Load existing tables
-    products = pd.read_csv("Org1/PrivateDB/DimTab/Products.csv")
-    materials = pd.read_csv("Org1/PrivateDB/DimTab/Material.csv")
-    dates = pd.read_csv("Org1/PrivateDB/DimTab/Date.csv")
+    products = pd.read_csv("Org1/PR_DB/DimTab/Products.csv")
+    materials = pd.read_csv("Org1/PR_DB/DimTab/Material.csv")
+    dates = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
 
     # Randomly sample 2000 rows
     num_rows = 500
@@ -78,7 +78,9 @@ def Sale_Gen(output_dir="Org1/PrivateDB"):
         "Total_Emissions": emissions
     })
 
-    sales.to_csv(f"{output_dir}/Sale_Private.csv", index=False)
+    sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)
+
+    print("File generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 
 def main():
     Product_Gen()

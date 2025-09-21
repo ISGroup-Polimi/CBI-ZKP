@@ -64,15 +64,15 @@ def op_generate_file():
 """
 
 async def CLI_publish_hash():
-    # Try to open "Sale_Private.csv" from Org1/data; if it doesn't exist, show an error and return
-    sale_file_path = os.path.join('Org1', 'PrivateDB', 'Sale_Private.csv')
+    # Try to open "Sale_PR.csv" from Org1/data; if it doesn't exist, show an error and return
+    sale_file_path = os.path.join('Org1', 'PR_DB', 'Sale_PR.csv')
     if os.path.exists(sale_file_path):
         file_path = sale_file_path
-        files = ['Sale_Private.csv']
+        files = ['Sale_PR.csv']
         file_index = 0
-        print('\nAutomatically opened "Sale_Private.csv" from the Org1/PrivateDB folder.')
+        print('\nAutomatically opened "Sale_PR.csv" from the Org1/PR_DB folder.')
     else:
-        print('\nError: "Sale_Private.csv" not found in the Org1/PrivateDB folder.')
+        print('\nError: "Sale_PR.csv" not found in the Org1/PR_DB folder.')
         return
 
     print("\n")
@@ -128,10 +128,10 @@ def apply_olap_operations(cube, tensor_data, operations):
 #    }
 
 async def op_perform_query(selected_file_name, operations, columns_to_remove_idx):
-    selected_file_name = selected_file_name.replace(".csv", "_Converted.csv")
+    selected_file_name = selected_file_name.replace(".csv", "_C.csv")
     print(selected_file_name)
 
-    file_path = os.path.join('Org1', 'PrivateDB_Converted', selected_file_name)
+    file_path = os.path.join('Org1', 'PR_DB_C', selected_file_name)
 
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
@@ -226,14 +226,14 @@ async def op_perform_query(selected_file_name, operations, columns_to_remove_idx
     return final_tensor
 
 def convert_CSV():
-    db_folder = os.path.join("Org1", "PrivateDB")
+    db_folder = os.path.join("Org1", "PR_DB")
     files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
 
     if not files:
-        print("No files found in Org1/PrivateDB folder.")
+        print("No files found in Org1/PR_DB folder.")
         return
-    
-    print("\nSelect a file from Org1/PrivateDB to convert:")
+
+    print("\nSelect a file from Org1/PR_DB to convert:")
     for idx, fname in enumerate(files):
         print(f"[{idx+1}] {fname}")
     choice = input("Enter the number of the file to convert: ")
@@ -256,7 +256,7 @@ async def main():
 
     while True:
         print("\n\nORG 1 (data provider) select an option:")
-        print("[1] Upload (Generate) File")
+        print("[1] Generate File")
         print("[2] Convert File")
         print("[3] Publish Hash")
         print("[0] Exit")
@@ -264,7 +264,6 @@ async def main():
 
         if sub_choice == "1":  # UPLOAD FILE
             star_scheme_main()
-            print("File generated using StarSchemeGenerator and saved as 'Sale_Private.csv' in Org1/PrivateDB folder.")
 
         elif sub_choice == "2":  # CONVERT FILE
             convert_CSV()

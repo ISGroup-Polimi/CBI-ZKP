@@ -1,8 +1,7 @@
-git checkout -- config/contract_addresses.json
-git checkout -b separated-projects origin/separated-projects
-???
+PR = Private
+PUB = Public
+C = Converted
 
-git clean -fd
 
 source .venv/bin/activate
 deactivate
@@ -40,5 +39,10 @@ git fetch origin
 git reset --hard origin/"branch-name"
 git clean -fd
 
-See which size of files to push
+See which is the size of files to push
 git ls-files --stage | awk '{print $4}' | xargs -I{} du -h {} | sort -hr
+
+files/folder to delete
+- Org1/data 
+- CSV_Generator1
+- CSV_Generator2
