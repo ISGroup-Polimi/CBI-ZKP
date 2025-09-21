@@ -4,6 +4,7 @@ import json
 import sys
 
 from Org1.StarSchemeGenerator import main as star_scheme_main
+from Org1.StarSchemeGenerator import sale_update as sale_update
 from Org1.Dim_ID_Converter import CSV_converter
 from Org1.hash_utils import publish_hash
 
@@ -101,6 +102,32 @@ def CLI_convert_CSV():
     
     CSV_converter(input_path)
 
+def CLI_update_file():
+    db_folder = os.path.join("Org1", "PR_DB")
+    files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
+
+    if not files:
+        print("No files found in Org1/PR_DB folder.")
+        return
+
+    print("\nSelect a file from Org1/PR_DB to update:")
+    for idx, fname in enumerate(files):
+        print(f"[{idx+1}] {fname}")
+    choice = input("Enter the number of the file to update: ")
+    try:
+        idx = int(choice) - 1
+        if idx < 0 or idx >= len(files):
+            print("Invalid selection.")
+            return
+        selected_file = files[idx]
+        print(f"You selected: {selected_file}")
+    except ValueError:
+        print("Invalid input.")
+        return
+    
+    sale_update(selected_file)
+
+
 
 async def main():
 
@@ -117,7 +144,7 @@ async def main():
             star_scheme_main()
 
         elif sub_choice == "2":  # UPDATE FILE
-            print("TO DO")
+            CLI_update_file()
 
         elif sub_choice == "3":  # CONVERT FILE
             CLI_convert_CSV()

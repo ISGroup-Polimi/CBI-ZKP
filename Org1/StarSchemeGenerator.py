@@ -1,13 +1,18 @@
+# Star Schema Generator
+
 import pandas as pd
 import os
 import numpy as np
 from datetime import datetime
+import re
 
 from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
 os.makedirs("Org1/PR_DB/DimTab", exist_ok=True)
 
-def Product_Gen(output_dir="Org1/PR_DB/DimTab"):
+SALE_COUNTER = 0
+
+def product_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Define 4 products for each of the 3 categories
     products = [
         # Shoes
@@ -30,7 +35,7 @@ def Product_Gen(output_dir="Org1/PR_DB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     Products.to_csv(f"{output_dir}/Products.csv", index=False)
 
-def Material_Gen(output_dir="Org1/PR_DB/DimTab"):
+def material_Gen(output_dir="Org1/PR_DB/DimTab"):
     materials = [
         {"Material_Id": 1, "Material_Name": "Cotton"},
         {"Material_Id": 2, "Material_Name": "Leather"},
@@ -41,7 +46,7 @@ def Material_Gen(output_dir="Org1/PR_DB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     Material.to_csv(f"{output_dir}/Material.csv", index=False)
 
-def Date_Gen(output_dir="Org1/PR_DB/DimTab"):
+def date_Gen(output_dir="Org1/PR_DB/DimTab"):
 
     # Generate date range
     dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
@@ -54,7 +59,9 @@ def Date_Gen(output_dir="Org1/PR_DB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(f"{output_dir}/Date.csv", index=False)
 
-def Sale_Gen(output_dir="Org1/PR_DB"):
+def sale_Gen():
+    global SALE_COUNTER
+    SALE_COUNTER = 1
 
     # Load existing tables
     products = pd.read_csv("Org1/PR_DB/DimTab/Products.csv")
@@ -74,8 +81,8 @@ def Sale_Gen(output_dir="Org1/PR_DB"):
 
     # Add timestamp column
     # ISO format: YYYY-MM-DD HH:MM:SS.mmmmmm
-    #ts = datetime.now().isoformat()
-    # 
+    # ts = datetime.now().isoformat()
+    # YYYY-MM-DD HH:MM:SS.sss
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
 
     sales = pd.DataFrame({
@@ -86,15 +93,65 @@ def Sale_Gen(output_dir="Org1/PR_DB"):
         "TS": ts
     })
 
+    output_dir="Org1/PR_DB"
     sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)
 
     print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 
+def sale_update(selected_file):
+    global SALE_COUNTER
+    SALE_COUNTER += 1
+
+    # Load existing tables
+    products = pd.read_csv("Org1/PR_DB/DimTab/Products.csv")
+    materials = pd.read_csv("Org1/PR_DB/DimTab/Material.csv")
+    dates = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
+
+    # Randomly sample 100 rows
+    num_rows = 100
+    np.random.seed(SALE_COUNTER) # For reproducibility
+
+    product_ids = np.random.choice(products["Product_Id"], num_rows)
+    material_ids = np.random.choice(materials["Material_Id"], num_rows)
+    date_ids = np.random.choice(dates["Date_Id"], num_rows)
+
+    # Generate random emissions (between 1 and 100, 2 decimals)
+    emissions = np.random.uniform(1, 100, num_rows).round(2)
+
+    # Add timestamp column
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+
+    new_sales = pd.DataFrame({
+        "Product_Id": product_ids,
+        "Material_Id": material_ids,
+        "Date_Id": date_ids,
+        "Total_Emissions": emissions,
+        "TS": ts
+    })
+
+    # Read the selected file and append new rows
+    existing_sales = pd.read_csv(selected_file)
+    updated_sales = pd.concat([existing_sales, new_sales], ignore_index=True)
+
+    # Save to a new file in PR_DB_C with SALE_COUNTER in the filename
+    output_dir = "Org1/PR_DB_C"
+    os.makedirs(output_dir, exist_ok=True)
+    base_name = os.path.basename(selected_file)
+    
+    # Remove trailing _<number> before extension, if present
+    base_name_no_num = re.sub(r'(_\d+)?(\.csv)$', '', base_name)
+    new_file_name = f"{base_name_no_num}_{SALE_COUNTER}.csv"
+    output_file = os.path.join(output_dir, new_file_name)
+    updated_sales.to_csv(output_file, index=False)
+
+    print(f"\n'{selected_file}' was updated and saved in '{output_file}'.")
+
+
 def main():
-    Product_Gen()
-    Material_Gen()
-    Date_Gen()
-    Sale_Gen()
+    product_Gen()
+    material_Gen()
+    date_Gen()
+    sale_Gen()
     
 
 if __name__ == "__main__":
