@@ -73,7 +73,10 @@ def Sale_Gen(output_dir="Org1/PR_DB"):
     emissions = np.random.uniform(1, 100, num_rows).round(2)
 
     # Add timestamp column
-    ts = datetime.now().isoformat()
+    # ISO format: YYYY-MM-DD HH:MM:SS.mmmmmm
+    #ts = datetime.now().isoformat()
+    # 
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
 
     sales = pd.DataFrame({
         "Product_Id": product_ids,
