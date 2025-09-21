@@ -5,7 +5,7 @@ import sys
 
 from Org1.StarSchemeGenerator import main as star_scheme_main
 from Org1.Dim_ID_Converter import CSV_converter
-
+from Org1.hash_utils import publish_hash
 
 
 output_dir = os.path.join('Org1', 'output')
