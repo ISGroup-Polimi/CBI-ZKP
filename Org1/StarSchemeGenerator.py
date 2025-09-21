@@ -93,9 +93,9 @@ def sale_Gen():
     })
 
     output_dir="Org1/PR_DB"
-    sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)
+    sales.to_csv(f"{output_dir}/Sale_PR_0.csv", index=False)
 
-    print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
+    print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR_0.csv' in Org1/PR_DB folder.")
 
 def sale_update(selected_file):
     global SALE_COUNTER

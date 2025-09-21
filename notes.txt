@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 git add .
 git commit -m "Commit message"
-git push origin "branch name"
+git push 
 git checkout "branch-name"
 
 Add swap (sort of virtual memory)
