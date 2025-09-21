@@ -134,7 +134,7 @@ def sale_update(selected_file):
     updated_sales = pd.concat([existing_sales, new_sales], ignore_index=True)
 
     # Save to a new file in PR_DB_C with SALE_COUNTER in the filename
-    output_dir = "Org1/PR_DB_C"
+    output_dir = "Org1/PR_DB"
     os.makedirs(output_dir, exist_ok=True)
     base_name = os.path.basename(selected_file)
     
