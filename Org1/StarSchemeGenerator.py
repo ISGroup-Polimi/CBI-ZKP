@@ -47,7 +47,6 @@ def material_Gen(output_dir="Org1/PR_DB/DimTab"):
     Material.to_csv(f"{output_dir}/Material.csv", index=False)
 
 def date_Gen(output_dir="Org1/PR_DB/DimTab"):
-
     # Generate date range
     dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
     df = pd.DataFrame({
@@ -61,7 +60,7 @@ def date_Gen(output_dir="Org1/PR_DB/DimTab"):
 
 def sale_Gen():
     global SALE_COUNTER
-    SALE_COUNTER = 1
+    SALE_COUNTER = 0
 
     # Load existing tables
     products = pd.read_csv("Org1/PR_DB/DimTab/Products.csv")
