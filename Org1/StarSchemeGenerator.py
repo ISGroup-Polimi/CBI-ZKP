@@ -120,8 +120,8 @@ def sale_update(selected_file):
     emissions = np.random.uniform(1, 100, num_rows).round(2)
 
     # Add timestamp column
-    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-
+    ts = int(datetime.now().timestamp() * 1000)
+    
     new_sales = pd.DataFrame({
         "Product_Id": product_ids,
         "Material_Id": material_ids,
