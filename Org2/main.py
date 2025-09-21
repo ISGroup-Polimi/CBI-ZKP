@@ -7,7 +7,7 @@ import torch
 import pandas as pd
 
 from Org2.hash_utils import verify_query_allowed
-from Org1.main import op_perform_query
+from Org1.execute_query import op_execute_query
 
 def load_contract_address(contract_name):
     # Load the contract address from the configuration file
@@ -52,7 +52,7 @@ async def CLI_query():
     await op_prepare_query(selected_file) # MAIN2.py
 
 # This function:
-# - verifies if the hash of the dataset do perform the query is the same as the one published on the blockchain
+# - verifies if the hash of the dataset do execute the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
 async def op_prepare_query(selected_file): 
     # TO BE DONE
@@ -75,10 +75,10 @@ async def op_prepare_query(selected_file):
     print("Query is allowed. Proceeding with query execution...\n")
 
     try:
-        final_tensor = await op_perform_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
+        final_tensor = await op_execute_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
         show_result(selected_file, final_tensor, columns_to_remove_idx)
     except Exception as e:
-        print(f"Failed to perform query: {e}")
+        print(f"Failed to execute query: {e}")
         return    
 
 def get_query_dimensions(operations):
@@ -277,7 +277,7 @@ async def main():
             try:
                 await CLI_query()
             except Exception as e:
-                print(f"Failed to perform query: {e}")
+                print(f"Failed to execute query: {e}")
 
         elif sub_choice == "2":  # VERIFY PROOF
             try:
