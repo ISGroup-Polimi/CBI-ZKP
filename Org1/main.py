@@ -125,7 +125,9 @@ def CLI_update_file():
         print("Invalid input.")
         return
     
-    sale_update(selected_file)
+    file_path = os.path.join(db_folder, selected_file)
+
+    sale_update(file_path)
 
 
 
