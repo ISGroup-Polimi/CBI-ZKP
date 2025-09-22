@@ -162,6 +162,6 @@ def CSV_converter(path):
     os.makedirs("Org1/PR_DB_C", exist_ok=True)
 
     # filename + "_C.csv"
-    output_path = os.path.join("Org1/PR_DB_C", f"{os.path.splitext(csv_filename)[0]}_C.csv")
+    output_path = os.path.join("Org1/PR_DB_C", f"{os.path.splitext(csv_filename)[0]}_C.csv") # Sale_PR_C.csv
     out_df.to_csv(output_path, index=False)
     print(f"Converted CSV saved as '{output_path}'")

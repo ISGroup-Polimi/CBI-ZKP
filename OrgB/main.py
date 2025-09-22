@@ -6,7 +6,7 @@ from ezkl import ezkl
 import torch
 import pandas as pd
 
-from Org2.hash_utils import verify_query_allowed
+from OrgB.hash_utils import verify_query_allowed
 from Org1.execute_query import op_execute_query
 
 def load_contract_address(contract_name):
@@ -56,7 +56,7 @@ async def CLI_query():
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
 async def op_prepare_query(selected_file): 
     # TO BE DONE
-    #                   verify_dataset_hash(file_path) # HASH_UTILS.py
+    #                   verify_dataset_hash(file_path, timestamp) # HASH_UTILS.py
 
     # Define the OLAP operations to apply
     operations = {
@@ -213,8 +213,8 @@ def show_result(selected_file, final_tensor, columns_to_remove_idx):
 
     print("Query executed successfully.")
 
-    # Save the final DataFrame as a CSV in Org2/PUB
-    output_dir = os.path.join('Org2', 'PUB_DB')
+    # Save the final DataFrame as a CSV in OrgB/PUB
+    output_dir = os.path.join('OrgB', 'PUB_DB')
     os.makedirs(output_dir, exist_ok=True)
 
     # Change the file name from "PR_C.csv" to "PB.csv" if present
@@ -267,7 +267,7 @@ def decode_categorical_columns(final_df, filtered_cat_map):
 async def main():
 
     while True:
-        print("\n\nORG 2 (data receiver) select an option:")
+        print("\n\nORG B (data receiver) select an option:")
         print("[1] Perform Query")
         print("[2] Verify Proof")
         print("[0] Exit")
@@ -286,7 +286,7 @@ async def main():
                 print(f"Failed to verify proof: {e}")
 
         elif sub_choice == "0":
-            print("Exiting ORG 2 menu.")
+            print("Exiting ORG B menu.")
             break
         else:
             print("Invalid choice. Please try again.")

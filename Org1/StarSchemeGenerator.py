@@ -95,9 +95,9 @@ def sale_Gen():
     })
 
     output_dir="Org1/PR_DB"
-    sales.to_csv(f"{output_dir}/Sale_PR_0.csv", index=False)
+    sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)
 
-    print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR_0.csv' in Org1/PR_DB folder.")
+    print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 
 def sale_update(selected_file):
     global SALE_COUNTER
@@ -130,22 +130,10 @@ def sale_update(selected_file):
         "TS": ts
     })
 
-    # Read the selected file and append new rows
-    existing_sales = pd.read_csv(selected_file)
-    updated_sales = pd.concat([existing_sales, new_sales], ignore_index=True)
+    # Append new rows directly to the selected file
+    new_sales.to_csv(selected_file, mode='a', header=False, index=False)
 
-    # Save to a new file in PR_DB_C with SALE_COUNTER in the filename
-    output_dir = "Org1/PR_DB"
-    os.makedirs(output_dir, exist_ok=True)
-    base_name = os.path.basename(selected_file)
-    
-    # Remove trailing _<number> before extension, if present
-    base_name_no_num = re.sub(r'(_\d+)?(\.csv)$', '', base_name)
-    new_file_name = f"{base_name_no_num}_{SALE_COUNTER}.csv"
-    output_file = os.path.join(output_dir, new_file_name)
-    updated_sales.to_csv(output_file, index=False)
-
-    print(f"\n'{selected_file}' was updated and saved in '{output_file}'.")
+    print(f"\n'{selected_file}' was updated with new rows.")
 
 
 def main():

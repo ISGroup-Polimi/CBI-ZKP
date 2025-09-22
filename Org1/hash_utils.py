@@ -7,6 +7,7 @@ import ezkl
 from web3 import Web3
 import pandas as pd
 import numpy as np
+import web3
 from Org1.models.olap_cube import OLAPCube
 #from pymerkle import MerkleTree
 from Shared.calculate_pos_hash import calculate_pos_hash  
@@ -108,8 +109,9 @@ def calculate_file_hash(file_path):
         raise
     return hasher.hexdigest()
 
-def get_stored_hash(web3, contract):
-    return contract.functions.getHash().call()
+def get_stored_hash(contract, timestamp):
+    # return contract.functions.getHash().call()
+    return contract.functions.getHash(timestamp).call()
 
 def c_pos_hash(file_path):
 
@@ -151,6 +153,12 @@ async def publish_hash(file_path):
     """
     calculated_hash = await calculate_pos_hash(file_path)
     """
+    # Get the TS as the max value in the TS column
+    df = pd.read_csv(file_path)
+    if "TS" not in df.columns:
+        raise ValueError("Column 'TS' not found in the CSV file.")
+    timestamp = int(df["TS"].max())
+
     calculated_hash = c_pos_hash(file_path)
 
     # Fix: extract string if it's a list
@@ -173,7 +181,8 @@ async def publish_hash(file_path):
 
     try:
         # setHash() from HashStorage.sol Solidity contract
-        tx_hash = contract.functions.setHash(bytes32_hash).transact({'from': account})
+            # tx_hash = contract.functions.setHash(bytes32_hash).transact({'from': account})
+        tx_hash = contract.functions.setHash(timestamp, bytes32_hash).transact({'from': account})
         web3.eth.wait_for_transaction_receipt(tx_hash)
         logging.info(f"Hash {calculated_hash} has been published to the blockchain.")
         return calculated_hash
@@ -188,7 +197,7 @@ def verify_dataset_hash(file_path):
     web3 = setup_web3()
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
 
-    stored_hash = get_stored_hash(web3, contract)
+    stored_hash = get_stored_hash(contract, timestamp)
 
     #logging.info(f"Calculated hash: {bytes32_hash}")
     #logging.info(f"Stored hash: {stored_hash}")

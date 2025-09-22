@@ -3,7 +3,7 @@ import os
 import json
 import sys
 
-from Org1.StarSchemeGenerator import main as star_scheme_main
+from Org1.StarSchemeGenerator import main as generate_star_scheme
 from Org1.StarSchemeGenerator import sale_update as sale_update
 from Org1.Dim_ID_Converter import CSV_converter
 from Org1.hash_utils import publish_hash
@@ -52,7 +52,8 @@ async def CLI_publish_hash():
     print("\n")
     hash = await publish_hash(file_path) # HASH_UTILS.py
 
-    share_file(files, file_index, hash) # MAIN.py
+    # Share in published_hash.json
+    share_file(files, file_index, hash) # MAIN.py 
 
     print(f"Hash for {files[file_index]} published successfully.")
 
@@ -84,19 +85,11 @@ def CLI_convert_CSV():
         print("No files found in Org1/PR_DB folder.")
         return
 
-    print("\nSelect a file from Org1/PR_DB to convert:")
-    for idx, fname in enumerate(files):
-        print(f"[{idx+1}] {fname}")
-    choice = input("Enter the number of the file to convert: ")
-    try:
-        idx = int(choice) - 1
-        if idx < 0 or idx >= len(files):
-            print("Invalid selection.")
-            return
-        selected_file = files[idx]
-    except ValueError:
-        print("Invalid input.")
+    if len(files) > 1:
+        print("More than one file found in Org1/PR_DB folder. Please ensure only one file is present.")
         return
+
+    selected_file = files[0] # Sale_PR.csv
     
     input_path = os.path.join(db_folder, selected_file)
     
@@ -135,15 +128,16 @@ async def main():
 
     while True:
         print("\n\nORG 1 (data provider) select an option:")
-        print("[1] Generate File")
+        print("[1] Generate (and Convert) File")
         print("[2] Update File")
         print("[3] Convert File")
         print("[4] Publish Hash")
         print("[0] Exit")
         sub_choice = input("Enter your choice (1, 2, 3, 4, or 0): ")
 
-        if sub_choice == "1":  # GENERATE FILE
-            star_scheme_main()
+        if sub_choice == "1":  # GENERATE (AND CONVERT) FILE
+            generate_star_scheme()
+            CLI_convert_CSV()
 
         elif sub_choice == "2":  # UPDATE FILE
             CLI_update_file()
