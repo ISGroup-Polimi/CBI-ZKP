@@ -155,7 +155,8 @@ def CSV_converter(path):
         "Year": years,
         "Month": months,
         "Day": days,
-        "Total_Emissions": df["Total_Emissions"]
+        "Total_Emissions": df["Total_Emissions"],
+        "TS": df["TS"]
     })
 
     # Ensure the "Org1/PR_DB_C" folder exists
