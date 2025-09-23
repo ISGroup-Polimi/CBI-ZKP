@@ -112,7 +112,7 @@ async def op_prepare_query(org_n):
     timestamp = int(datetime.now().timestamp() * 1000)
 
     try:
-        final_tensor, poseidon_hash = await op_execute_query(operations, columns_to_remove_idx, timestamp) # MAIN ORG1.py
+        final_tensor = await op_execute_query(operations, columns_to_remove_idx, timestamp) # MAIN ORG1.py
     except Exception as e:
         print(f"Failed to execute query: {e}")
         return    
@@ -121,7 +121,7 @@ async def op_prepare_query(org_n):
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
 
     stored_hash = contract.functions.getHash(timestamp).call()
-
+    """
     if stored_hash == poseidon_hash:
         print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash.hex()}")
@@ -131,8 +131,7 @@ async def op_prepare_query(org_n):
         print("Hash verification failed: The computed hash does not match the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash.hex()}")
         print(f"Stored hash: {stored_hash.hex()}")
-
-
+    """
     
 
 def get_query_dimensions(operations):
