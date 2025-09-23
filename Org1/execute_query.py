@@ -36,7 +36,6 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     df = pd.read_csv(file_path)
     # df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
 
-
     # testing
     if "TS" in df.columns:
         df = df.drop(columns=["TS"])
@@ -84,6 +83,6 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     with open(input_json_path, 'w') as f:
         json.dump(data, f)
 
-    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
+    poseidon_hash = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
 
-    return final_tensor
+    return final_tensor, poseidon_hash
