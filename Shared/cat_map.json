@@ -1,1 +1,27 @@
-{"Product Name": {"Cargo Pants": 0, "Chino Pants": 1, "Classic T-Shirt": 2, "Denim Jeans": 3, "Formal Shirt": 4, "Leather Boots": 5, "Polo Shirt": 6, "Running Shoes": 7, "Sandals": 8, "Shorts": 9, "Slip-On Sneakers": 10, "Tank Top": 11}, "Category": {"Pants": 0, "Shirts": 1, "Shoes": 2}, "Material": {"Cotton": 0, "Denim": 1, "Leather": 2, "Polyester": 3}}
+{
+    "Product Name": {
+        "Cargo Pants": 0,
+        "Chino Pants": 1,
+        "Classic T-Shirt": 2,
+        "Denim Jeans": 3,
+        "Formal Shirt": 4,
+        "Leather Boots": 5,
+        "Polo Shirt": 6,
+        "Running Shoes": 7,
+        "Sandals": 8,
+        "Shorts": 9,
+        "Slip-On Sneakers": 10,
+        "Tank Top": 11
+    },
+    "Category": {
+        "Pants": 0,
+        "Shirts": 1,
+        "Shoes": 2
+    },
+    "Material": {
+        "Cotton": 0,
+        "Denim": 1,
+        "Leather": 2,
+        "Polyester": 3
+    }
+}

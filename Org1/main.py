@@ -2,11 +2,13 @@ import asyncio
 import os
 import json
 import sys
+import pandas as pd
 
 from Org1.StarSchemeGenerator import main as generate_star_scheme
 from Org1.StarSchemeGenerator import sale_update as sale_update
 from Org1.Dim_ID_Converter import CSV_converter
 from Org1.hash_utils import publish_hash
+import csv
 
 
 output_dir = os.path.join('Org1', 'output')
@@ -27,41 +29,41 @@ if not data_fact_model_address:
     sys.exit(1)
 
 async def CLI_publish_hash():
-    # List all files in Org1/PR_DB and let the user choose which one to publish hash for
-    db_folder = os.path.join('Org1', 'PR_DB')
-    files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
+    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
 
-    if not files:
-        print('\nNo files found in the Org1/PR_DB folder.')
+    if not os.path.exists(file_path):
+        print('\nSale_PR.csv not found in the Org1/PR_DB folder.')
         return
+    
+    # Get the TS as the max value in the TS column
+    df = pd.read_csv(file_path)
+    if "TS" not in df.columns:
+        raise ValueError("Column 'TS' not found in the CSV file.")
+    timestamp = int(df["TS"].max())
 
-    print('\nSelect a file from Org1/PR_DB to publish hash:')
-    for idx, fname in enumerate(files):
-        print(f"[{idx+1}] {fname}")
-    choice = input("Enter the number of the file: ")
-    try:
-        file_index = int(choice) - 1
-        if file_index < 0 or file_index >= len(files):
-            print("Invalid selection.")
-            return
-        file_path = os.path.join(db_folder, files[file_index])
-    except ValueError:
-        print("Invalid input.")
-        return
+    # Ask the user to which organization to share the file with
+    org_choice = input("Enter the organization number to share the file with (2 or 3): ")
 
-    print("\n")
-    hash = await publish_hash(file_path) # HASH_UTILS.py
+    print(f"File Sale_PR.csv shared with org_{org_choice}.\n")
+
+    hash = await publish_hash(timestamp) # HASH_UTILS.py
 
     # Share in published_hash.json
-    share_file(files, file_index, hash) # MAIN.py 
+    share_file(timestamp, hash, org_choice) # MAIN.py
 
-    print(f"Hash for {files[file_index]} published successfully.")
+# Share file = publish timestamp and hash in published_hash_2.json or published_hash_3.json
+def share_file(timestamp, hash, org_choice):
+    # Determine the correct path based on org_choice
+    if str(org_choice) == "2":
+        published_hash_path = os.path.join('Org2', 'published_hash_2.json')
+    elif str(org_choice) == "3":
+        published_hash_path = os.path.join('Org3', 'published_hash_3.json')
+    else:
+        print("Invalid organization number for publishing hash.")
+        return
 
-# Share file = publish file name and hash in published_hash.json
-def share_file(files, file_index, hash):
-    # Save the hash in "published_hash.json" to share it with the customer
-    published_hash_path = os.path.join('Shared', 'published_hash.json')
-    os.makedirs(os.path.dirname(published_hash_path), exist_ok=True)  # Ensure the directory exists
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(published_hash_path), exist_ok=True)  
 
     # Create the file if it doesn't exist
     if not os.path.exists(published_hash_path):
@@ -71,8 +73,10 @@ def share_file(files, file_index, hash):
     # Read the existing published hashes
     with open(published_hash_path, 'r') as f:
         published_hashes = json.load(f)
-    # Add or update the hash for the selected file
-    published_hashes[files[file_index]] = hash
+
+    # Add or update the hash for the given timestamp
+    published_hashes[str(timestamp)] = hash
+
     # Write the updated hashes back to the file
     with open(published_hash_path, 'w') as f:
         json.dump(published_hashes, f, indent=4)
@@ -95,6 +99,7 @@ def CLI_convert_CSV():
     
     CSV_converter(input_path)
 
+# Function to update a file by appending new rows
 def CLI_update_file():
     db_folder = os.path.join("Org1", "PR_DB")
     files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
@@ -130,7 +135,7 @@ async def main():
         print("\n\nORG 1 (data provider) select an option:")
         print("[1] Generate (and Convert) File")
         print("[2] Update File")
-        print("[3] Convert File")
+        print("([3] Convert File)")
         print("[4] Publish Hash")
         print("[0] Exit")
         sub_choice = input("Enter your choice (1, 2, 3, 4, or 0): ")

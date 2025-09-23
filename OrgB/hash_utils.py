@@ -52,6 +52,7 @@ def setup_web3():
 def get_contract(web3, address, abi):
     return web3.eth.contract(address=address, abi=abi)
 
+# This function checks if the query is allowed by calling the smart contract in the blockchain
 def verify_query_allowed(query_dimensions, contract_address):
     web3 = setup_web3()
     contract = get_contract(web3, contract_address, CONTRACT_ABI_QUERY_ALLOWED)

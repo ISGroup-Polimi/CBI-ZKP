@@ -113,9 +113,12 @@ def get_stored_hash(contract, timestamp):
     # return contract.functions.getHash().call()
     return contract.functions.getHash(timestamp).call()
 
-def c_pos_hash(file_path):
+def c_pos_hash(timestamp):
+    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
 
     df = pd.read_csv(file_path)
+    df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
+
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
     cube = OLAPCube(df)
@@ -148,18 +151,9 @@ def c_pos_hash(file_path):
     return poseidon_hash
     
 
-async def publish_hash(file_path):
-    # calculated_hash = calculate_file_hash(file_path) # hash_utils.py
-    """
-    calculated_hash = await calculate_pos_hash(file_path)
-    """
-    # Get the TS as the max value in the TS column
-    df = pd.read_csv(file_path)
-    if "TS" not in df.columns:
-        raise ValueError("Column 'TS' not found in the CSV file.")
-    timestamp = int(df["TS"].max())
-
-    calculated_hash = c_pos_hash(file_path)
+async def publish_hash(timestamp):
+    # Calculate the Poseidon hash of the dataset considering the rows before the timestamp
+    calculated_hash = c_pos_hash(timestamp)
 
     # Fix: extract string if it's a list
     if isinstance(calculated_hash, list):
@@ -190,8 +184,17 @@ async def publish_hash(file_path):
         logging.error(f"Failed to publish hash: {e}")
         raise
 
-def verify_dataset_hash(file_path):
-    calculated_hash = calculate_file_hash(file_path)
+def verify_dataset_hash(timestamp):
+    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
+
+    # Read the CSV file and filter rows where "TS" <= timestamp
+    df = pd.read_csv(file_path)
+    df_filtered = df[df["TS"] <= timestamp]
+
+    # Optionally, save or process df_filtered as needed
+    print(df_filtered)
+    
+    calculated_hash = c_pos_hash(timestamp)
     bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
 
     web3 = setup_web3()

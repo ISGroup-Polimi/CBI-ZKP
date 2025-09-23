@@ -112,6 +112,8 @@ async def generate_proof(output_dir, model_onnx_path, input_json_path, logrows):
     poseidon_hash = witness["processed_inputs"]["poseidon_hash"]
     print("Poseidon hash of input:", poseidon_hash)
     # c04e340188a01675d8e8864e6d073b68ab0200b16d9afe130116d4827a7bd62f
+
+    return  poseidon_hash
     
     # t = 3 (input rate)
     # M = 128 (security level)

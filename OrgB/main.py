@@ -1,13 +1,72 @@
 import asyncio
+import datetime
 import json
 import os
 import sys
 from ezkl import ezkl
 import torch
 import pandas as pd
+from web3 import Web3
+import logging
 
+from Org1.hash_utils import verify_dataset_hash
 from OrgB.hash_utils import verify_query_allowed
 from Org1.execute_query import op_execute_query
+
+# Load contract addresses from configuration file
+CONFIG_PATH = os.path.join('Blockchain', 'contract_addresses.json')
+with open(CONFIG_PATH, 'r') as f:
+    contract_addresses = json.load(f)
+
+CONTRACT_ADDRESS = contract_addresses.get("HashStorage")
+DATA_FACT_MODEL_ADDRESS = contract_addresses.get("DataFactModel")
+
+CONTRACT_ABI_GET_HASH = json.loads('''
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getHash",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
+''')
+
+def setup_web3():
+    # Create web3 instance that tries to connect to Ethereum node running locally on the machine
+    web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+    if not web3.is_connected():
+        logging.error("Failed to connect to the blockchain.")
+        raise ConnectionError("Failed to connect to the blockchain.")
+    return web3
+
+# It retrieves the contract instance using the address and ABI
+# If the contract is not deployed at the given address, it will be deployed
+def get_contract(web3, address, abi):
+    return web3.eth.contract(address=address, abi=abi)
+
+# Create "published_hash_2.json" and "published_hash_3.json" if they don't exist
+def ensure_org_published_hash_files():
+    org_paths = [
+        os.path.join('OrgB', 'Org2', 'published_hash_2.json'),
+        os.path.join('OrgB', 'Org3', 'published_hash_3.json')
+    ]
+    for path in org_paths:
+        dir_path = os.path.dirname(path)
+        os.makedirs(dir_path, exist_ok=True)
+        if not os.path.exists(path):
+            with open(path, 'w') as f:
+                json.dump({}, f)
+
+ensure_org_published_hash_files()
 
 def load_contract_address(contract_name):
     # Load the contract address from the configuration file
@@ -23,50 +82,20 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
-# This function makes the user select a file to query with CLI
-async def CLI_query():
-    published_hash_path = os.path.join('Shared', 'published_hash.json')
-
-    if not os.path.exists(published_hash_path):
-        print("\nNo published hashes file found.")
-        return
-    
-    with open(published_hash_path, 'r') as f:
-        published_hashes = json.load(f)
-    if not published_hashes:
-        print("\nNo hashes available in the published file.")
-        return
-    
-    print("\nAvailable published hashes:")
-    for idx, (file_name, hash_value) in enumerate(published_hashes.items()):
-        print(f"[{idx + 1}] File: {file_name} - Hash: {hash_value}")
-    file_index = int(input("Select a file to query by index: ")) - 1
-    if file_index < 0 or file_index >= len(published_hashes):
-        print("Invalid index selected.")
-        return
-    
-    print("\n")
-    
-    selected_file = list(published_hashes.keys())[file_index]
-
-    await op_prepare_query(selected_file) # MAIN2.py
-
 # This function:
 # - verifies if the hash of the dataset do execute the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
-async def op_prepare_query(selected_file): 
-    # TO BE DONE
-    #                   verify_dataset_hash(file_path, timestamp) # HASH_UTILS.py
-
+async def op_prepare_query(org_n): 
     # Define the OLAP operations to apply
     operations = {
         "Rollup": [["Clothes Type"], # rollup hierarchy
                    ["Date", "Month"]], # rollup dimension
-        "Dicing": [{2: [0, 3]}]
+        "Dicing": [{2: [0, 3]}] 
     }
 
     query_dimensions, columns_to_remove_idx = get_query_dimensions(operations) # MAIN.py
 
+    # Verify if the query is allowed by calling the smart contract in the blockchain
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
     if not is_query_allowed:
@@ -74,12 +103,31 @@ async def op_prepare_query(selected_file):
         return
     print("Query is allowed. Proceeding with query execution...\n")
 
+    timestamp = int(datetime.now().timestamp() * 1000)
+
     try:
-        final_tensor = await op_execute_query(selected_file, operations, columns_to_remove_idx) # MAIN ORG1.py
-        show_result(selected_file, final_tensor, columns_to_remove_idx)
+        final_tensor, poseidon_hash = await op_execute_query(operations, columns_to_remove_idx, timestamp) # MAIN ORG1.py
     except Exception as e:
         print(f"Failed to execute query: {e}")
         return    
+    
+    web3 = setup_web3()
+    contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
+
+    stored_hash = contract.functions.getHash(timestamp).call()
+
+    if stored_hash == poseidon_hash:
+        print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
+        print(f"Computed hash: {poseidon_hash.hex()}")
+
+        show_result(final_tensor, columns_to_remove_idx, org_n)
+    else:
+        print("Hash verification failed: The computed hash does not match the stored hash on the blockchain.")
+        print(f"Computed hash: {poseidon_hash.hex()}")
+        print(f"Stored hash: {stored_hash.hex()}")
+
+
+    
 
 def get_query_dimensions(operations):
     columns_to_rollup_idx = []
@@ -165,9 +213,9 @@ def op_verify_proof():
     except Exception as e:
         print(f"Proof verification failed: {e}")
 
-def show_result(selected_file, final_tensor, columns_to_remove_idx):
-    # Print and save the final tensor after applying the OLAP operations in human-readable format
-    # Remove rows from final_tensor that are all zeros
+# Print and save the result of the query (final tensor after OLAP operations) in human-readable format in the proper folder (Org2 or Org3)
+def show_result(final_tensor, columns_to_remove_idx, org_n):
+    # Remove from final_tensor rows that are all zeros
     non_zero_rows = ~torch.all(final_tensor == 0, dim=1)
     final_tensor = final_tensor[non_zero_rows] # after filtering
 
@@ -182,58 +230,63 @@ def show_result(selected_file, final_tensor, columns_to_remove_idx):
         DFM_representation = json.load(f)
     dim_index = DFM_representation["dim_index"]
     kept_columns = [col for col, idx in dim_index.items() if idx not in columns_to_remove_idx]
-
-    # final_df.columns = [i for i in filtered_columns if i in kept_columns]
     final_df.columns = kept_columns 
     #print(f"Final DataFrame:\n{final_df}")
 
     # Sum the emissions for roll-up and slice
     final_df = group_rows(final_df)
 
+    # Open the category mappings to decode the categorical columns
     with open("Shared/cat_map.json", "r") as f:
         cat_map =  json.load(f)
-    
         #print("Category mappings loaded")
+
     filtered_cat_map = {col: mapping for col, mapping in cat_map.items() if col in final_df.columns}
+
     #final_cube = OLAPCube(final_df, category_mappings=filtered_cat_map)
-        #print("Final cube created")
+    #print("Final cube created")
+
     final_decoded_cube = decode_categorical_columns(final_df, filtered_cat_map)
+
     # "Year", "Month", "Day" convert to int
     for col in ["Year", "Month", "Day"]:
         if col in final_decoded_cube.columns:
             final_decoded_cube[col] = final_decoded_cube[col].astype(int)
+
     # "Total Emissions (kgCO2e)" round to 1 decimal place
     # change CSV output format to 1 decimal place
     if "Total Emissions (kgCO2e)" in final_decoded_cube.columns:
-        final_decoded_cube["Total Emissions (kgCO2e)"] = final_decoded_cube["Total Emissions (kgCO2e)"].round(1)
+        final_decoded_cube["Total Emissions (kgCO2e)"] = final_decoded_cube["Total Emissions (kgCO2e)"].round(2)
+
     # print the final decoded cube with 1 decimal place for floats
-    pd.set_option('display.float_format', '{:.1f}'.format)
+    pd.set_option('display.float_format', '{:.2f}'.format)
 
     print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
     print("Query executed successfully.")
 
     # Save the final DataFrame as a CSV in OrgB/PUB
-    output_dir = os.path.join('OrgB', 'PUB_DB')
+    if org_n == 2:
+        output_dir = os.path.join('OrgB', 'Org2', 'PUB_DB')
+    elif org_n == 3:
+        output_dir = os.path.join('OrgB', 'Org3', 'PUB_DB')
+    else:
+        print("Invalid organization number.")
+        return
+    
     os.makedirs(output_dir, exist_ok=True)
 
-    # Change the file name from "PR_C.csv" to "PB.csv" if present
-    if selected_file.endswith("PR_C.csv"):
-        selected_file = selected_file.replace("PR_C.csv", "PB.csv")
+
+    selected_file = 'Sale_PR_C.csv'
+    # Change the file name from "Sale_PR_C.csv" to "Sale_PUB.csv" if present
+    if selected_file.endswith("Sale_PR_C.csv"):
+        selected_file = selected_file.replace("Sale_PR_C.csv", "Sale_PUB.csv")
 
     output_path = os.path.join(output_dir, selected_file)
+
     final_decoded_cube.to_csv(output_path, index=False)
     print(f"Query result saved to {output_path}")
     
-
-
-    """
-    mod_selected_file = "mod_" + selected_file # mod = modified
-    csv_output_path = os.path.join('Org', 'modified', mod_selected_file)
-    os.makedirs(os.path.dirname(csv_output_path), exist_ok=True)
-    final_df.to_csv(csv_output_path, index=False)
-    print(f"Query result saved to {csv_output_path}")
-    """
 
 # This function groups the rows after the roll-up operation (sum the emissions of rows with same dimensions)
 def group_rows (df):
@@ -266,8 +319,15 @@ def decode_categorical_columns(final_df, filtered_cat_map):
     
 async def main():
 
+    # Ask the user to choose if they are Org2 or Org3
+    org_number = input("Select your organization:" \
+                        "\n[2] Org2" \
+                        "\n[3] Org3\n" \
+                        "Enter 2 or 3: ")
+    org_n = int(org_number)
+
     while True:
-        print("\n\nORG B (data receiver) select an option:")
+        print(f"\n\nORG B (data receiver, Org{org_n}) select an option:")
         print("[1] Perform Query")
         print("[2] Verify Proof")
         print("[0] Exit")
@@ -275,7 +335,7 @@ async def main():
 
         if sub_choice == "1":  # PERFORM QUERY
             try:
-                await CLI_query()
+                await op_prepare_query(org_n)
             except Exception as e:
                 print(f"Failed to execute query: {e}")
 
