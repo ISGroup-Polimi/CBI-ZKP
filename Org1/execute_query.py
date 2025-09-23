@@ -33,7 +33,7 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     file_path = os.path.join('Org1', 'PR_DB_C', 'Sale_PR_C.csv')
 
     df = pd.read_csv(file_path)
-    # df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
+    df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
 
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
@@ -73,6 +73,6 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     with open(input_json_path, 'w') as f:
         json.dump(data, f)
 
-    poseidon_hash = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
+    await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
 
-    return final_tensor, poseidon_hash
+    return final_tensor
