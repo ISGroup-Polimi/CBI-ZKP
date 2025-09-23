@@ -39,8 +39,9 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
-    print(df.isnull().sum())
-    print(np.isinf(df.values).sum())
+    numeric_df = df.select_dtypes(include=[np.number])
+    print(numeric_df.isnull().sum())    
+    print(np.isinf(numeric_df.values).sum())
 
     print(f"Initial DataFrame: \n {df}")
 
