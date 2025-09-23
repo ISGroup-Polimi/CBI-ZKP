@@ -36,6 +36,12 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     df = pd.read_csv(file_path)
     # df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
 
+
+    # testing
+    if "TS" in df.columns:
+        df = df.drop(columns=["TS"])
+        print("Timestamp column dropped.")
+
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
