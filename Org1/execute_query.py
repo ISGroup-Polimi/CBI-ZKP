@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import torch
 import onnx
+import numpy as np
 from Org1.models.olap_cube import OLAPCube
 from Org1.operations.slice_model import SliceModel
 from Org1.operations.dicing_model import DicingModel
@@ -37,6 +38,9 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
 
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
+
+    print(df.isnull().sum())
+    print(np.isinf(df.values).sum())
 
     print(f"Initial DataFrame: \n {df}")
 
