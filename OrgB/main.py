@@ -25,7 +25,12 @@ CONTRACT_ABI_GET_HASH = json.loads('''
 [
     {
         "constant": true,
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "timestamp",
+                "type": "uint256"
+            }
+        ],
         "name": "getHash",
         "outputs": [
             {

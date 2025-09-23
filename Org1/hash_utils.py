@@ -30,7 +30,11 @@ CONTRACT_ABI_SET_HASH = json.loads('''
         "constant": false,
         "inputs": [
             {
-                "name": "newHash",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "name": "_hash",
                 "type": "bytes32"
             }
         ],
@@ -46,7 +50,12 @@ CONTRACT_ABI_GET_HASH = json.loads('''
 [
     {
         "constant": true,
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "timestamp",
+                "type": "uint256"
+            }
+        ],
         "name": "getHash",
         "outputs": [
             {
