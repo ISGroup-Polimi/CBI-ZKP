@@ -55,9 +55,9 @@ async def CLI_publish_hash():
 def share_file(timestamp, hash, org_choice):
     # Determine the correct path based on org_choice
     if str(org_choice) == "2":
-        published_hash_path = os.path.join('Org2', 'published_hash_2.json')
+        published_hash_path = os.path.join('OrgB', 'Org2', 'published_hash_2.json')
     elif str(org_choice) == "3":
-        published_hash_path = os.path.join('Org3', 'published_hash_3.json')
+        published_hash_path = os.path.join('OrgB', 'Org3', 'published_hash_3.json')
     else:
         print("Invalid organization number for publishing hash.")
         return
