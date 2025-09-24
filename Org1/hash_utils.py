@@ -124,12 +124,15 @@ def get_stored_hash(contract, timestamp):
 
 def c_pos_hash(timestamp):
     file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
-
     df = pd.read_csv(file_path)
+
+    # Use TS column to filter and then drop it (it gives problem with the ezkl circuit calibration)
     df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
+    df = df.drop(columns=["TS"])
 
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
+
     cube = OLAPCube(df)
     tensor_data = cube.to_tensor()
 

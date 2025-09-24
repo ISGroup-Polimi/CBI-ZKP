@@ -32,22 +32,15 @@ def apply_olap_operations(cube, tensor_data, operations):
 # Execute the query and generate the proof
 async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     file_path = os.path.join('Org1', 'PR_DB_C', 'Sale_PR_C.csv')
-
     df = pd.read_csv(file_path)
-    # df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
-
-    # testing
-    if "TS" in df.columns:
-        df = df.drop(columns=["TS"])
-        print("Timestamp column dropped.")
+    
+    # Use TS column to filter and then drop it (it gives problem with the ezkl circuit calibration)
+    df = df[df["TS"] <= timestamp] # select rows with TS <= timestamp
+    df = df.drop(columns=["TS"])
 
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
-
-    numeric_df = df.select_dtypes(include=[np.number])
-    print(numeric_df.isnull().sum())    
-    print(np.isinf(numeric_df.values).sum())
-
+    
     print(f"Initial DataFrame: \n {df}")
 
     # Initialize the OLAP cube and transform the data into a tensor
