@@ -29,10 +29,10 @@ if not data_fact_model_address:
     sys.exit(1)
 
 async def CLI_publish_hash():
-    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
+    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR_C.csv")
 
     if not os.path.exists(file_path):
-        print('\nSale_PR.csv not found in the Org1/PR_DB folder.')
+        print('\nSale_PR_C.csv not found in the Org1/PR_DB folder.')
         return
     
     # Get the TS as the max value in the TS column
@@ -44,7 +44,7 @@ async def CLI_publish_hash():
     # Ask the user to which organization to share the file with
     org_choice = input("Enter the organization number to share the file with (2 or 3): ")
 
-    print(f"File Sale_PR.csv shared with org_{org_choice}.\n")
+    print(f"File Sale_PR_C.csv shared with org_{org_choice}.\n")
 
     hash = await publish_hash(timestamp) # HASH_UTILS.py
 

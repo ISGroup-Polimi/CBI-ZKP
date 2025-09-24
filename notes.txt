@@ -28,6 +28,8 @@ pip install -r requirements.txt
 git add .
 git commit -m "Show results"
 git push 
+
+
 git checkout "branch-name"
 
 Add swap (sort of virtual memory)
