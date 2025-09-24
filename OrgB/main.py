@@ -121,6 +121,9 @@ async def op_prepare_query(org_n):
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
 
     stored_hash = contract.functions.getHash(timestamp).call()
+
+    if not poseidon_hash.startswith("0x"):
+        poseidon_hash = "0x" + poseidon_hash
     
     if stored_hash == poseidon_hash:
         print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
