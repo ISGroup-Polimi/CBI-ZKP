@@ -95,17 +95,17 @@ async def CLI_query(org_n):
     elif org_n == 3:   
         published_hash_path = os.path.join('OrgB', 'Org3', 'published_hash_3.json')
     else:
-        print("Invalid organization number for publishing hash.")
+        print("\nInvalid organization number for publishing hash.")
         return
 
     with open(published_hash_path, 'r') as f:
         published_hashes = json.load(f)
     
     if not published_hashes:
-        print(f"No published hashes found in {published_hash_path}. Please ensure that Org1 has published a hash.")
+        print(f"\nNo published hashes found in {published_hash_path}. Please ensure that Org1 has published a hash.")
         return
     
-    print("Available timestamps (TS) for published hashes:")
+    print("\nAvailable timestamps (TS) for published hashes:")
     ts_list = list(published_hashes.keys())
     for idx, ts in enumerate(ts_list):
         print(f"[{idx}] {ts}")
@@ -159,7 +159,13 @@ async def op_prepare_query(org_n, timestamp):
     if not poseidon_hash.startswith("0x"):
         poseidon_hash = "0x" + poseidon_hash
     
-    if stored_hash == poseidon_hash:
+    
+    if poseidon_hash.startswith("0x"):
+        poseidon_hash_bytes = bytes.fromhex(poseidon_hash[2:])
+    else:
+        poseidon_hash_bytes = bytes.fromhex(poseidon_hash)
+
+    if stored_hash == poseidon_hash_bytes:
         print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash}")
 
@@ -167,7 +173,7 @@ async def op_prepare_query(org_n, timestamp):
     else:
         print("Hash verification failed: The computed hash does not match the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash}")
-        print(f"Stored hash: {stored_hash}")
+        print(f"Stored hash: {stored_hash.hex()}")
     
     
 
