@@ -130,13 +130,13 @@ async def op_prepare_query(org_n):
     
     if stored_hash == poseidon_hash:
         print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
-        print(f"Computed hash: {poseidon_hash.hex()}")
+        print(f"Computed hash: {poseidon_hash}")
 
         show_result(final_tensor, columns_to_remove_idx, org_n)
     else:
         print("Hash verification failed: The computed hash does not match the stored hash on the blockchain.")
-        print(f"Computed hash: {poseidon_hash.hex()}")
-        print(f"Stored hash: {stored_hash.hex()}")
+        print(f"Computed hash: {poseidon_hash}")
+        print(f"Stored hash: {stored_hash}")
     
     
 
