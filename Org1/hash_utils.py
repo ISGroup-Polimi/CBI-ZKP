@@ -197,13 +197,21 @@ async def publish_hash(timestamp):
         tx_hash = contract.functions.setHash(timestamp, bytes32_hash).transact({'from': account})
         web3.eth.wait_for_transaction_receipt(tx_hash)
         logging.info(f"Hash {calculated_hash} has been published to the blockchain.")
+
+        # test
+        stored_hash = get_stored_hash(contract, timestamp)
+        print("TTT Hash from blockchain (bytes32):", stored_hash)
+        print("TTT Hash from blockchain (hex):", Web3.to_hex(stored_hash))
+
         return calculated_hash
     except Exception as e:
         logging.error(f"Failed to publish hash: {e}")
         raise
 
+    
+
 def verify_dataset_hash(timestamp):
-    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
+    file_path = os.path.join('Org1', 'PR_DB_C', "Sale_PR_C.csv")
 
     # Read the CSV file and filter rows where "TS" <= timestamp
     df = pd.read_csv(file_path)
