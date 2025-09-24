@@ -187,19 +187,20 @@ async def publish_hash(timestamp):
 
     web3 = setup_web3()
     # call to get or create the contract instance
-    contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_SET_HASH) # hash_utils.py
+    contract_set = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_SET_HASH) # hash_utils.py
 
     account = web3.eth.accounts[0]
 
     try:
         # setHash() from HashStorage.sol Solidity contract
-            # tx_hash = contract.functions.setHash(bytes32_hash).transact({'from': account})
-        tx_hash = contract.functions.setHash(timestamp, bytes32_hash).transact({'from': account})
+            # tx_hash = contract_set.functions.setHash(bytes32_hash).transact({'from': account})
+        tx_hash = contract_set.functions.setHash(timestamp, bytes32_hash).transact({'from': account})
         web3.eth.wait_for_transaction_receipt(tx_hash)
         logging.info(f"Hash {calculated_hash} has been published to the blockchain.")
 
         # test
-        stored_hash = get_stored_hash(contract, timestamp)
+        contract_get = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
+        stored_hash = get_stored_hash(contract_get, timestamp)
         print("TTT Hash from blockchain (bytes32):", stored_hash)
         print("TTT Hash from blockchain (hex):", Web3.to_hex(stored_hash))
 
