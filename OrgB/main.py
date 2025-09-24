@@ -121,6 +121,7 @@ async def op_prepare_query(org_n):
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
 
     stored_hash = contract.functions.getHash(timestamp).call()
+    print("TTT TS from blockchain:", timestamp)
 
     # If poseidon_hash is a list, get the first element
     if isinstance(poseidon_hash, list):

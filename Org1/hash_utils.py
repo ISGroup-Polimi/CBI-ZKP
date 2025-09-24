@@ -203,6 +203,7 @@ async def publish_hash(timestamp):
         stored_hash = get_stored_hash(contract_get, timestamp)
         print("TTT Hash from blockchain (bytes32):", stored_hash)
         print("TTT Hash from blockchain (hex):", Web3.to_hex(stored_hash))
+        print("TTT Timestamp:", timestamp)
 
         return calculated_hash
     except Exception as e:
