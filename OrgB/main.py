@@ -89,7 +89,6 @@ if not data_fact_model_address:
     sys.exit(1)
 
 async def CLI_query(org_n):
-    await op_prepare_query(org_n)
 
     if org_n == 2:
         published_hash_path = os.path.join('OrgB', 'Org2', 'published_hash_2.json')
