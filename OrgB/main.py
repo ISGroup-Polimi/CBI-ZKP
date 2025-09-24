@@ -122,6 +122,9 @@ async def op_prepare_query(org_n):
 
     stored_hash = contract.functions.getHash(timestamp).call()
 
+    # If poseidon_hash is a list, get the first element
+    if isinstance(poseidon_hash, list):
+        poseidon_hash = poseidon_hash[0]
     if not poseidon_hash.startswith("0x"):
         poseidon_hash = "0x" + poseidon_hash
     
