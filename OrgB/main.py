@@ -88,10 +88,43 @@ if not data_fact_model_address:
     print("DataFactModel address not found in configuration.")
     sys.exit(1)
 
+async def CLI_query(org_n):
+    await op_prepare_query(org_n)
+
+    if org_n == 2:
+        published_hash_path = os.path.join('OrgB', 'Org2', 'published_hash_2.json')
+    elif org_n == 3:   
+        published_hash_path = os.path.join('OrgB', 'Org3', 'published_hash_3.json')
+    else:
+        print("Invalid organization number for publishing hash.")
+        return
+
+    with open(published_hash_path, 'r') as f:
+        published_hashes = json.load(f)
+    
+    if not published_hashes:
+        print(f"No published hashes found in {published_hash_path}. Please ensure that Org1 has published a hash.")
+        return
+    
+    print("Available timestamps (TS) for published hashes:")
+    ts_list = list(published_hashes.keys())
+    for idx, ts in enumerate(ts_list):
+        print(f"[{idx}] {ts}")
+
+    try:
+        selected_idx = int(input("Enter the index of the timestamp (TS) you want to use: ").strip())
+        selected_ts = ts_list[selected_idx]
+    except (ValueError, IndexError):
+        print("Invalid index selected.")
+        return
+
+    await op_prepare_query(org_n, int(selected_ts))
+
+
 # This function:
 # - verifies if the hash of the dataset do execute the query is the same as the one published on the blockchain
 # - prepares the query by defining the OLAP operations to apply and checking if the query is allowed
-async def op_prepare_query(org_n): 
+async def op_prepare_query(org_n, timestamp): 
     # Define the OLAP operations to apply
     operations = {
         "Rollup": [["Clothes Type"], # rollup hierarchy
@@ -108,8 +141,6 @@ async def op_prepare_query(org_n):
         print("Query contains disallowed dimensions.")
         return
     print("Query is allowed. Proceeding with query execution...\n")
-
-    timestamp = int(datetime.now().timestamp() * 1000)
 
     try:
         final_tensor, poseidon_hash = await op_execute_query(operations, columns_to_remove_idx, timestamp) # MAIN ORG1.py
@@ -347,7 +378,7 @@ async def main():
 
         if sub_choice == "1":  # PERFORM QUERY
             try:
-                await op_prepare_query(org_n)
+                await CLI_query(org_n)
             except Exception as e:
                 print(f"Failed to execute query: {e}")
 
