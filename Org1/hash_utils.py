@@ -123,7 +123,7 @@ def get_stored_hash(contract, timestamp):
     return contract.functions.getHash(timestamp).call()
 
 def c_pos_hash(timestamp):
-    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR.csv")
+    file_path = os.path.join('Org1', 'PR_DB_C', "Sale_PR_C.csv")
     df = pd.read_csv(file_path)
 
     # Use TS column to filter and then drop it (it gives problem with the ezkl circuit calibration)
