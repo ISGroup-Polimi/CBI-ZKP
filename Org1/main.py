@@ -44,14 +44,16 @@ async def CLI_publish_hash():
     # Ask the user to which organization to share the file with
     org_choice = input("Enter the organization number to share the file with (2 or 3): ")
 
-    print(f"File Sale_PR_C.csv shared with org_{org_choice}.\n")
-
+    # Publish the hash on the blockchain
     hash = await publish_hash(timestamp) # HASH_UTILS.py
 
     # Share in published_hash.json
     share_file(timestamp, hash, org_choice) # MAIN.py
 
-# Share file = publish timestamp and hash in published_hash_2.json or published_hash_3.json
+    print(f"File Sale_PR_C.csv shared with Org_{org_choice}.\n")
+
+# This function represent the sharing of the file with another org
+# It is done by writing in a json file the timestamp and the hash
 def share_file(timestamp, hash, org_choice):
     # Determine the correct path based on org_choice
     if str(org_choice) == "2":
@@ -80,25 +82,8 @@ def share_file(timestamp, hash, org_choice):
     # Write the updated hashes back to the file
     with open(published_hash_path, 'w') as f:
         json.dump(published_hashes, f, indent=4)
-
-def CLI_convert_CSV():
-    db_folder = os.path.join("Org1", "PR_DB")
-    files = [f for f in os.listdir(db_folder) if os.path.isfile(os.path.join(db_folder, f))]
-
-    if not files:
-        print("No files found in Org1/PR_DB folder.")
-        return
-
-    if len(files) > 1:
-        print("More than one file found in Org1/PR_DB folder. Please ensure only one file is present.")
-        return
-
-    selected_file = files[0] # Sale_PR.csv
     
-    input_path = os.path.join(db_folder, selected_file)
-    
-    CSV_converter(input_path)
-
+"""
 # Function to update a file by appending new rows
 def CLI_update_file():
     db_folder = os.path.join("Org1", "PR_DB")
@@ -126,7 +111,7 @@ def CLI_update_file():
     file_path = os.path.join(db_folder, selected_file)
 
     sale_update(file_path)
-
+"""
 
 
 async def main():
@@ -134,7 +119,7 @@ async def main():
     while True:
         print("\n\nORG 1 (data provider) select an option:")
         print("[1] Generate (and Convert) File")
-        print("[2] Update File")
+        print("[2] Update (and Convert) File")
         print("([3] Convert File)")
         print("[4] Publish Hash")
         print("[0] Exit")
@@ -142,13 +127,14 @@ async def main():
 
         if sub_choice == "1":  # GENERATE (AND CONVERT) FILE
             generate_star_scheme()
-            CLI_convert_CSV()
+            CSV_converter()
 
-        elif sub_choice == "2":  # UPDATE FILE
-            CLI_update_file()
+        elif sub_choice == "2":  # UPDATE (AND CONVERT) FILE
+            sale_update()
+            CSV_converter()
 
         elif sub_choice == "3":  # CONVERT FILE
-            CLI_convert_CSV()
+            CSV_converter()
 
         elif sub_choice == "4":  # PUBLISH HASH
             await CLI_publish_hash()

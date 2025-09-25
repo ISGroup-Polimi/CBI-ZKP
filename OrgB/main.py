@@ -111,7 +111,7 @@ async def CLI_query(org_n):
         print(f"[{idx}] {ts}")
 
     try:
-        selected_idx = int(input("Enter the index of the timestamp (TS) you want to use: ").strip())
+        selected_idx = int(input("\nEnter the index of the timestamp (TS) you want to use: ").strip())
         selected_ts = ts_list[selected_idx]
     except (ValueError, IndexError):
         print("Invalid index selected.")

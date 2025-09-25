@@ -133,7 +133,8 @@ def get_ids_from_categories(category_names):
     return ids
 
 # Convert a CSV with Dim IDs to a human-readable CSV, saving it in the "test" folder
-def CSV_converter(path):
+def CSV_converter():
+    path = os.path.join("Org1", "PR_DB", "Sale_PR.csv")
     df = pd.read_csv(path)
 
     csv_filename = os.path.basename(path)

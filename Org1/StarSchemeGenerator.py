@@ -4,7 +4,6 @@ import pandas as pd
 import os
 import numpy as np
 from datetime import datetime
-import re
 
 from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
@@ -58,6 +57,7 @@ def date_Gen(output_dir="Org1/PR_DB/DimTab"):
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(f"{output_dir}/Date.csv", index=False)
 
+# Generate Sales Fact Table with Key Values
 def sale_Gen():
     global SALE_COUNTER
     SALE_COUNTER = 0
@@ -81,8 +81,10 @@ def sale_Gen():
     # Add timestamp column
     # ISO format: YYYY-MM-DD HH:MM:SS.mmmmmm
     # ts = datetime.now().isoformat()
+
     # YYYY-MM-DD HH:MM:SS.sss
     # ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    
     ts = int(datetime.now().timestamp() * 1000)
 
 
@@ -99,7 +101,9 @@ def sale_Gen():
 
     print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 
-def sale_update(selected_file):
+def sale_update():
+    selected_file = "Org1/PR_DB/Sale_PR.csv"
+
     global SALE_COUNTER
     SALE_COUNTER += 1
 

@@ -168,48 +168,46 @@ def c_pos_hash(timestamp):
     print("ezkl Poseidon hash:", poseidon_hash)
     return poseidon_hash
     
-
+# Publish the hash on the blockchain
 async def publish_hash(timestamp):
     # Calculate the Poseidon hash of the dataset considering the rows before the timestamp
-    calculated_hash = c_pos_hash(timestamp)
+    poseidon_hash = c_pos_hash(timestamp)
 
     # Fix: extract string if it's a list
-    if isinstance(calculated_hash, list):
-        calculated_hash = calculated_hash[0]
-    if not calculated_hash.startswith("0x"):
-        calculated_hash = "0x" + calculated_hash
+    if isinstance(poseidon_hash, list):
+        poseidon_hash = poseidon_hash[0]
+    if not poseidon_hash.startswith("0x"):
+        poseidon_hash = "0x" + poseidon_hash
 
-    bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
+    bytes32_hash = Web3.to_bytes(hexstr=poseidon_hash)
 
-    print("Poseidon hash PUBLISHED:", calculated_hash)
+    print("Poseidon hash PUBLISHED:", poseidon_hash)
     print("Poseidon hash PUBLISHED bytes32:", bytes32_hash)
 
 
     web3 = setup_web3()
-    # call to get or create the contract instance
     contract_set = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_SET_HASH) # hash_utils.py
-
     account = web3.eth.accounts[0]
 
     try:
         # setHash() from HashStorage.sol Solidity contract
-            # tx_hash = contract_set.functions.setHash(bytes32_hash).transact({'from': account})
         tx_hash = contract_set.functions.setHash(timestamp, bytes32_hash).transact({'from': account})
         web3.eth.wait_for_transaction_receipt(tx_hash)
-        logging.info(f"Hash {calculated_hash} has been published to the blockchain.")
+        logging.info(f"Hash {poseidon_hash} has been published to the blockchain.")
 
+        """
         # test
         contract_get = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
         stored_hash = get_stored_hash(contract_get, timestamp)
         print("TTT Hash from blockchain (bytes32):", stored_hash)
         print("TTT Hash from blockchain (hex):", Web3.to_hex(stored_hash))
         print("TTT Timestamp:", timestamp)
-
-        return calculated_hash
+        """
+        return poseidon_hash
+    
     except Exception as e:
         logging.error(f"Failed to publish hash: {e}")
         raise
-
     
 
 def verify_dataset_hash(timestamp):
