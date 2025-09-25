@@ -84,8 +84,9 @@ def sale_Gen():
 
     # YYYY-MM-DD HH:MM:SS.sss
     # ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-    
-    ts = int(datetime.now().timestamp() * 1000)
+
+    # ts = int(datetime.now().timestamp() * 1000)
+    ts = int(datetime(2025, 1, 1).timestamp() * 1000)
 
 
     sales = pd.DataFrame({

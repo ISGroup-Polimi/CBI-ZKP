@@ -41,11 +41,13 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     df.columns = df.columns.str.strip() # Remove leading and trailing whitespace from column names
     df = df.dropna() # Drop rows with NaN values
 
+    """
     # Save the DataFrame to a CSV file in the 'test' folder before circuit processing
     test_dir = os.path.join('test')
     os.makedirs(test_dir, exist_ok=True)
     before_circuit_path = os.path.join(test_dir, 'BeforeCircuit.csv')
     df.to_csv(before_circuit_path, index=False)
+    """
     
     #print(f"Initial DataFrame: \n {df}")
 
