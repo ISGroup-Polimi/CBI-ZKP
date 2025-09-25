@@ -126,7 +126,7 @@ async def CLI_query(org_n):
 async def op_prepare_query(org_n, timestamp): 
     # Define the OLAP operations to apply
     operations = {
-        "Rollup": [["Clothes Type"], # rollup hierarchy
+        "Rollup": [["Clothes Type"], # rollup entire hierarchy 
                    ["Date", "Month"]], # rollup dimension
         "Dicing": [{2: [0, 3]}] 
     }
@@ -186,13 +186,12 @@ def get_query_dimensions(operations):
     # Remove duplicates and sort the indices
     columns_to_rollup_idx = sorted(set(columns_to_rollup_idx))
 
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     columns = list(DFM_representation["dim_index"].keys())
     
     # Get the column names corresponding to columns_to_remove_idx
     columns_to_rollup = [columns[i] for i in columns_to_rollup_idx]
-
 
     # query_dimensions = ["Category", "Production Cost", "City", "Product Name"]
     query_dimensions = [col for col in columns if col not in columns_to_rollup]
@@ -309,7 +308,7 @@ def show_result(final_tensor, columns_to_remove_idx, org_n):
     # print the final decoded cube with 1 decimal place for floats
     pd.set_option('display.float_format', '{:.2f}'.format)
 
-    print(f"Final Decoded Cube:\n{final_decoded_cube}")
+    #print(f"Final Decoded Cube:\n{final_decoded_cube}")
 
     print("Query executed successfully.")
 
