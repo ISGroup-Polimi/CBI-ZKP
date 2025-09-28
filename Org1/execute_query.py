@@ -31,7 +31,7 @@ def apply_olap_operations(cube, tensor_data, operations):
 
 # Execute the query and generate the proof
 async def op_execute_query(operations, columns_to_remove_idx, timestamp):
-    file_path = os.path.join('Org1', 'PR_DB_C', 'Sale_PR_C.csv')
+    file_path = os.path.join('Org1', 'PR_DB', 'Sale_PR_C.csv')
     df = pd.read_csv(file_path)
 
     # Use TS column to filter and then drop it (it gives problem with the ezkl circuit calibration)

@@ -29,10 +29,10 @@ if not data_fact_model_address:
     sys.exit(1)
 
 async def CLI_publish_hash():
-    file_path = os.path.join('Org1', 'PR_DB_C', "Sale_PR_C.csv")
+    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR_C.csv")
 
     if not os.path.exists(file_path):
-        print('\nSale_PR_C.csv not found in the Org1/PR_DB_C folder.')
+        print('\nSale_PR_C.csv not found in the Org1/PR_DB folder.')
         return
     
     # Get the TS as the max value in the TS column

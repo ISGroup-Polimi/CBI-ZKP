@@ -97,8 +97,7 @@ def sale_Gen():
         "TS": ts
     })
 
-    output_dir="Org1/PR_DB"
-    sales.to_csv(f"{output_dir}/Sale_PR.csv", index=False)
+    sales.to_csv("Org1/PR_DB/Sale_PR.csv", index=False)
 
     print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 

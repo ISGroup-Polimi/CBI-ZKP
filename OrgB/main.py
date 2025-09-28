@@ -107,12 +107,12 @@ async def CLI_query(org_n):
     
     print("\nAvailable timestamps (TS) for published hashes:")
     ts_list = list(published_hashes.keys())
-    for idx, ts in enumerate(ts_list):
+    for idx, ts in enumerate(ts_list, start=1):
         print(f"[{idx}] {ts}")
 
     try:
         selected_idx = int(input("\nEnter the index of the timestamp (TS) you want to use: ").strip())
-        selected_ts = ts_list[selected_idx]
+        selected_ts = ts_list[selected_idx - 1]
     except (ValueError, IndexError):
         print("Invalid index selected.")
         return
@@ -340,6 +340,7 @@ def decode_categorical_columns(final_df, filtered_cat_map):
         decoded_df[col] = decoded_df[col].map(inv_mapping)
     return decoded_df
 
+# Verify the zk proof with ezkl using the proof, vk and settings files stored in Shared/proof
 def op_verify_proof():
     proof_folder = 'Shared/proof'
     if not os.path.exists(proof_folder):
