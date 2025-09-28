@@ -13,26 +13,6 @@ from OrgB.hash_utils import compare_hash
 from OrgB.hash_utils import get_query_dimensions
 from OrgB.hash_utils import show_result
 
-# Load contract addresses from configuration file
-CONFIG_PATH = os.path.join('Blockchain', 'contract_addresses.json')
-with open(CONFIG_PATH, 'r') as f:
-    contract_addresses = json.load(f)
-
-CONTRACT_ADDRESS = contract_addresses.get("HashStorage")
-DATA_FACT_MODEL_ADDRESS = contract_addresses.get("DataFactModel")
-
-def setup_web3():
-    # Create web3 instance that tries to connect to Ethereum node running locally on the machine
-    web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-    if not web3.is_connected():
-        logging.error("Failed to connect to the blockchain.")
-        raise ConnectionError("Failed to connect to the blockchain.")
-    return web3
-
-# It retrieves the contract instance using the address and ABI
-# If the contract is not deployed at the given address, it will be deployed
-def get_contract(web3, address, abi):
-    return web3.eth.contract(address=address, abi=abi)
 
 # Create "published_hash_2.json" and "published_hash_3.json" if they don't exist
 def ensure_org_published_hash_files():
