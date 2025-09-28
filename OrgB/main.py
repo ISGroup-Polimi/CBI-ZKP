@@ -133,6 +133,7 @@ async def op_prepare_query(org_n, timestamp):
 
     query_dimensions, columns_to_remove_idx = get_query_dimensions(operations) # MAIN.py
 
+
     # Verify if the query is allowed by calling the smart contract in the blockchain
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
 
@@ -141,17 +142,26 @@ async def op_prepare_query(org_n, timestamp):
         return
     print("Query is allowed. Proceeding with query execution...\n")
 
+
     try:
         final_tensor, poseidon_hash = await op_execute_query(operations, columns_to_remove_idx, timestamp) # MAIN ORG1.py
     except Exception as e:
         print(f"Failed to execute query: {e}")
-        return    
-    
+        return   
+
+
+    compare_hash(timestamp, poseidon_hash) # MAIN.py 
+
+
+    show_result(final_tensor, columns_to_remove_idx, org_n) # MAIN.py
+
+
+# Verify the computed poseidon_hash with the one stored on the blockchain
+def compare_hash(timestamp, poseidon_hash):
     web3 = setup_web3()
     contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
 
     stored_hash = contract.functions.getHash(timestamp).call()
-    print("TTT TS from blockchain:", timestamp)
 
     # If poseidon_hash is a list, get the first element
     if isinstance(poseidon_hash, list):
@@ -169,13 +179,10 @@ async def op_prepare_query(org_n, timestamp):
         print("Hash verification successful: The computed hash matches the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash}")
 
-        show_result(final_tensor, columns_to_remove_idx, org_n)
     else:
         print("Hash verification failed: The computed hash does not match the stored hash on the blockchain.")
         print(f"Computed hash: {poseidon_hash}")
         print(f"Stored hash: {stored_hash.hex()}")
-    
-    
 
 def get_query_dimensions(operations):
     columns_to_rollup_idx = []
@@ -228,37 +235,6 @@ def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
 
     #print(f"Indices to remove for roll-up dim: {indices_to_remove}")
     return indices_to_remove
-
-def op_verify_proof():
-    proof_folder = 'Shared/proof'
-    if not os.path.exists(proof_folder):
-        print("Proof folder does not exist.")
-        return
-    
-    proof_path = os.path.join(proof_folder, 'test.pf')
-    vk_path = os.path.join(proof_folder, 'test.vk')
-    settings_filename = os.path.join(proof_folder, 'settings.json')
-
-    if not os.path.exists(proof_path):
-        print("Proof file not found.")
-        return
-
-    if not os.path.exists(vk_path):
-        print("Verification key file not found.")
-        return
-    
-    if not os.path.exists(settings_filename):
-        print("Settings file not found.")
-        return
-    
-    print("\nStarting proof verification...")
-
-    try:
-        res = ezkl.verify(proof_path, settings_filename, vk_path)
-        if res:
-            print("EZKL Proof Verification successful")
-    except Exception as e:
-        print(f"Proof verification failed: {e}")
 
 # Print and save the result of the query (final tensor after OLAP operations) in human-readable format in the proper folder (Org2 or Org3)
 def show_result(final_tensor, columns_to_remove_idx, org_n):
@@ -333,7 +309,7 @@ def show_result(final_tensor, columns_to_remove_idx, org_n):
 
     final_decoded_cube.to_csv(output_path, index=False)
     print(f"Query result saved to {output_path}")
-    
+
 
 # This function groups the rows after the roll-up operation (sum the emissions of rows with same dimensions)
 def group_rows (df):
@@ -363,6 +339,37 @@ def decode_categorical_columns(final_df, filtered_cat_map):
         inv_mapping = {v: k for k, v in mapping.items()}
         decoded_df[col] = decoded_df[col].map(inv_mapping)
     return decoded_df
+
+def op_verify_proof():
+    proof_folder = 'Shared/proof'
+    if not os.path.exists(proof_folder):
+        print("Proof folder does not exist.")
+        return
+    
+    proof_path = os.path.join(proof_folder, 'test.pf')
+    vk_path = os.path.join(proof_folder, 'test.vk')
+    settings_filename = os.path.join(proof_folder, 'settings.json')
+
+    if not os.path.exists(proof_path):
+        print("Proof file not found.")
+        return
+
+    if not os.path.exists(vk_path):
+        print("Verification key file not found.")
+        return
+    
+    if not os.path.exists(settings_filename):
+        print("Settings file not found.")
+        return
+    
+    print("\nStarting proof verification...")
+
+    try:
+        res = ezkl.verify(proof_path, settings_filename, vk_path)
+        if res:
+            print("EZKL Proof Verification successful")
+    except Exception as e:
+        print(f"Proof verification failed: {e}")
     
 async def main():
 

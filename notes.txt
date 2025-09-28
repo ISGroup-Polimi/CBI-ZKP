@@ -29,7 +29,9 @@ git add .
 git commit -m "Show results"
 git push 
 
-
+# create branch
+git checkout -b branch_name
+# go to branch
 git checkout "branch-name"
 
 Add swap (sort of virtual memory)
