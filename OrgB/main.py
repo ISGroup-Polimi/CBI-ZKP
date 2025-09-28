@@ -9,9 +9,9 @@ import logging
 
 from OrgB.hash_utils import verify_query_allowed
 from Org1.execute_query import op_execute_query
-from Org1.hash_utils import compare_hash
-from Org1.main import get_query_dimensions
-from Org1.main import show_result
+from OrgB.hash_utils import compare_hash
+from OrgB.hash_utils import get_query_dimensions
+from OrgB.hash_utils import show_result
 
 # Load contract addresses from configuration file
 CONFIG_PATH = os.path.join('Blockchain', 'contract_addresses.json')
@@ -132,7 +132,7 @@ async def op_query(org_n, timestamp):
 
 
     show_result(final_tensor, columns_to_remove_idx, org_n) # MAIN.py
-    
+
 
 # Verify the zk proof with ezkl using the proof, vk and settings files stored in Shared/proof
 def op_verify_proof():
