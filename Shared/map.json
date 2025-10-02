@@ -1,0 +1,27 @@
+{
+  "Product Name": {
+    "Running Shoes": 1,
+    "Leather Boots": 2,
+    "Slip-On Sneakers": 3,
+    "Sandals": 4,
+    "Denim Jeans": 5,
+    "Cargo Pants": 6,
+    "Chino Pants": 7,
+    "Shorts": 8,
+    "Classic T-Shirt": 9,
+    "Formal Shirt": 10,
+    "Polo Shirt": 11,
+    "Tank Top": 12
+  },
+  "Category": {
+    "Shoes": 1,
+    "Pants": 2,
+    "Shirts": 3
+  },
+  "Material": {
+    "Cotton": 1,
+    "Leather": 2,
+    "Polyester": 3,
+    "Denim": 4
+  }
+}
