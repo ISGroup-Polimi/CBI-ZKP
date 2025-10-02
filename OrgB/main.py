@@ -108,7 +108,7 @@ async def op_query(org_n, timestamp):
     operations = {
         "Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
                    ["Date", "Day"]], # rollup dimension
-        "Dicing": [{2: [0, 3]}] 
+        "Dicing": [{2: [1, 2]}] 
     }
     
     # operations = select_operations()
