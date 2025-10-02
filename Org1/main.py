@@ -8,7 +8,7 @@ from Org1.StarSchemeGenerator import main as generate_star_scheme
 from Org1.StarSchemeGenerator import sale_update as sale_update
 from Org1.Dim_ID_Converter import CSV_converter
 from Org1.hash_utils import publish_hash
-import csv
+from Org1.StarSchemeGenerator import update_products
 
 
 output_dir = os.path.join('Org1', 'output')
@@ -122,8 +122,9 @@ async def main():
         print("[2] Update (and Convert) File")
         print("([3] Convert File)")
         print("[4] Publish Hash")
+        print("[5] Update Dimension Table")
         print("[0] Exit")
-        sub_choice = input("Enter your choice (1, 2, 3, 4, or 0): ")
+        sub_choice = input("Enter your choice (1, 2, 3, 4, 5, or 0): ")
 
         if sub_choice == "1":  # GENERATE (AND CONVERT) FILE
             generate_star_scheme()
@@ -138,6 +139,9 @@ async def main():
 
         elif sub_choice == "4":  # PUBLISH HASH
             await CLI_publish_hash()
+
+        elif sub_choice == "5":  # UPDATE DIMENSION TABLE
+            update_products()
 
         elif sub_choice == "0":
             print("Exiting.")

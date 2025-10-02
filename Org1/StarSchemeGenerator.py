@@ -1,4 +1,8 @@
-# Star Schema Generator
+# Star Schema Generator 
+# - Generate Dimension Tables: Products, Material, Date
+# - Generate Fact Table: Sale with foreign keys to dimension tables
+# - Update Fact Table with new sales records
+# - Update Dimension Tables
 
 import pandas as pd
 import os
@@ -138,6 +142,22 @@ def sale_update():
     new_sales.to_csv(selected_file, mode='a', header=False, index=False)
 
     print(f"\n'{selected_file}' was updated with new rows.")
+
+def update_products():
+    products_file = "Org1/PR_DB/DimTab/Products.csv"
+    products = pd.read_csv(products_file)
+
+    new_products = [
+        {"Product_Id": 13, "Product_Name": "Baseball Cap", "Category": "Hat"},
+        {"Product_Id": 14, "Product_Name": "Beanie", "Category": "Hat"},
+        {"Product_Id": 15, "Product_Name": "Cowboy Hat", "Category": "Hat"},
+        {"Product_Id": 16, "Product_Name": "Bucket Hat", "Category": "Hat"},
+    ]
+    new_products_df = pd.DataFrame(new_products)
+
+    updated_products = pd.concat([products, new_products_df], ignore_index=True)
+    updated_products.to_csv(products_file, index=False)
+    print(f"\n'{products_file}' was updated with new products.")
 
 
 def main():
