@@ -139,10 +139,7 @@ def get_query_dimensions(operations):
 
     return query_dimensions, columns_to_rollup_idx
 
-# This function gives the indices of the dimensions to be rolled up
-# Example: if hierarchy_to_roll_up = "Date" and dimensions_to_rollup = "Year" -> it will return the indices of "Month", "Day" and "Product Name"
-#          if hierarchy_to_rollup = "Clothes Type" and dimensions_to_rollup = None -> it will return the indices of all dimensions in the hierarchy
-def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
+def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup):
     with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
 
@@ -151,23 +148,25 @@ def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
 
     dim_to_remove = []
 
-    if dimensions_to_rollup is None: # Roll-up all dimensions of a hierarchy
-        dim_to_remove.extend(dim_hierarchy[hierarchy_to_rollup])
+    dim_of_hierarchy = dim_hierarchy[hierarchy_to_rollup]  # e.g., dim_of_hierarchy = ["Year", "Month", "Day"]
 
+    if dimensions_to_rollup is None:
+        raise ValueError("dimensions_to_rollup cannot be None. Please specify a dimension to roll up.")
     else:
-        dim_of_hierarchy = dim_hierarchy[hierarchy_to_rollup] # ["Year", "Month", "Day"] or ["Category", "Product Name"]
         if dimensions_to_rollup in dim_of_hierarchy:
             idx = dim_of_hierarchy.index(dimensions_to_rollup)
+            if idx == 0:
+                # If the top level is selected, remove all levels
+                dim_to_remove.extend(dim_of_hierarchy)
+            else:
+                # Remove the selected level and all lower levels
+                dim_to_remove.extend(dim_of_hierarchy[idx:])
         else:
             print(f"Dimension {dimensions_to_rollup} not found in hierarchy {hierarchy_to_rollup}.")
-        
-        for i in range(idx + 1, len(dim_of_hierarchy)):
-            dim_to_remove.append(dim_of_hierarchy[i])
 
     # Convert the dimension names to their corresponding indices
-    indices_to_remove = [dim_index[dim] for dim in dim_to_remove]       
+    indices_to_remove = [dim_index[dim] for dim in dim_to_remove]
 
-    #print(f"Indices to remove for roll-up dim: {indices_to_remove}")
     return indices_to_remove
 
 # Print and save the result of the query (final tensor after OLAP operations) in human-readable format in the proper folder (Org2 or Org3)
