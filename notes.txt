@@ -2,10 +2,12 @@ PR = Private
 PUB = Public
 C = Converted
 
-
+# Virtual env on/off
 source .venv/bin/activate
 deactivate
 
+### Project
+pip install -r requirements.txt
 
 In different terminals:
 geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,personal,net
@@ -21,18 +23,19 @@ in /Carboni_Thesis
     python3 -m Org1.main
     python3 -m OrgB.main
 
-pipreqs --force --ignore .venv,.history
-pip install -r requirements.txt
 
-
+# commit from VM
 git add .
 git commit -m "Show results"
-git push 
+git push
+
 
 # create branch
 git checkout -b branch_name
+
 # go to branch
 git checkout "branch-name"
+
 
 Add swap (sort of virtual memory)
     sudo fallocate -l 8G /swapfile
@@ -40,14 +43,6 @@ Add swap (sort of virtual memory)
     sudo mkswap /swapfile
     sudo swapon /swapfile
 
-git fetch origin
-git reset --hard origin/"branch-name"
-git clean -fd
 
-See which is the size of files to push
+# See which is the size of files to push
 git ls-files --stage | awk '{print $4}' | xargs -I{} du -h {} | sort -hr
-
-files/folder to delete
-- Org1/data 
-- CSV_Generator1
-- CSV_Generator2
