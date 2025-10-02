@@ -33,7 +33,7 @@ def get_id_from_date(date):
 with open("Shared/DFM_Sale.json", "r") as f:
     data = json.load(f)
 
-materials = data["materials"]
+materials = data["Material"]
 
 # Return the list of material names from a list of material IDs
 def get_materials_from_ids(material_ids):
@@ -64,7 +64,7 @@ def get_ids_from_materials(material_names):
 with open("Shared/DFM_Sale.json", "r") as f:
     data = json.load(f) 
 
-products = data["products"]
+products = data["Product Name"]
 # {'Running Shoes': 1, 'Leather Boots': 2, ..., 'Tank Top': 12}
 
 
