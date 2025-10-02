@@ -11,6 +11,10 @@ class OLAPCube:
         # Save the mapping to Shared/map.json
         with open("Shared/map.json", "w") as f:
             json.dump(self.category_mappings, f, indent=2)
+        # Map categorical columns to integer codes
+        for col, mapping in self.category_mappings.items():
+            if col in self.df.columns:
+                self.df[col] = self.df[col].map(lambda x: mapping.get(str(x), x))
 
     # This method is used to convert the values of the DataFrame to a torch tensor of type float32
     def to_tensor(self):    
