@@ -166,3 +166,27 @@ def CSV_converter():
     output_path = os.path.join("Org1/PR_DB", f"{os.path.splitext(csv_filename)[0]}_C.csv") # Sale_PR_C.csv
     out_df.to_csv(output_path, index=False)
     print(f"Converted CSV saved as '{output_path}'")
+
+def create_mappings_json():
+    with open("Shared/DFM_Sale.json", "r") as f:
+        dfm = json.load(f)
+
+    # "Product Name" mapping: name -> id
+    product_name_mapping = dfm["Product Name"]  
+
+    # "Material" mapping: name -> id
+    material_mapping = dfm["Material"]  
+
+    # "Category" mapping: name -> id
+    category_mapping = dfm["Category"]  
+
+    # Combine into a single dictionary for use in OLAPCube or elsewhere
+    category_mappings = {
+        "Product Name": product_name_mapping,
+        "Category": category_mapping,
+        "Material": material_mapping
+    }
+
+    return category_mappings
+
+

@@ -6,7 +6,7 @@ import pandas as pd
 
 from Org1.StarSchemeGenerator import main as generate_star_scheme
 from Org1.StarSchemeGenerator import sale_update as sale_update
-from Org1.Dim_ID_Converter import CSV_converter
+from Shared.Dim_ID_Converter import CSV_converter
 from Org1.hash_utils import publish_hash
 from Org1.StarSchemeGenerator import update_products
 

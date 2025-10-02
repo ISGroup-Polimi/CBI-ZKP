@@ -5,14 +5,14 @@
     "attributes": ["Total Emissions (kgCO2e)"],
 
     
-    "materials": {
+    "Material": {
         "Cotton": 1,
         "Leather": 2,
         "Polyester": 3,
         "Denim": 4
     },
 
-    "products":{
+    "Product Name":{
         "Running Shoes": 1,
         "Leather Boots": 2,
         "Slip-On Sneakers": 3,
@@ -25,6 +25,12 @@
         "Formal Shirt": 10,
         "Polo Shirt": 11,
         "Tank Top": 12
+    },
+
+    "Category": {
+        "Shoes": 1,
+        "Pants": 2,
+        "Shirts": 3
     },
 
     "categories": {

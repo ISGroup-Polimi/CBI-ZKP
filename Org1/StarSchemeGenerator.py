@@ -9,7 +9,7 @@ import os
 import numpy as np
 from datetime import datetime
 
-from Org1.Dim_ID_Converter import START_DATE # ="2020-01-01"
+from Shared.Dim_ID_Converter import START_DATE # ="2020-01-01"
 
 os.makedirs("Org1/PR_DB/DimTab", exist_ok=True)
 

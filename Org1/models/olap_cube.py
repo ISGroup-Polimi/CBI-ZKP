@@ -1,47 +1,13 @@
 import torch
-from torch import nn
 from sklearn.preprocessing import LabelEncoder # to convert categorical string data into numeric labels
 import json
 
+from Shared.Dim_ID_Converter import create_mappings_json
+
 class OLAPCube:
-    def __init__(self, df, category_mappings=None): # The constructor receives as input a >..
+    def __init__(self, df): # The constructor receives as input a >..
         self.df = df                                #  ..< pandas DataFrame (df) 
-        self.label_encoder = LabelEncoder() # Initialize an instance of LabelEncoder, which is then assigned to the attribute label_encoder
-        if category_mappings is not None: # If category_mappings is provided, it will be used to encode the categorical columns
-            self.category_mappings = category_mappings
-            # Encode columns using the provided mapping
-            for col, mapping in self.category_mappings.items():
-                self.df[col] = self.df[col].map(lambda x: mapping.get(str(x), x))
-        else:
-            self.category_mappings = self.encode_categorical_columns()
-
-    def encode_categorical_columns(self):
-        categorical_columns = self.df.select_dtypes(include=['object']).columns
-        category_mappings = {}
-        for col in categorical_columns:
-            self.df[col] = self.label_encoder.fit_transform(self.df[col].astype(str))
-            # Convert mapping values to native int
-            mapping = dict(zip(
-                self.label_encoder.classes_,
-                [int(x) for x in self.label_encoder.transform(self.label_encoder.classes_)]
-            ))
-            category_mappings[col] = mapping
-        return category_mappings
-    
-    def save_category_mappings(self, path):
-        with open(path, "w") as f:
-            json.dump(self.category_mappings, f) 
-
-    def load_category_mappings(path):
-        with open(path, "r") as f:
-            return json.load(f)
-    
-    def decode_categorical_columns(self):
-        decoded_df = self.df.copy()
-        for col, mapping in self.category_mappings.items():
-            inv_mapping = {v: k for k, v in mapping.items()}
-            decoded_df[col] = decoded_df[col].map(inv_mapping)
-        return decoded_df
+        self.category_mappings = create_mappings_json()
 
     # This method is used to convert the values of the DataFrame to a torch tensor of type float32
     def to_tensor(self):    
