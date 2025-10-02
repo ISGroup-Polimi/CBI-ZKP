@@ -13,7 +13,6 @@ with open(CONFIG_PATH, 'r') as f:
     contract_addresses = json.load(f)
 
 CONTRACT_ADDRESS = contract_addresses.get("HashStorage")
-DATA_FACT_MODEL_ADDRESS = contract_addresses.get("DataFactModel")
 
 # ABI (Application Binary Interface) is a JSON description of the contract's functions and events
 # It allows us to interact with the contract using web3.py
