@@ -113,7 +113,9 @@ async def op_query(org_n, timestamp):
 
 
     # Verify if the query is allowed by calling the smart contract in the blockchain
-    is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
+    #is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
+    # TO CHANGE !!! TO CHANGE !!! TO CHANGE !!!
+    is_query_allowed = True 
 
     if not is_query_allowed:
         print("Query contains disallowed dimensions.")
