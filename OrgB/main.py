@@ -104,8 +104,8 @@ async def CLI_query(org_n):
 async def op_query(org_n, timestamp): 
     # Define the OLAP operations to apply
     operations = {
-        "Rollup": [["Clothes Type", "Category"], # rollup entire hierarchy 
-                   ["Date", "Month"]], # rollup dimension
+        "Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
+                   ["Date", "Day"]], # rollup dimension
         "Dicing": [{2: [0, 3]}] 
     }
 

@@ -2,11 +2,11 @@ PR = Private
 PUB = Public
 C = Converted
 
-# Virtual env on/off
+    # Virtual env on/off
 source .venv/bin/activate
 deactivate
 
-### Project
+    ### Project
 pip install -r requirements.txt
 
 In different terminals:
@@ -24,7 +24,7 @@ in /Carboni_Thesis
     python3 -m OrgB.main
 
 
-# commit from VM
+    # commit from VM
 git add .
 git commit -m "Show results"
 git push
