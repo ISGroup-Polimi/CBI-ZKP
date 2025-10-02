@@ -12,6 +12,7 @@ from Org1.execute_query import op_execute_query
 from OrgB.hash_utils import compare_hash
 from OrgB.hash_utils import get_query_dimensions
 from OrgB.hash_utils import show_result
+from OrgB.select_operations import select_operations
 
 # Load contract addresses from configuration file
 CONFIG_PATH = os.path.join('Blockchain', 'contract_addresses.json')
@@ -103,11 +104,14 @@ async def CLI_query(org_n):
 # - shows and saves the result of the query
 async def op_query(org_n, timestamp): 
     # Define the OLAP operations to apply
+    """
     operations = {
         "Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
                    ["Date", "Day"]], # rollup dimension
         "Dicing": [{2: [0, 3]}] 
     }
+    """
+    operations = select_operations()
 
     query_dimensions, columns_to_remove_idx = get_query_dimensions(operations) # MAIN.py
 
