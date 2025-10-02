@@ -9,9 +9,9 @@ def select_operations():
     operations = ["Rollup", "Dicing", "Slicing"]
     result = {}
     while True:
-        print("Select the operation you want to perform:")
+        print("\nSelect the operation you want to perform:")
         for idx, op in enumerate(operations, 1):
-            print(f"{idx}. {op}")
+            print(f"{idx}] {op}")
         print("0] Exit")
         # 1] Rollup
         # 2] Dicing
@@ -48,7 +48,7 @@ def select_operations():
 def CLI_rollup():
     dim_hierarchy = dfm["dim_hierarchy"]
 
-    print("Select one or more hierarchies to roll-up (comma separated numbers, e.g. 1,3):")
+    print("\nSelect one or more hierarchies to roll-up (comma separated numbers, e.g. 1,3):")
     hierarchies = list(dim_hierarchy.keys())
     for i, dim in enumerate(hierarchies, 1):
         print(f"{i}] {dim}")
@@ -64,7 +64,7 @@ def CLI_rollup():
             if 0 <= hier_idx < len(hierarchies):
                 selected_hier = hierarchies[hier_idx]
                 dimensions = dim_hierarchy[selected_hier]
-                print(f"Select a dimension to roll-up on for '{selected_hier}':")
+                print(f"\nSelect a dimension to roll-up on for '{selected_hier}':")
                 for j, dim in enumerate(dimensions, 1):
                     print(f"{j}] {dim}")
                 # Clothes Type        Date         Material
