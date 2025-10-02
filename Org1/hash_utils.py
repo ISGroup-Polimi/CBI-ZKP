@@ -1,16 +1,13 @@
 import os
 import json
-import hashlib
 import logging
-import asyncio
 import ezkl
 from web3 import Web3
 import pandas as pd
 import numpy as np
-import web3
+
 from Org1.models.olap_cube import OLAPCube
 #from pymerkle import MerkleTree
-from Shared.calculate_pos_hash import calculate_pos_hash  
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,7 +17,6 @@ with open(CONFIG_PATH, 'r') as f:
     contract_addresses = json.load(f)
 
 CONTRACT_ADDRESS = contract_addresses.get("HashStorage")
-DATA_FACT_MODEL_ADDRESS = contract_addresses.get("DataFactModel")
 
 # ABI (Application Binary Interface) is a JSON description of the contract's functions and events
 # It allows us to interact with the contract using web3.py
@@ -46,52 +42,6 @@ CONTRACT_ABI_SET_HASH = json.loads('''
     }
 ]
 ''')
-CONTRACT_ABI_GET_HASH = json.loads('''
-[
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "timestamp",
-                "type": "uint256"
-            }
-        ],
-        "name": "getHash",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    }
-]
-''')
-CONTRACT_ABI_QUERY_ALLOWED = json.loads('''
-[
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "queryDimensions",
-                "type": "string[]"
-            }
-        ],
-        "name": "isQueryAllowed",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    }
-]
-''')
 
 def setup_web3():
     # Create web3 instance that tries to connect to Ethereum node running locally on the machine
@@ -106,22 +56,7 @@ def setup_web3():
 def get_contract(web3, address, abi):
     return web3.eth.contract(address=address, abi=abi)
 
-def calculate_file_hash(file_path):
-    # Calculate the SHA-256 hash of a file
-    hasher = hashlib.sha256()
-    try:
-        with open(file_path, 'rb') as f:
-            buf = f.read()
-            hasher.update(buf)
-    except FileNotFoundError:
-        logging.error(f"File not found: {file_path}")
-        raise
-    return hasher.hexdigest()
-
-def get_stored_hash(contract, timestamp):
-    # return contract.functions.getHash().call()
-    return contract.functions.getHash(timestamp).call()
-
+# Compute the Poseidon hash of the dataset considering only the rows before the given timestamp
 def c_pos_hash(timestamp):
     file_path = os.path.join('Org1', 'PR_DB', "Sale_PR_C.csv")
     df = pd.read_csv(file_path)
@@ -197,68 +132,8 @@ async def publish_hash(timestamp):
         web3.eth.wait_for_transaction_receipt(tx_hash)
         logging.info(f"Hash {poseidon_hash} has been published to the blockchain.")
 
-        """
-        # test
-        contract_get = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
-        stored_hash = get_stored_hash(contract_get, timestamp)
-        print("TTT Hash from blockchain (bytes32):", stored_hash)
-        print("TTT Hash from blockchain (hex):", Web3.to_hex(stored_hash))
-        print("TTT Timestamp:", timestamp)
-        """
         return poseidon_hash
     
     except Exception as e:
         logging.error(f"Failed to publish hash: {e}")
         raise
-    
-
-def verify_dataset_hash(timestamp):
-    file_path = os.path.join('Org1', 'PR_DB', "Sale_PR_C.csv")
-
-    # Read the CSV file and filter rows where "TS" <= timestamp
-    df = pd.read_csv(file_path)
-    df_filtered = df[df["TS"] <= timestamp]
-
-    # Optionally, save or process df_filtered as needed
-    print(df_filtered)
-    
-    calculated_hash = c_pos_hash(timestamp)
-    bytes32_hash = Web3.to_bytes(hexstr=calculated_hash)
-
-    web3 = setup_web3()
-    contract = get_contract(web3, CONTRACT_ADDRESS, CONTRACT_ABI_GET_HASH)
-
-    stored_hash = get_stored_hash(contract, timestamp)
-
-    #logging.info(f"Calculated hash: {bytes32_hash}")
-    #logging.info(f"Stored hash: {stored_hash}")
-
-    if bytes32_hash == stored_hash:
-        logging.info("Hash verification successful. The dataset is authentic.")
-    else:
-        logging.error("Hash verification failed. The dataset has been tampered with.")
-        raise ValueError("Hash verification failed. The dataset has been tampered with.")
-
-def verify_query_allowed(query_dimensions, contract_address):
-    web3 = setup_web3()
-    contract = get_contract(web3, contract_address, CONTRACT_ABI_QUERY_ALLOWED)
-
-    try:
-        # .call() is used to call a function that does not modify the state of the blockchain
-        is_allowed = contract.functions.isQueryAllowed(query_dimensions).call()
-        logging.info(f"Query allowed: {is_allowed}")
-        return is_allowed
-    except Exception as e:
-        logging.error(f"Failed to verify query: {e}")
-        raise
-
-"""
-def calculate_merkle_root(file_path):
-    df = pd.read_csv(file_path)
-    tree = MerkleTree(hash_type="sha256")
-    for row in df.values:
-        # Convert each row to bytes and append to the Merkle tree
-        row_bytes = str(row.tolist()).encode()
-        tree.append_entry(row_bytes)
-    return tree.root_hash    
-"""

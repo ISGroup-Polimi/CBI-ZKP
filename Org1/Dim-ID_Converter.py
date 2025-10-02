@@ -1,3 +1,5 @@
+# Mapping from Shared/DFM_Sale.json
+
 import pandas as pd
 import json
 import os
