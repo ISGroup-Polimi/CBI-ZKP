@@ -144,7 +144,7 @@ def get_query_dimensions(operations):
 # Example: if hierarchy_to_roll_up = "Date" and dimensions_to_rollup = "Year" -> it will return the indices of "Month", "Day" and "Product Name"
 #          if hierarchy_to_rollup = "Clothes Type" and dimensions_to_rollup = None -> it will return the indices of all dimensions in the hierarchy
 def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup=None):
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
 
     dim_hierarchy = DFM_representation["dim_hierarchy"]
@@ -248,7 +248,7 @@ def show_result(final_tensor, columns_to_remove_idx, org_n):
 
 # This function groups the rows after the roll-up operation (sum the emissions of rows with same dimensions)
 def group_rows (df):
-    with open("Shared/DFM_GHGe1.json", "r") as f:
+    with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
     
     # attritubes to sum ("Total Emissions (kgCO2e)")
