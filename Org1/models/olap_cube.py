@@ -8,6 +8,9 @@ class OLAPCube:
     def __init__(self, df): # The constructor receives as input a >..
         self.df = df                                #  ..< pandas DataFrame (df) 
         self.category_mappings = create_mappings_json()
+        # Save the mapping to Shared/map.json
+        with open("Shared/map.json", "w") as f:
+            json.dump(self.category_mappings, f, indent=2)
 
     # This method is used to convert the values of the DataFrame to a torch tensor of type float32
     def to_tensor(self):    

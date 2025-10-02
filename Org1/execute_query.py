@@ -54,7 +54,7 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     # Initialize the OLAP cube and transform the data into a tensor
     cube = OLAPCube(df)
     # save the mappings (categorical values - indexes) to a JSON file in Shared folder
-    cube.save_category_mappings(os.path.join("Shared", "cat_map.json")) 
+    #cube.save_category_mappings(os.path.join("Shared", "cat_map.json")) 
     tensor_data = cube.to_tensor()
 
     decoded_operations = decode_operations(operations, columns_to_remove_idx)

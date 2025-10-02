@@ -193,7 +193,7 @@ def show_result(final_tensor, columns_to_remove_idx, org_n):
     final_df = group_rows(final_df)
 
     # Open the category mappings to decode the categorical columns
-    with open("Shared/cat_map.json", "r") as f:
+    with open("Shared/map.json", "r") as f:
         cat_map =  json.load(f)
         #print("Category mappings loaded")
 
