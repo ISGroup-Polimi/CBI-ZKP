@@ -45,8 +45,8 @@ def select_operations():
                 elif op_name == "Slicing/Dicing":
                     slice_result = CLI_slice_and_dice()
                     if slice_result:
-                        result.setdefault("Slicing/Dicing", []).extend(slice_result["Dicing"])
-                        selected_ops.add("Slicing/Dicing")
+                        result.setdefault("Dicing", []).extend(slice_result["Dicing"])
+                        selected_ops.add("Dicing")
 
             else:
                 print("Invalid selection.")
@@ -153,7 +153,7 @@ def CLI_slice_and_dice():
                             print(f"Possible values for '{dim_name}':")
                             for i, val in enumerate(value_names):
                                 print(f"{i}] {val}")
-                            values_input = input(f"Enter the indices of the values to keep for '{dim_name}' (comma separated): ")
+                            values_input = input(f"\nEnter the indices of the values to keep for '{dim_name}' (comma separated): ")
                             try:
                                 indices = [int(v.strip()) for v in values_input.split(",") if v.strip().isdigit()]
                                 # Map indices to names, then to IDs
