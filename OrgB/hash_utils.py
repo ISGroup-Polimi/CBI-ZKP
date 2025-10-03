@@ -144,7 +144,7 @@ def get_idx_rollup(hierarchy_to_rollup, dimensions_to_rollup):
         DFM_representation = json.load(f)
 
     dim_hierarchy = DFM_representation["dim_hierarchy"]
-    dim_index = DFM_representation["dim_index"]
+    dim_index = DFM_representation["col_indexes"]
 
     dim_to_remove = []
 
@@ -184,7 +184,7 @@ def show_result(final_tensor, columns_to_remove_idx, org_n):
     # Remove columns of the slice
     with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
-    dim_index = DFM_representation["dim_index"]
+    dim_index = DFM_representation["col_indexes"]
     kept_columns = [col for col, idx in dim_index.items() if idx not in columns_to_remove_idx]
     final_df.columns = kept_columns 
     #print(f"Final DataFrame:\n{final_df}")

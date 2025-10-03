@@ -1,3 +1,8 @@
+# Dicing: select specific values for multiple dimensions (columns)
+# This is also slice model
+# Example conditions: {2: [0, 2]} means select rows where column index 2 has value 0 or 2
+# {2: 3, 4: [0, 2]} allowed
+# {2:0, 2:2} not allowed
 from ..models.olap_operations import OLAPOperation
 import torch
 from torch import nn

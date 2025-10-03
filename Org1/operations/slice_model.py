@@ -1,3 +1,4 @@
+# Slicing: select a single value for a single dimension (column)
 # Example: SlicingModel({14: 1,   21: 12,   27: 0})
 # -> filter to have only the rows where column 14 is ==1, column 21 is ==12 and column 27 is ==0
 

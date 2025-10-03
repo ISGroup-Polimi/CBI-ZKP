@@ -4,8 +4,9 @@ import pandas as pd
 import json
 import os
 
-START_DATE = "2020-01-01"
-
+with open("Shared/DFM_Sale.json", "r") as f:
+    dfm_json = json.load(f)
+START_DATE = dfm_json["START_DATE"]
 
 ## DATE CONVERTER
 
@@ -30,10 +31,7 @@ def get_id_from_date(date):
 
 
 ## MATERIAL CONVERTER
-with open("Shared/DFM_Sale.json", "r") as f:
-    data = json.load(f)
-
-materials = data["Material"]
+materials = dfm_json["Material"]
 
 # Return the list of material names from a list of material IDs
 def get_materials_from_ids(material_ids):
@@ -60,13 +58,10 @@ def get_ids_from_materials(material_names):
             raise ValueError(f"Material name '{name}' not found in materials.")
     return ids
 
+
 ## PRODUCT CONVERTER
-with open("Shared/DFM_Sale.json", "r") as f:
-    data = json.load(f) 
-
-products = data["Product Name"]
+products = dfm_json["Product Name"]
 # {'Running Shoes': 1, 'Leather Boots': 2, ..., 'Tank Top': 12}
-
 
 # Return the list of product names from a list of product IDs
 def get_products_from_ids(product_ids):
@@ -93,15 +88,13 @@ def get_ids_from_products(product_names):
             raise ValueError(f"Product name '{name}' not found in products.")
     return ids
 
-#CATEGORY
-with open("Shared/DFM_Sale.json", "r") as f:
-    data = json.load(f) 
 
-categories = data["categories"]
+#CATEGORY
+categories = dfm_json["Category_range"]
 
 def get_categories_from_ids(category_ids):
     # Create a reverse dictionary to map IDs to names
-    # "categories": {
+    # "Category_range": {
     #     "Shoes": [1, 4],
     #     "Pants": [5, 8],
     #     "Shirts": [9, 12]
@@ -133,6 +126,7 @@ def get_ids_from_categories(category_names):
         if not found:
             raise ValueError(f"Category name '{name}' not found in categories.")
     return ids
+
 
 # Convert a CSV with Dim IDs to a human-readable CSV, saving it in the "test" folder
 def CSV_converter():
@@ -189,4 +183,24 @@ def create_mappings_json():
 
     return category_mappings
 
+def filter_data(number, type):
+    # Read the CSV file
+    path = os.path.join("Org1", "PR_DB", "Sale_PR.csv")
+    df = pd.read_csv(path)
 
+    # Convert Date_Id to actual dates
+    dates = [get_date_from_id(date_id) for date_id in df["Date_Id"]]
+    years = [d.year for d in dates]
+    months = [d.month for d in dates]
+    days = [d.day for d in dates]
+
+    if type == "Year":
+        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).year == number]
+    elif type == "Month":
+        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).month == number]
+    elif type == "Day":
+        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).day == number]
+    else:
+        raise ValueError("Type must be 'Year', 'Month', or 'Day'.")
+
+    return indices

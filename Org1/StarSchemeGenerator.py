@@ -4,54 +4,64 @@
 # - Update Fact Table with new sales records
 # - Update Dimension Tables
 
+import json
 import pandas as pd
 import os
 import numpy as np
 from datetime import datetime
 
-from Shared.Dim_ID_Converter import START_DATE # ="2020-01-01"
+with open("Shared/DFM_Sale.json", "r") as f:
+    dfm_json = json.load(f)
+START_DATE = dfm_json["START_DATE"]
+END_DATE = dfm_json["END_DATE"]
 
 os.makedirs("Org1/PR_DB/DimTab", exist_ok=True)
 
 SALE_COUNTER = 0
 
 def product_Gen(output_dir="Org1/PR_DB/DimTab"):
-    # Define 4 products for each of the 3 categories
-    products = [
-        # Shoes
-        {"Product_Id": 1, "Product_Name": "Running Shoes", "Category": "Shoes"},
-        {"Product_Id": 2, "Product_Name": "Leather Boots", "Category": "Shoes"},
-        {"Product_Id": 3, "Product_Name": "Slip-On Sneakers", "Category": "Shoes"},
-        {"Product_Id": 4, "Product_Name": "Sandals", "Category": "Shoes"},
-        # Pants
-        {"Product_Id": 5, "Product_Name": "Denim Jeans", "Category": "Pants"},
-        {"Product_Id": 6, "Product_Name": "Cargo Pants", "Category": "Pants"},
-        {"Product_Id": 7, "Product_Name": "Chino Pants", "Category": "Pants"},
-        {"Product_Id": 8, "Product_Name": "Shorts", "Category": "Pants"},
-        # Shirts
-        {"Product_Id": 9, "Product_Name": "Classic T-Shirt", "Category": "Shirts"},
-        {"Product_Id": 10, "Product_Name": "Formal Shirt", "Category": "Shirts"},
-        {"Product_Id": 11, "Product_Name": "Polo Shirt", "Category": "Shirts"},
-        {"Product_Id": 12, "Product_Name": "Tank Top", "Category": "Shirts"},
-    ]
+    # Load product info from DFM_Sale.json
+    product_names = dfm_json["Product Name"]  # Dict: {Product_Id: Product_Name}
+    category_range = dfm_json["Category Range"]  # Dict: {Category: [start_id, end_id]}
+
+    # Build Product_Id -> Category mapping
+    id_to_category = {}
+    for category, (start_id, end_id) in category_range.items():
+        for pid in range(start_id, end_id + 1):
+            id_to_category[pid] = category
+
+    # Build products list
+    products = []
+    for pid_str, pname in product_names.items():
+        pid = int(pid_str)
+        category = id_to_category.get(pid, "Unknown")
+        products.append({
+            "Product_Id": pid,
+            "Product_Name": pname,
+            "Category": category
+        })
+
     Products = pd.DataFrame(products)
     os.makedirs(output_dir, exist_ok=True)
     Products.to_csv(f"{output_dir}/Products.csv", index=False)
 
 def material_Gen(output_dir="Org1/PR_DB/DimTab"):
-    materials = [
-        {"Material_Id": 1, "Material_Name": "Cotton"},
-        {"Material_Id": 2, "Material_Name": "Leather"},
-        {"Material_Id": 3, "Material_Name": "Polyester"},
-        {"Material_Id": 4, "Material_Name": "Denim"},
-    ]
+    # Load material info from DFM_Sale.json
+    material_dict = dfm_json["Material"]  # Dict: {Material_Id: Material_Name}
+    materials = []
+    for mid_str, mname in material_dict.items():
+        mid = int(mid_str)
+        materials.append({
+            "Material_Id": mid,
+            "Material_Name": mname
+        })
     Material = pd.DataFrame(materials)
     os.makedirs(output_dir, exist_ok=True)
     Material.to_csv(f"{output_dir}/Material.csv", index=False)
 
 def date_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Generate date range
-    dates = pd.date_range(start= START_DATE, end="2024-12-31", freq="D")
+    dates = pd.date_range(start= START_DATE, end=END_DATE, freq="D")
     df = pd.DataFrame({
         "Day": dates.day,
         "Month": dates.month,
