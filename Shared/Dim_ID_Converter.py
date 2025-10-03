@@ -182,25 +182,4 @@ def create_mappings_json():
     }
 
     return category_mappings
-
-def filter_data(number, type):
-    # Read the CSV file
-    path = os.path.join("Org1", "PR_DB", "Sale_PR.csv")
-    df = pd.read_csv(path)
-
-    # Convert Date_Id to actual dates
-    dates = [get_date_from_id(date_id) for date_id in df["Date_Id"]]
-    years = [d.year for d in dates]
-    months = [d.month for d in dates]
-    days = [d.day for d in dates]
-
-    if type == "Year":
-        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).year == number]
-    elif type == "Month":
-        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).month == number]
-    elif type == "Day":
-        indices = [i for i, d in enumerate(dates) if get_id_from_date(d).day == number]
-    else:
-        raise ValueError("Type must be 'Year', 'Month', or 'Day'.")
-
-    return indices
+    
