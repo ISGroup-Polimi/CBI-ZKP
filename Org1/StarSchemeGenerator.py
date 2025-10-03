@@ -32,7 +32,7 @@ def product_Gen(output_dir="Org1/PR_DB/DimTab"):
 
     # Build products list
     products = []
-    for pname, pid in product_names.items():  # <-- swapped order
+    for pname, pid in product_names.items():  
         pid = int(pid)
         category = id_to_category.get(pid, "Unknown")
         products.append({
@@ -49,7 +49,7 @@ def material_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Load material info from DFM_Sale.json
     material_dict = dfm_json["Material"]  # Dict: {Material_Name: Material_Id}
     materials = []
-    for mname, mid in material_dict.items():  # <-- swapped order
+    for mname, mid in material_dict.items():  
         mid = int(mid)
         materials.append({
             "Material_Id": mid,
