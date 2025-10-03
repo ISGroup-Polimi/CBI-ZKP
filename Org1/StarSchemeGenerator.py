@@ -21,7 +21,7 @@ SALE_COUNTER = 0
 
 def product_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Load product info from DFM_Sale.json
-    product_names = dfm_json["Product Name"]  # Dict: {Product_Id: Product_Name}
+    product_names = dfm_json["Product Name"]  # Dict: {Product_Name: Product_Id}
     category_range = dfm_json["Category_range"]  # Dict: {Category: [start_id, end_id]}
 
     # Build Product_Id -> Category mapping
@@ -32,8 +32,8 @@ def product_Gen(output_dir="Org1/PR_DB/DimTab"):
 
     # Build products list
     products = []
-    for pid_str, pname in product_names.items():
-        pid = int(pid_str)
+    for pname, pid in product_names.items():  # <-- swapped order
+        pid = int(pid)
         category = id_to_category.get(pid, "Unknown")
         products.append({
             "Product_Id": pid,
@@ -47,10 +47,10 @@ def product_Gen(output_dir="Org1/PR_DB/DimTab"):
 
 def material_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Load material info from DFM_Sale.json
-    material_dict = dfm_json["Material"]  # Dict: {Material_Id: Material_Name}
+    material_dict = dfm_json["Material"]  # Dict: {Material_Name: Material_Id}
     materials = []
-    for mid_str, mname in material_dict.items():
-        mid = int(mid_str)
+    for mname, mid in material_dict.items():  # <-- swapped order
+        mid = int(mid)
         materials.append({
             "Material_Id": mid,
             "Material_Name": mname
