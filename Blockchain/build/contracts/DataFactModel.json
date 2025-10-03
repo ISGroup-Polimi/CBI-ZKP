@@ -10650,12 +10650,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0xCdbdc94E96e79837F12FA7344232FfA73dA07dbd",
-      "transactionHash": "0x1beaa789b2c74d20da64584d7f093d79142051b31fc1fcea7e4a5c8afcaae5d0"
+      "address": "0x238870420c4c829691FD3D1a839aa6d10AF3507c",
+      "transactionHash": "0xca27adcdb484b0a5a57f0daa5be1f697c9ba2cd750d7a0fd499927b2a3f6cc75"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-10-03T12:46:30.702Z",
+  "updatedAt": "2025-10-03T14:34:07.338Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
