@@ -22,7 +22,7 @@ SALE_COUNTER = 0
 def product_Gen(output_dir="Org1/PR_DB/DimTab"):
     # Load product info from DFM_Sale.json
     product_names = dfm_json["Product Name"]  # Dict: {Product_Id: Product_Name}
-    category_range = dfm_json["Category Range"]  # Dict: {Category: [start_id, end_id]}
+    category_range = dfm_json["Category_range"]  # Dict: {Category: [start_id, end_id]}
 
     # Build Product_Id -> Category mapping
     id_to_category = {}
