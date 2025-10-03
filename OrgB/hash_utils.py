@@ -121,7 +121,7 @@ def compare_hash(timestamp, poseidon_hash):
 def get_query_dimensions(operations):
     columns_to_rollup_idx = []
 
-    for i in operations["Rollup"]:
+    for i in operations.get("Rollup", []):
         columns_to_rollup_idx.extend(get_idx_rollup(i[0], i[1] if len(i) > 1 else None)) # get the indices of the dimensions to roll up
 
     # Remove duplicates and sort the indices
