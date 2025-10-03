@@ -129,7 +129,7 @@ def get_query_dimensions(operations):
 
     with open("Shared/DFM_Sale.json", "r") as f:
         DFM_representation = json.load(f)
-    columns = list(DFM_representation["dim_index"].keys())
+    columns = list(DFM_representation["col_indexes"].keys())
     
     # Get the column names corresponding to columns_to_remove_idx
     columns_to_rollup = [columns[i] for i in columns_to_rollup_idx]
