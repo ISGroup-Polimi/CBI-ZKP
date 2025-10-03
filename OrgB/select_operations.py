@@ -6,7 +6,7 @@ with open(dfm_path, "r") as f:
     dfm = json.load(f)
 
 def select_operations():
-    operations = ["Rollup/Slicing", "Dicing"]
+    operations = ["Rollup/Dicing", "Slicing"]
     result = {}
     while True:
         print("\nSelect the operation you want to perform:")
