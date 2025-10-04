@@ -127,7 +127,20 @@ def CLI_slice_and_dice():
 
                 # If dimension is a Date: "Year", "Month", or "Day"
                 if dim_name in ["Year", "Month", "Day"]:
-                    value_input = input(f"Enter the {dim_name} value to filter (e.g., 2 for February): ")
+                    value_input = input(f"Enter the {dim_name} value(s) to filter (comma separated, e.g., 2 or 2,3,4 for multiple): ")
+                    # Allow multiple values, comma separated
+                    values = [v.strip() for v in value_input.split(",") if v.strip()]
+                    try:
+                        values = [int(v) for v in values]
+                        if len(values) == 1:
+                            value = values[0]
+                        else:
+                            value = values
+                        date_filters.append((value, dim_name))
+                        date_dim_indices.append(dim_col_idx)
+                    except ValueError:
+                        print("Invalid input for value(s).")
+                        return None
                     try:
                         value = int(value_input.strip())
                         date_filters.append((value, dim_name))
@@ -198,7 +211,7 @@ def CLI_slice_and_dice():
     
 # Returns a list of date_ids where the given type (Year, Month, or Day) equals number.
 # Example: number=2, type="Month" returns all date_ids for February.
-def filter_data(number, type, current_ids = None):
+def filter_data(number, type, current_ids=None):
     date_df = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
 
     # Normalize type input
@@ -206,13 +219,16 @@ def filter_data(number, type, current_ids = None):
 
     if type not in ["Year", "Month", "Day"]:
         raise ValueError("type must be 'Year', 'Month', or 'Day'")
-    
-    # Filter rows where the column matches the number
-    filtered = date_df[date_df[type] == number]
+
+    # Allow number to be a list or a single value
+    if isinstance(number, list):
+        filtered = date_df[date_df[type].isin(number)]
+    else:
+        filtered = date_df[date_df[type] == number]
 
     # If current_ids is provided, further filter to keep only those IDs
     if current_ids is not None:
         filtered = filtered[filtered["Date_Id"].isin(current_ids)]
-    
+
     # Return the list of Date_Id as integers
     return filtered["Date_Id"].tolist()
