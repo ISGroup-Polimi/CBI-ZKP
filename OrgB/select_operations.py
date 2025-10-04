@@ -188,7 +188,7 @@ def CLI_slice_and_dice():
                 current_ids = filter_data(value, dim_name, current_ids)
             # Assign the intersected date_ids to the first date dimension index
             if date_dim_indices:
-                slice_dice_dict[date_dim_indices[0]] = current_ids
+                slice_dice_dict[date_dim_indices[-1]] = current_ids
 
         print(f"You selected dicing: {slice_dice_dict}")
         return {"Dicing": [slice_dice_dict]}
