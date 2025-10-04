@@ -1,21 +1,53 @@
-Material,Year,Total Emissions (kgCO2e)
-Cotton,2020,1028.95
-Cotton,2021,1037.03
-Cotton,2022,1560.22
-Cotton,2023,1554.84
-Cotton,2024,564.66
-Leather,2020,1701.32
-Leather,2021,988.97
-Leather,2022,1358.32
-Leather,2023,1011.06
-Leather,2024,1172.02
-Polyester,2020,1397.92
-Polyester,2021,915.71
-Polyester,2022,2194.91
-Polyester,2023,1219.41
-Polyester,2024,1093.87
-Denim,2020,1561.31
-Denim,2021,1383.38
-Denim,2022,982.8
-Denim,2023,1346.36
-Denim,2024,1138.16
+Product Name,Category,Material,Year,Month,Day,Total Emissions (kgCO2e)
+Running Shoes,Shoes,Cotton,2020,8,25,15.9
+Running Shoes,Shoes,Cotton,2020,11,19,69.25
+Running Shoes,Shoes,Cotton,2020,12,23,81.27
+Running Shoes,Shoes,Cotton,2021,6,4,28.37
+Running Shoes,Shoes,Cotton,2021,7,24,52.01
+Running Shoes,Shoes,Cotton,2021,9,9,97.25
+Running Shoes,Shoes,Cotton,2022,1,14,85.48
+Running Shoes,Shoes,Cotton,2022,5,24,11.89
+Running Shoes,Shoes,Cotton,2022,7,12,31.57
+Running Shoes,Shoes,Cotton,2022,7,29,6.09
+Running Shoes,Shoes,Cotton,2022,10,28,65.17
+Running Shoes,Shoes,Cotton,2023,1,18,26.89
+Running Shoes,Shoes,Cotton,2023,3,4,53.42
+Running Shoes,Shoes,Cotton,2023,6,13,99.16
+Running Shoes,Shoes,Cotton,2023,8,12,19.73
+Running Shoes,Shoes,Cotton,2024,4,16,16.47
+Running Shoes,Shoes,Cotton,2024,10,9,3.6
+Running Shoes,Shoes,Leather,2020,1,11,54.7
+Running Shoes,Shoes,Leather,2022,9,16,47.61
+Running Shoes,Shoes,Leather,2023,8,23,84.98
+Running Shoes,Shoes,Leather,2023,9,26,49.39
+Running Shoes,Shoes,Leather,2024,2,6,46.2
+Running Shoes,Shoes,Leather,2024,6,29,8.0
+Running Shoes,Shoes,Leather,2024,12,17,15.08
+Running Shoes,Shoes,Polyester,2020,5,1,51.09
+Running Shoes,Shoes,Polyester,2020,9,1,66.04
+Running Shoes,Shoes,Polyester,2021,11,19,6.04
+Running Shoes,Shoes,Polyester,2021,12,12,29.7
+Running Shoes,Shoes,Polyester,2022,2,15,67.74
+Running Shoes,Shoes,Polyester,2022,4,15,61.17
+Running Shoes,Shoes,Polyester,2022,4,22,43.03
+Running Shoes,Shoes,Polyester,2022,6,9,11.61
+Running Shoes,Shoes,Polyester,2022,12,27,38.71
+Running Shoes,Shoes,Polyester,2022,12,28,1.92
+Running Shoes,Shoes,Polyester,2023,3,30,10.9
+Running Shoes,Shoes,Polyester,2023,7,24,6.24
+Running Shoes,Shoes,Polyester,2023,10,25,41.7
+Running Shoes,Shoes,Polyester,2024,5,8,65.08
+Running Shoes,Shoes,Polyester,2024,7,28,40.28
+Running Shoes,Shoes,Polyester,2024,10,17,71.42
+Running Shoes,Shoes,Polyester,2024,12,5,32.3
+Running Shoes,Shoes,Denim,2021,1,22,22.29
+Running Shoes,Shoes,Denim,2021,2,9,12.22
+Running Shoes,Shoes,Denim,2021,6,14,94.93
+Running Shoes,Shoes,Denim,2021,10,21,50.75
+Running Shoes,Shoes,Denim,2022,7,18,8.06
+Running Shoes,Shoes,Denim,2022,8,22,71.41
+Running Shoes,Shoes,Denim,2022,11,23,38.53
+Running Shoes,Shoes,Denim,2023,1,26,35.49
+Running Shoes,Shoes,Denim,2023,12,11,50.99
+Running Shoes,Shoes,Denim,2024,4,30,23.13
+Running Shoes,Shoes,Denim,2024,12,26,81.77
