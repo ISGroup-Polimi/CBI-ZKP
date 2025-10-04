@@ -18,7 +18,10 @@ class DicingModel(OLAPOperation):
             # check if the value is a list (for multiple values in the same column)
             if isinstance(value, list):
                 # Efficiently check if x[:, column] is in value
-                mask = mask & torch.isin(x[:, column], torch.tensor(value, dtype=x.dtype, device=x.device))
+                value_tensor = torch.tensor(value, dtype=x.dtype, device=x.device)
+                # Compare each element in x[:, column] to all values, then reduce with any()
+                matches = (x[:, column].unsqueeze(1) == value_tensor.unsqueeze(0)).any(dim=1)
+                mask = mask & matches
             else:
                 mask = mask & (x[:, column] == value)
         return x * mask.unsqueeze(1)
