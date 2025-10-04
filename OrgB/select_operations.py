@@ -211,8 +211,8 @@ def CLI_Year():
 
     years = list(range(int(start_date[:4]), int(end_date[:4]) + 1))
     print("Available years:")
-    for i, year in enumerate(years):
-        print(f"{i}] {year}")
+    for year in years:
+        print(f"- {year}")
     years_input = input("Enter the years you want to select (comma separated, e.g. 2021,2022): ")
     selected_years = []
     for y in years_input.split(","):
@@ -225,15 +225,12 @@ def CLI_Year():
     return selected_years
 
 def CLI_Month():
-    months = list(range(1, 13))
-    print("Available months:")
-    for i, month in enumerate(months):
-        print(f"{i}] {month}")
+    print("Available months: 1 to 12")
     months_input = input("Enter the months you want to select (comma separated, e.g. 1,2 for Jan, Feb): ")
     selected_months = []
     for m in months_input.split(","):
         m = m.strip()
-        if m.isdigit() and int(m) in months:
+        if m.isdigit() and 1 <= int(m) <= 12:
             selected_months.append(int(m))
     if not selected_months:
         print("No valid months selected.")
@@ -241,15 +238,12 @@ def CLI_Month():
     return selected_months
 
 def CLI_Day():
-    days = list(range(1, 32))
-    print("Available days:")
-    for i, day in enumerate(days):
-        print(f"{i}] {day}")
+    print("Available days: 1 to 31")
     days_input = input("Enter the days you want to select (comma separated, e.g. 1,15 for 1st and 15th): ")
     selected_days = []
     for d in days_input.split(","):
         d = d.strip()
-        if d.isdigit() and int(d) in days:
+        if d.isdigit() and 1 <= int(d) <= 31:
             selected_days.append(int(d))
     if not selected_days:
         print("No valid days selected.")
