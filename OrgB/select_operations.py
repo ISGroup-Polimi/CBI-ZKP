@@ -10,14 +10,10 @@ with open(dfm_path, "r") as f:
 def select_operations():
     operations = ["Rollup", "Slicing/Dicing"]
     result = {}
-    selected_ops = set() # To allow only one instance of each operation
     while True:
         print("\nSelect the operation you want to perform:")
         for idx, op in enumerate(operations, 1):
-            if op in selected_ops:
-                print(f"{idx}] {op} (already selected)")
-            else:
-                print(f"{idx}] {op}")
+            print(f"{idx}] {op}")
         print("0] Exit")
         # 1] Rollup
         # 2] Slicing/Dicing
@@ -31,22 +27,17 @@ def select_operations():
             choice_idx = int(choice) - 1
             if 0 <= choice_idx < len(operations):
                 op_name = operations[choice_idx]
-                if op_name in selected_ops:
-                    print(f"{op_name} has already been selected. Please choose another operation.")
-                    continue
                 print(f"You selected: {op_name}")
 
                 if op_name == "Rollup":
                     rollup_result = CLI_rollup()
                     if rollup_result:
                         result.setdefault("Rollup", []).extend(rollup_result["Rollup"])
-                        selected_ops.add("Rollup")
 
                 elif op_name == "Slicing/Dicing":
                     slice_result = CLI_slice_and_dice()
                     if slice_result:
                         result.setdefault("Dicing", []).extend(slice_result["Dicing"])
-                        selected_ops.add("Dicing")
 
             else:
                 print("Invalid selection.")
