@@ -104,7 +104,7 @@ async def CLI_query(org_n):
 # - shows and saves the result of the query
 async def op_query(org_n, timestamp): 
     # Define the OLAP operations to apply
-    
+    """
     operations = {
         #"Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
         #           ["Date", "Day"]], # rollup dimension
@@ -112,8 +112,9 @@ async def op_query(org_n, timestamp):
         
         # {2: 3, 4: [0, 2]} allowed
     }
+    """
     
-    # operations = select_operations()
+    operations = select_operations()
 
     query_dimensions, columns_to_remove_idx = get_query_dimensions(operations) # MAIN.py
 
