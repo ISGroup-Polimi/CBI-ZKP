@@ -84,6 +84,6 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     with open(input_json_path, 'w') as f:
         json.dump(data, f)
 
-    poseidon_hash = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=17)
+    poseidon_hash = await generate_proof(output_dir, model_onnx_path, input_json_path, logrows=18)
 
     return final_tensor, poseidon_hash

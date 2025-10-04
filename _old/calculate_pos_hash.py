@@ -10,7 +10,7 @@ class IdentityModel(nn.Module):
     def forward(self, x):
         return x
 
-async def calculate_pos_hash (file_path, logrows = 17):
+async def calculate_pos_hash (file_path, logrows = 18):
     output_dir = 'Org1/output'
     os.makedirs(output_dir, exist_ok=True)
 
