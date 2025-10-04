@@ -115,10 +115,14 @@ def CLI_slice_and_dice():
         dim_indices = [int(idx.strip()) - 1 for idx in dim_choices.split(",") if idx.strip().isdigit()]
         slice_dice_dict = {}
 
+        # For intersection of date_ids
+        date_filters = []
+        date_dim_indices = []
+
         for dim_idx in dim_indices:
             if 0 <= dim_idx < len(dimensions):
                 dim_name = dimensions[dim_idx]
-                dim_idx = dim_indexes[dim_name]
+                dim_col_idx = dim_indexes[dim_name]
                 print(f"\nYou selected to slice or dice on: {dim_name}")
 
                 # If dimension is a Date: "Year", "Month", or "Day"
@@ -126,9 +130,8 @@ def CLI_slice_and_dice():
                     value_input = input(f"Enter the {dim_name} value to filter (e.g., 2 for February): ")
                     try:
                         value = int(value_input.strip())
-                        # Use filter_data to get the list of date_ids
-                        date_ids = filter_data(value, dim_name) # implemented below
-                        slice_dice_dict[dim_idx] = date_ids
+                        date_filters.append((value, dim_name))
+                        date_dim_indices.append(dim_col_idx)
                     except ValueError:
                         print("Invalid input for value.")
                         return None
@@ -138,7 +141,6 @@ def CLI_slice_and_dice():
                 else:
                     possible_values = dfm_json.get(dim_name)
                     if possible_values:
-                        # For dicts like "Product Name": name -> id, build a list of names
                         if isinstance(possible_values, dict):
                             value_names = list(possible_values.keys())
                             print(f"Possible values for '{dim_name}':")
@@ -147,13 +149,11 @@ def CLI_slice_and_dice():
                             values_input = input(f"\nEnter the indices of the values to keep for '{dim_name}' (comma separated): ")
                             try:
                                 indices = [int(v.strip()) for v in values_input.split(",") if v.strip().isdigit()]
-                                # Map indices to names, then to IDs
                                 values = [possible_values[value_names[i]] for i in indices if 0 <= i < len(value_names)]
                             except ValueError:
                                 print("Invalid input for indices.")
                                 return None
                         else:
-                            # If possible_values is a list, keep your original logic
                             print(f"Possible values for '{dim_name}':")
                             for i, val in enumerate(possible_values):
                                 print(f"{i}] {val}")
@@ -173,14 +173,22 @@ def CLI_slice_and_dice():
                             else:
                                 values.append(v)
 
-                    # If only one value, store as int, else as list
                     if len(values) == 1:
-                        slice_dice_dict[dim_idx] = values[0]
+                        slice_dice_dict[dim_col_idx] = values[0]
                     else:
-                        slice_dice_dict[dim_idx] = values
+                        slice_dice_dict[dim_col_idx] = values
             else:
                 print("Invalid dimension selection.")
                 return None
+
+        # Process intersection of date filters, if any
+        if date_filters:
+            current_ids = None
+            for value, dim_name in date_filters:
+                current_ids = filter_data(value, dim_name, current_ids)
+            # Assign the intersected date_ids to the first date dimension index
+            if date_dim_indices:
+                slice_dice_dict[date_dim_indices[0]] = current_ids
 
         print(f"You selected dicing: {slice_dice_dict}")
         return {"Dicing": [slice_dice_dict]}
@@ -190,7 +198,7 @@ def CLI_slice_and_dice():
     
 # Returns a list of date_ids where the given type (Year, Month, or Day) equals number.
 # Example: number=2, type="Month" returns all date_ids for February.
-def filter_data(number, type):
+def filter_data(number, type, current_ids = None):
     date_df = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
 
     # Normalize type input
@@ -201,6 +209,10 @@ def filter_data(number, type):
     
     # Filter rows where the column matches the number
     filtered = date_df[date_df[type] == number]
+
+    # If current_ids is provided, further filter to keep only those IDs
+    if current_ids is not None:
+        filtered = filtered[filtered["Date_Id"].isin(current_ids)]
     
     # Return the list of Date_Id as integers
     return filtered["Date_Id"].tolist()
