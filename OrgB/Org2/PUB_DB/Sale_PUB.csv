@@ -1,256 +1,485 @@
-Product Name,Category,Material,Year,Month,Day,Total Emissions (kgCO2e)
-Running Shoes,Shoes,Polyester,2020,5,1,51.09
-Running Shoes,Shoes,Polyester,2020,9,1,66.04
-Running Shoes,Shoes,Polyester,2021,11,19,6.04
-Running Shoes,Shoes,Polyester,2021,12,12,29.7
-Running Shoes,Shoes,Polyester,2022,2,15,67.74
-Running Shoes,Shoes,Polyester,2022,4,15,61.17
-Running Shoes,Shoes,Polyester,2022,4,22,43.03
-Running Shoes,Shoes,Polyester,2022,6,9,11.61
-Running Shoes,Shoes,Polyester,2022,12,27,38.71
-Running Shoes,Shoes,Polyester,2022,12,28,1.92
-Running Shoes,Shoes,Polyester,2023,3,30,10.9
-Running Shoes,Shoes,Polyester,2023,7,24,6.24
-Running Shoes,Shoes,Polyester,2023,10,25,41.7
-Running Shoes,Shoes,Polyester,2024,5,8,65.08
-Running Shoes,Shoes,Polyester,2024,7,28,40.28
-Running Shoes,Shoes,Polyester,2024,10,17,71.42
-Running Shoes,Shoes,Polyester,2024,12,5,32.3
-Running Shoes,Shoes,Denim,2021,1,22,22.29
-Running Shoes,Shoes,Denim,2021,2,9,12.22
-Running Shoes,Shoes,Denim,2021,6,14,94.93
-Running Shoes,Shoes,Denim,2021,10,21,50.75
-Running Shoes,Shoes,Denim,2022,7,18,8.06
-Running Shoes,Shoes,Denim,2022,8,22,71.41
-Running Shoes,Shoes,Denim,2022,11,23,38.53
-Running Shoes,Shoes,Denim,2023,1,26,35.49
-Running Shoes,Shoes,Denim,2023,12,11,50.99
-Running Shoes,Shoes,Denim,2024,4,30,23.13
-Running Shoes,Shoes,Denim,2024,12,26,81.77
-Leather Boots,Shoes,Polyester,2020,1,21,86.56
-Leather Boots,Shoes,Polyester,2020,3,25,2.29
-Leather Boots,Shoes,Polyester,2020,11,14,88.98
-Leather Boots,Shoes,Polyester,2021,8,27,92.17
-Leather Boots,Shoes,Polyester,2022,9,26,42.72
-Leather Boots,Shoes,Polyester,2023,6,17,66.09
-Leather Boots,Shoes,Polyester,2024,1,16,40.39
-Leather Boots,Shoes,Polyester,2024,2,16,16.99
-Leather Boots,Shoes,Polyester,2024,12,12,71.0
-Leather Boots,Shoes,Denim,2020,3,27,79.33
-Leather Boots,Shoes,Denim,2020,5,1,62.29
-Leather Boots,Shoes,Denim,2020,12,11,94.17
-Leather Boots,Shoes,Denim,2021,4,27,87.27
-Leather Boots,Shoes,Denim,2022,4,6,2.2
-Leather Boots,Shoes,Denim,2023,9,18,23.61
-Leather Boots,Shoes,Denim,2024,5,28,82.71
-Slip-On Sneakers,Shoes,Polyester,2020,2,11,82.74
-Slip-On Sneakers,Shoes,Polyester,2020,6,13,51.65
-Slip-On Sneakers,Shoes,Polyester,2021,5,11,27.26
-Slip-On Sneakers,Shoes,Polyester,2022,10,11,88.93
-Slip-On Sneakers,Shoes,Polyester,2022,10,18,57.64
-Slip-On Sneakers,Shoes,Polyester,2023,7,4,42.42
-Slip-On Sneakers,Shoes,Polyester,2023,10,25,87.44
-Slip-On Sneakers,Shoes,Polyester,2023,12,20,19.19
-Slip-On Sneakers,Shoes,Denim,2021,1,29,66.78
-Slip-On Sneakers,Shoes,Denim,2021,10,25,83.89
-Slip-On Sneakers,Shoes,Denim,2021,12,24,93.17
-Slip-On Sneakers,Shoes,Denim,2022,1,11,7.41
-Slip-On Sneakers,Shoes,Denim,2022,5,29,17.41
-Slip-On Sneakers,Shoes,Denim,2022,8,22,6.22
-Slip-On Sneakers,Shoes,Denim,2022,9,30,48.38
-Slip-On Sneakers,Shoes,Denim,2022,11,18,96.78
-Slip-On Sneakers,Shoes,Denim,2023,3,15,51.33
-Slip-On Sneakers,Shoes,Denim,2023,5,14,68.03
-Slip-On Sneakers,Shoes,Denim,2023,6,27,51.94
-Slip-On Sneakers,Shoes,Denim,2023,8,7,16.48
-Slip-On Sneakers,Shoes,Denim,2023,11,13,81.15
-Slip-On Sneakers,Shoes,Denim,2024,10,23,70.83
-Sandals,Shoes,Polyester,2020,5,11,18.4
-Sandals,Shoes,Polyester,2020,9,10,80.11
-Sandals,Shoes,Polyester,2020,9,14,44.39
-Sandals,Shoes,Polyester,2023,3,26,43.98
-Sandals,Shoes,Polyester,2024,1,4,65.11
-Sandals,Shoes,Denim,2020,8,1,62.86
-Sandals,Shoes,Denim,2021,4,24,37.37
-Sandals,Shoes,Denim,2021,6,7,29.84
-Sandals,Shoes,Denim,2021,7,8,55.29
-Sandals,Shoes,Denim,2021,8,17,50.62
-Sandals,Shoes,Denim,2021,11,30,31.14
-Sandals,Shoes,Denim,2022,3,25,33.7
-Sandals,Shoes,Denim,2024,3,4,57.97
-Sandals,Shoes,Denim,2024,5,3,82.78
-Sandals,Shoes,Denim,2024,10,12,9.36
-Denim Jeans,Pants,Polyester,2021,3,31,15.62
-Denim Jeans,Pants,Polyester,2021,4,19,50.06
-Denim Jeans,Pants,Polyester,2021,9,29,76.73
-Denim Jeans,Pants,Polyester,2021,12,15,78.31
-Denim Jeans,Pants,Polyester,2022,11,15,21.01
-Denim Jeans,Pants,Polyester,2022,11,24,91.42
-Denim Jeans,Pants,Polyester,2023,1,24,90.94
-Denim Jeans,Pants,Polyester,2023,3,19,64.03
-Denim Jeans,Pants,Polyester,2023,6,10,43.54
-Denim Jeans,Pants,Polyester,2024,1,9,15.07
-Denim Jeans,Pants,Polyester,2024,4,3,65.2
-Denim Jeans,Pants,Polyester,2024,6,6,5.71
-Denim Jeans,Pants,Denim,2020,1,14,55.43
-Denim Jeans,Pants,Denim,2020,3,18,66.79
-Denim Jeans,Pants,Denim,2020,3,26,65.39
-Denim Jeans,Pants,Denim,2020,9,19,98.11
-Denim Jeans,Pants,Denim,2021,4,19,35.62
-Denim Jeans,Pants,Denim,2023,1,13,40.25
-Denim Jeans,Pants,Denim,2023,3,21,48.07
-Denim Jeans,Pants,Denim,2023,10,3,30.74
-Denim Jeans,Pants,Denim,2024,2,20,36.73
-Denim Jeans,Pants,Denim,2024,3,2,95.71
-Denim Jeans,Pants,Denim,2024,9,14,34.18
-Cargo Pants,Pants,Polyester,2020,4,24,68.07
-Cargo Pants,Pants,Polyester,2020,10,11,26.7
-Cargo Pants,Pants,Polyester,2021,11,13,49.54
-Cargo Pants,Pants,Polyester,2021,12,18,97.03
-Cargo Pants,Pants,Polyester,2022,1,24,35.91
-Cargo Pants,Pants,Polyester,2022,3,7,71.45
-Cargo Pants,Pants,Polyester,2022,6,27,5.74
-Cargo Pants,Pants,Polyester,2022,10,26,81.69
-Cargo Pants,Pants,Polyester,2023,1,5,93.37
-Cargo Pants,Pants,Polyester,2023,1,6,76.86
-Cargo Pants,Pants,Polyester,2023,3,6,34.88
-Cargo Pants,Pants,Polyester,2023,4,28,49.14
-Cargo Pants,Pants,Denim,2020,2,25,88.33
-Cargo Pants,Pants,Denim,2020,9,4,63.72
-Cargo Pants,Pants,Denim,2020,12,15,25.01
-Cargo Pants,Pants,Denim,2021,12,21,21.24
-Cargo Pants,Pants,Denim,2022,2,4,7.21
-Cargo Pants,Pants,Denim,2023,1,21,54.1
-Cargo Pants,Pants,Denim,2023,2,4,76.24
-Cargo Pants,Pants,Denim,2024,6,6,31.2
-Chino Pants,Pants,Polyester,2020,1,3,89.77
-Chino Pants,Pants,Polyester,2020,11,11,81.21
-Chino Pants,Pants,Polyester,2021,5,13,39.73
-Chino Pants,Pants,Polyester,2021,5,17,13.97
-Chino Pants,Pants,Polyester,2022,1,1,58.91
-Chino Pants,Pants,Polyester,2022,4,11,56.95
-Chino Pants,Pants,Polyester,2022,11,7,17.31
-Chino Pants,Pants,Polyester,2022,11,13,62.8
-Chino Pants,Pants,Polyester,2022,12,14,97.24
-Chino Pants,Pants,Polyester,2024,11,21,74.05
-Chino Pants,Pants,Polyester,2024,12,14,11.31
-Chino Pants,Pants,Denim,2020,3,15,54.2
-Chino Pants,Pants,Denim,2021,3,31,42.18
-Chino Pants,Pants,Denim,2022,6,11,73.87
-Chino Pants,Pants,Denim,2023,9,8,96.71
-Chino Pants,Pants,Denim,2023,12,8,34.36
-Chino Pants,Pants,Denim,2024,9,11,36.14
-Chino Pants,Pants,Denim,2024,9,15,45.89
-Chino Pants,Pants,Denim,2024,10,21,20.77
-Shorts,Pants,Polyester,2020,8,5,94.6
-Shorts,Pants,Polyester,2020,10,5,3.31
-Shorts,Pants,Polyester,2020,11,3,69.72
-Shorts,Pants,Polyester,2021,3,6,25.87
-Shorts,Pants,Polyester,2021,4,4,36.48
-Shorts,Pants,Polyester,2022,8,19,92.31
-Shorts,Pants,Polyester,2022,10,12,47.94
-Shorts,Pants,Polyester,2022,11,16,76.32
-Shorts,Pants,Polyester,2022,12,24,55.03
-Shorts,Pants,Polyester,2023,6,11,7.42
-Shorts,Pants,Polyester,2023,12,10,50.48
-Shorts,Pants,Polyester,2024,5,19,93.81
-Shorts,Pants,Polyester,2024,9,5,72.89
-Shorts,Pants,Polyester,2024,12,16,4.19
-Shorts,Pants,Denim,2020,1,3,67.3
-Shorts,Pants,Denim,2020,1,22,29.09
-Shorts,Pants,Denim,2020,4,9,18.98
-Shorts,Pants,Denim,2020,6,15,85.24
-Shorts,Pants,Denim,2020,7,10,26.04
-Shorts,Pants,Denim,2020,7,28,87.64
-Shorts,Pants,Denim,2021,1,23,47.92
-Shorts,Pants,Denim,2021,1,28,6.72
-Shorts,Pants,Denim,2021,7,19,69.29
-Shorts,Pants,Denim,2022,1,12,84.84
-Shorts,Pants,Denim,2022,2,16,51.97
-Shorts,Pants,Denim,2022,2,28,88.86
-Shorts,Pants,Denim,2022,7,3,78.54
-Shorts,Pants,Denim,2023,4,26,74.31
-Classic T-Shirt,Shirts,Polyester,2020,4,27,64.87
-Classic T-Shirt,Shirts,Polyester,2021,7,8,76.49
-Classic T-Shirt,Shirts,Polyester,2021,9,25,57.17
-Classic T-Shirt,Shirts,Polyester,2022,3,26,1.92
-Classic T-Shirt,Shirts,Polyester,2022,4,24,44.37
-Classic T-Shirt,Shirts,Polyester,2022,6,2,97.73
-Classic T-Shirt,Shirts,Polyester,2022,12,24,51.0
-Classic T-Shirt,Shirts,Polyester,2023,5,29,90.86
-Classic T-Shirt,Shirts,Polyester,2023,7,26,86.47
-Classic T-Shirt,Shirts,Polyester,2024,7,21,27.34
-Classic T-Shirt,Shirts,Polyester,2024,9,12,9.38
-Classic T-Shirt,Shirts,Denim,2020,2,16,9.61
-Classic T-Shirt,Shirts,Denim,2020,12,25,49.42
-Classic T-Shirt,Shirts,Denim,2021,3,13,64.8
-Classic T-Shirt,Shirts,Denim,2021,8,26,34.91
-Classic T-Shirt,Shirts,Denim,2021,11,7,33.22
-Classic T-Shirt,Shirts,Denim,2021,11,25,95.86
-Classic T-Shirt,Shirts,Denim,2023,5,14,42.89
-Classic T-Shirt,Shirts,Denim,2023,9,30,84.8
-Classic T-Shirt,Shirts,Denim,2024,9,2,40.83
-Classic T-Shirt,Shirts,Denim,2024,10,30,86.97
-Formal Shirt,Shirts,Polyester,2021,8,24,70.86
-Formal Shirt,Shirts,Polyester,2022,1,10,84.24
-Formal Shirt,Shirts,Polyester,2022,1,16,93.98
-Formal Shirt,Shirts,Polyester,2022,1,29,57.56
-Formal Shirt,Shirts,Polyester,2022,4,11,99.26
-Formal Shirt,Shirts,Polyester,2022,10,10,27.67
-Formal Shirt,Shirts,Polyester,2023,5,28,11.92
-Formal Shirt,Shirts,Polyester,2023,11,6,74.16
-Formal Shirt,Shirts,Polyester,2023,11,19,98.22
-Formal Shirt,Shirts,Polyester,2024,1,31,60.37
-Formal Shirt,Shirts,Polyester,2024,4,14,41.19
-Formal Shirt,Shirts,Polyester,2024,4,22,37.87
-Formal Shirt,Shirts,Polyester,2024,7,23,9.67
-Formal Shirt,Shirts,Polyester,2024,8,17,96.76
-Formal Shirt,Shirts,Denim,2020,1,30,59.34
-Formal Shirt,Shirts,Denim,2020,7,26,56.14
-Formal Shirt,Shirts,Denim,2020,8,2,40.52
-Formal Shirt,Shirts,Denim,2021,3,25,54.74
-Formal Shirt,Shirts,Denim,2021,10,9,66.51
-Formal Shirt,Shirts,Denim,2022,1,5,32.47
-Formal Shirt,Shirts,Denim,2022,4,10,97.98
-Formal Shirt,Shirts,Denim,2022,7,27,28.95
-Formal Shirt,Shirts,Denim,2023,3,7,90.85
-Formal Shirt,Shirts,Denim,2023,4,27,84.92
-Formal Shirt,Shirts,Denim,2023,6,28,68.08
-Formal Shirt,Shirts,Denim,2023,7,8,29.65
-Formal Shirt,Shirts,Denim,2024,1,14,44.25
-Formal Shirt,Shirts,Denim,2024,9,2,26.03
-Polo Shirt,Shirts,Polyester,2020,2,5,55.55
-Polo Shirt,Shirts,Polyester,2020,5,28,56.64
-Polo Shirt,Shirts,Polyester,2020,8,26,68.98
-Polo Shirt,Shirts,Polyester,2020,11,7,97.51
-Polo Shirt,Shirts,Polyester,2021,4,2,72.68
-Polo Shirt,Shirts,Polyester,2022,2,1,84.07
-Polo Shirt,Shirts,Polyester,2022,3,21,63.19
-Polo Shirt,Shirts,Polyester,2022,7,31,23.35
-Polo Shirt,Shirts,Polyester,2022,9,24,29.78
-Polo Shirt,Shirts,Polyester,2022,12,28,25.11
-Polo Shirt,Shirts,Polyester,2023,7,9,28.1
-Polo Shirt,Shirts,Polyester,2024,12,27,55.12
-Polo Shirt,Shirts,Denim,2020,6,29,85.68
-Polo Shirt,Shirts,Denim,2020,7,8,11.41
-Polo Shirt,Shirts,Denim,2020,11,18,58.87
-Polo Shirt,Shirts,Denim,2021,8,3,94.81
-Polo Shirt,Shirts,Denim,2022,6,26,64.9
-Polo Shirt,Shirts,Denim,2023,10,18,59.41
-Polo Shirt,Shirts,Denim,2024,1,4,33.88
-Polo Shirt,Shirts,Denim,2024,4,16,78.9
-Polo Shirt,Shirts,Denim,2024,6,7,61.3
-Polo Shirt,Shirts,Denim,2024,12,14,9.05
-Tank Top,Shirts,Polyester,2020,1,6,11.47
-Tank Top,Shirts,Polyester,2020,8,20,37.27
-Tank Top,Shirts,Polyester,2022,4,21,10.47
-Tank Top,Shirts,Polyester,2022,6,28,36.17
-Tank Top,Shirts,Polyester,2022,11,28,79.54
-Tank Top,Shirts,Polyester,2023,3,21,1.06
-Tank Top,Shirts,Polyester,2024,5,17,11.37
-Tank Top,Shirts,Denim,2020,1,10,60.4
-Tank Top,Shirts,Denim,2022,1,25,1.38
-Tank Top,Shirts,Denim,2022,9,8,41.73
-Tank Top,Shirts,Denim,2023,10,19,51.96
-Tank Top,Shirts,Denim,2024,5,25,34.66
-Tank Top,Shirts,Denim,2024,12,20,13.12
+Material,Year,Month,Day,Total Emissions (kgCO2e)
+Cotton,2020,1,8,85.69
+Cotton,2020,1,26,15.74
+Cotton,2020,1,27,37.28
+Cotton,2020,1,30,9.89
+Cotton,2020,2,3,88.95
+Cotton,2020,3,13,39.32
+Cotton,2020,3,15,8.84
+Cotton,2020,4,5,10.01
+Cotton,2020,4,15,44.83
+Cotton,2020,4,16,72.77
+Cotton,2020,5,19,51.52
+Cotton,2020,5,21,12.49
+Cotton,2020,6,4,13.41
+Cotton,2020,6,5,61.76
+Cotton,2020,6,21,11.04
+Cotton,2020,8,25,15.9
+Cotton,2020,9,6,86.02
+Cotton,2020,9,8,3.74
+Cotton,2020,9,13,47.99
+Cotton,2020,9,22,59.55
+Cotton,2020,11,3,23.28
+Cotton,2020,11,6,14.97
+Cotton,2020,11,19,69.25
+Cotton,2020,11,22,26.43
+Cotton,2020,12,16,37.01
+Cotton,2020,12,23,81.27
+Cotton,2021,1,15,62.92
+Cotton,2021,1,18,34.22
+Cotton,2021,1,30,23.2
+Cotton,2021,2,23,72.16
+Cotton,2021,4,18,96.49
+Cotton,2021,5,8,55.2
+Cotton,2021,5,18,13.81
+Cotton,2021,5,24,47.7
+Cotton,2021,6,4,28.37
+Cotton,2021,6,27,49.04
+Cotton,2021,7,24,52.01
+Cotton,2021,8,7,46.88
+Cotton,2021,8,20,8.58
+Cotton,2021,9,8,82.88
+Cotton,2021,9,9,97.25
+Cotton,2021,9,27,14.26
+Cotton,2021,10,11,32.1
+Cotton,2021,10,28,8.83
+Cotton,2021,11,17,75.44
+Cotton,2021,11,20,49.68
+Cotton,2021,12,22,86.01
+Cotton,2022,1,14,85.48
+Cotton,2022,2,25,15.87
+Cotton,2022,4,7,25.7
+Cotton,2022,5,6,47.61
+Cotton,2022,5,13,92.92
+Cotton,2022,5,17,7.36
+Cotton,2022,5,18,27.49
+Cotton,2022,5,24,11.89
+Cotton,2022,6,23,83.0
+Cotton,2022,6,29,61.4
+Cotton,2022,7,11,48.94
+Cotton,2022,7,12,31.57
+Cotton,2022,7,28,39.42
+Cotton,2022,7,29,6.09
+Cotton,2022,8,14,86.02
+Cotton,2022,8,21,86.39
+Cotton,2022,8,24,82.25
+Cotton,2022,8,29,43.13
+Cotton,2022,9,18,44.58
+Cotton,2022,10,11,19.26
+Cotton,2022,10,15,97.56
+Cotton,2022,10,27,18.55
+Cotton,2022,10,28,65.17
+Cotton,2022,11,1,51.59
+Cotton,2022,11,17,94.96
+Cotton,2022,11,22,43.21
+Cotton,2022,12,3,3.83
+Cotton,2022,12,10,94.37
+Cotton,2022,12,19,74.99
+Cotton,2022,12,28,69.62
+Cotton,2023,1,18,26.89
+Cotton,2023,1,25,43.34
+Cotton,2023,2,1,83.85
+Cotton,2023,2,23,94.26
+Cotton,2023,2,27,99.78
+Cotton,2023,3,4,53.42
+Cotton,2023,3,6,97.2
+Cotton,2023,4,4,7.38
+Cotton,2023,4,14,7.12
+Cotton,2023,4,26,95.79
+Cotton,2023,5,9,13.76
+Cotton,2023,6,4,51.99
+Cotton,2023,6,13,99.16
+Cotton,2023,7,9,42.29
+Cotton,2023,7,22,24.2
+Cotton,2023,8,8,78.56
+Cotton,2023,8,12,19.73
+Cotton,2023,8,13,95.28
+Cotton,2023,9,3,57.79
+Cotton,2023,9,20,21.37
+Cotton,2023,9,23,41.74
+Cotton,2023,10,23,70.54
+Cotton,2023,10,26,93.18
+Cotton,2023,11,15,20.74
+Cotton,2023,11,17,64.64
+Cotton,2023,11,30,1.8
+Cotton,2023,12,2,95.89
+Cotton,2023,12,11,53.15
+Cotton,2024,1,4,30.69
+Cotton,2024,1,5,61.25
+Cotton,2024,1,19,49.34
+Cotton,2024,4,16,16.47
+Cotton,2024,7,20,27.15
+Cotton,2024,8,3,75.3
+Cotton,2024,8,13,79.84
+Cotton,2024,8,21,95.19
+Cotton,2024,8,31,1.55
+Cotton,2024,10,9,3.6
+Cotton,2024,10,15,9.14
+Cotton,2024,10,17,1.26
+Cotton,2024,11,12,20.94
+Cotton,2024,11,25,50.18
+Cotton,2024,12,2,42.76
+Leather,2020,1,10,70.24
+Leather,2020,1,11,54.7
+Leather,2020,1,16,78.64
+Leather,2020,1,22,89.65
+Leather,2020,1,28,40.19
+Leather,2020,2,1,95.83
+Leather,2020,2,12,66.43
+Leather,2020,2,13,62.12
+Leather,2020,3,19,86.93
+Leather,2020,3,31,6.76
+Leather,2020,4,5,66.32
+Leather,2020,5,16,69.06
+Leather,2020,5,27,55.72
+Leather,2020,5,31,16.48
+Leather,2020,6,19,8.11
+Leather,2020,6,23,70.31
+Leather,2020,7,4,80.29
+Leather,2020,7,6,42.13
+Leather,2020,8,22,34.87
+Leather,2020,9,11,136.43
+Leather,2020,10,27,78.7
+Leather,2020,11,12,30.26
+Leather,2020,11,16,63.74
+Leather,2020,11,18,5.7
+Leather,2020,11,24,75.17
+Leather,2020,12,15,45.97
+Leather,2020,12,21,72.41
+Leather,2020,12,24,98.16
+Leather,2021,1,23,64.69
+Leather,2021,1,27,6.5
+Leather,2021,2,15,41.77
+Leather,2021,3,12,31.6
+Leather,2021,3,21,88.36
+Leather,2021,3,31,63.36
+Leather,2021,4,8,27.03
+Leather,2021,4,11,138.37
+Leather,2021,4,28,14.24
+Leather,2021,5,26,23.28
+Leather,2021,5,30,34.68
+Leather,2021,5,31,48.16
+Leather,2021,7,4,64.29
+Leather,2021,7,18,46.61
+Leather,2021,7,22,64.02
+Leather,2021,7,28,88.5
+Leather,2021,9,25,45.55
+Leather,2021,10,20,22.43
+Leather,2021,12,10,75.53
+Leather,2022,1,14,87.26
+Leather,2022,1,16,18.74
+Leather,2022,1,21,66.31
+Leather,2022,1,23,30.57
+Leather,2022,1,25,80.09
+Leather,2022,2,20,50.42
+Leather,2022,3,30,32.94
+Leather,2022,4,28,49.23
+Leather,2022,4,30,15.05
+Leather,2022,5,10,36.14
+Leather,2022,5,12,98.02
+Leather,2022,5,15,94.48
+Leather,2022,5,29,1.23
+Leather,2022,7,1,27.12
+Leather,2022,8,20,73.78
+Leather,2022,9,16,47.61
+Leather,2022,9,17,77.54
+Leather,2022,9,30,22.58
+Leather,2022,10,5,53.99
+Leather,2022,10,7,72.52
+Leather,2022,10,11,33.48
+Leather,2022,11,4,84.88
+Leather,2022,11,14,1.65
+Leather,2022,11,21,84.54
+Leather,2022,12,12,25.73
+Leather,2022,12,19,92.42
+Leather,2023,1,6,64.89
+Leather,2023,1,26,71.07
+Leather,2023,3,26,80.85
+Leather,2023,4,13,44.18
+Leather,2023,5,19,65.46
+Leather,2023,5,23,61.36
+Leather,2023,5,25,78.45
+Leather,2023,6,12,73.68
+Leather,2023,6,20,85.53
+Leather,2023,7,4,19.39
+Leather,2023,7,28,42.54
+Leather,2023,8,23,84.98
+Leather,2023,9,3,5.23
+Leather,2023,9,15,52.32
+Leather,2023,9,26,49.39
+Leather,2023,9,29,10.53
+Leather,2023,10,21,75.34
+Leather,2023,11,27,45.87
+Leather,2024,1,3,65.09
+Leather,2024,1,12,70.38
+Leather,2024,2,4,74.66
+Leather,2024,2,6,46.2
+Leather,2024,2,17,30.66
+Leather,2024,2,21,88.06
+Leather,2024,2,27,21.73
+Leather,2024,2,28,43.55
+Leather,2024,3,23,104.96
+Leather,2024,4,6,10.96
+Leather,2024,4,30,8.49
+Leather,2024,5,19,50.97
+Leather,2024,5,24,93.17
+Leather,2024,6,29,8.0
+Leather,2024,7,11,12.17
+Leather,2024,8,9,31.94
+Leather,2024,8,29,27.52
+Leather,2024,9,10,18.23
+Leather,2024,9,27,77.14
+Leather,2024,9,29,20.04
+Leather,2024,11,14,40.9
+Leather,2024,12,7,67.67
+Leather,2024,12,16,11.89
+Leather,2024,12,17,94.58
+Leather,2024,12,27,53.06
+Polyester,2020,1,3,89.77
+Polyester,2020,1,6,11.47
+Polyester,2020,1,21,86.56
+Polyester,2020,2,5,55.55
+Polyester,2020,2,11,82.74
+Polyester,2020,3,25,2.29
+Polyester,2020,4,24,68.07
+Polyester,2020,4,27,64.87
+Polyester,2020,5,1,51.09
+Polyester,2020,5,11,18.4
+Polyester,2020,5,28,56.64
+Polyester,2020,6,13,51.65
+Polyester,2020,8,5,94.6
+Polyester,2020,8,20,37.27
+Polyester,2020,8,26,68.98
+Polyester,2020,9,1,66.04
+Polyester,2020,9,10,80.11
+Polyester,2020,9,14,44.39
+Polyester,2020,10,5,3.31
+Polyester,2020,10,11,26.7
+Polyester,2020,11,3,69.72
+Polyester,2020,11,7,97.51
+Polyester,2020,11,11,81.21
+Polyester,2020,11,14,88.98
+Polyester,2021,3,6,25.87
+Polyester,2021,3,31,15.62
+Polyester,2021,4,2,72.68
+Polyester,2021,4,4,36.48
+Polyester,2021,4,19,50.06
+Polyester,2021,5,11,27.26
+Polyester,2021,5,13,39.73
+Polyester,2021,5,17,13.97
+Polyester,2021,7,8,76.49
+Polyester,2021,8,24,70.86
+Polyester,2021,8,27,92.17
+Polyester,2021,9,25,57.17
+Polyester,2021,9,29,76.73
+Polyester,2021,11,13,49.54
+Polyester,2021,11,19,6.04
+Polyester,2021,12,12,29.7
+Polyester,2021,12,15,78.31
+Polyester,2021,12,18,97.03
+Polyester,2022,1,1,58.91
+Polyester,2022,1,10,84.24
+Polyester,2022,1,16,93.98
+Polyester,2022,1,24,35.91
+Polyester,2022,1,29,57.56
+Polyester,2022,2,1,84.07
+Polyester,2022,2,15,67.74
+Polyester,2022,3,7,71.45
+Polyester,2022,3,21,63.19
+Polyester,2022,3,26,1.92
+Polyester,2022,4,11,156.21
+Polyester,2022,4,15,61.17
+Polyester,2022,4,21,10.47
+Polyester,2022,4,22,43.03
+Polyester,2022,4,24,44.37
+Polyester,2022,6,2,97.73
+Polyester,2022,6,9,11.61
+Polyester,2022,6,27,5.74
+Polyester,2022,6,28,36.17
+Polyester,2022,7,31,23.35
+Polyester,2022,8,19,92.31
+Polyester,2022,9,24,29.78
+Polyester,2022,9,26,42.72
+Polyester,2022,10,10,27.67
+Polyester,2022,10,11,88.93
+Polyester,2022,10,12,47.94
+Polyester,2022,10,18,57.64
+Polyester,2022,10,26,81.69
+Polyester,2022,11,7,17.31
+Polyester,2022,11,13,62.8
+Polyester,2022,11,15,21.01
+Polyester,2022,11,16,76.32
+Polyester,2022,11,24,91.42
+Polyester,2022,11,28,79.54
+Polyester,2022,12,14,97.24
+Polyester,2022,12,24,106.03
+Polyester,2022,12,27,38.71
+Polyester,2022,12,28,27.03
+Polyester,2023,1,5,93.37
+Polyester,2023,1,6,76.86
+Polyester,2023,1,24,90.94
+Polyester,2023,3,6,34.88
+Polyester,2023,3,19,64.03
+Polyester,2023,3,21,1.06
+Polyester,2023,3,26,43.98
+Polyester,2023,3,30,10.9
+Polyester,2023,4,28,49.14
+Polyester,2023,5,28,11.92
+Polyester,2023,5,29,90.86
+Polyester,2023,6,10,43.54
+Polyester,2023,6,11,7.42
+Polyester,2023,6,17,66.09
+Polyester,2023,7,4,42.42
+Polyester,2023,7,9,28.1
+Polyester,2023,7,24,6.24
+Polyester,2023,7,26,86.47
+Polyester,2023,10,25,129.14
+Polyester,2023,11,6,74.16
+Polyester,2023,11,19,98.22
+Polyester,2023,12,10,50.48
+Polyester,2023,12,20,19.19
+Polyester,2024,1,4,65.11
+Polyester,2024,1,9,15.07
+Polyester,2024,1,16,40.39
+Polyester,2024,1,31,60.37
+Polyester,2024,2,16,16.99
+Polyester,2024,4,3,65.2
+Polyester,2024,4,14,41.19
+Polyester,2024,4,22,37.87
+Polyester,2024,5,8,65.08
+Polyester,2024,5,17,11.37
+Polyester,2024,5,19,93.81
+Polyester,2024,6,6,5.71
+Polyester,2024,7,21,27.34
+Polyester,2024,7,23,9.67
+Polyester,2024,7,28,40.28
+Polyester,2024,8,17,96.76
+Polyester,2024,9,5,72.89
+Polyester,2024,9,12,9.38
+Polyester,2024,10,17,71.42
+Polyester,2024,11,21,74.05
+Polyester,2024,12,5,32.3
+Polyester,2024,12,12,71.0
+Polyester,2024,12,14,11.31
+Polyester,2024,12,16,4.19
+Polyester,2024,12,27,55.12
+Denim,2020,1,3,67.3
+Denim,2020,1,10,60.4
+Denim,2020,1,14,55.43
+Denim,2020,1,22,29.09
+Denim,2020,1,30,59.34
+Denim,2020,2,16,9.61
+Denim,2020,2,25,88.33
+Denim,2020,3,15,54.2
+Denim,2020,3,18,66.79
+Denim,2020,3,26,65.39
+Denim,2020,3,27,79.33
+Denim,2020,4,9,18.98
+Denim,2020,5,1,62.29
+Denim,2020,6,15,85.24
+Denim,2020,6,29,85.68
+Denim,2020,7,8,11.41
+Denim,2020,7,10,26.04
+Denim,2020,7,26,56.14
+Denim,2020,7,28,87.64
+Denim,2020,8,1,62.86
+Denim,2020,8,2,40.52
+Denim,2020,9,4,63.72
+Denim,2020,9,19,98.11
+Denim,2020,11,18,58.87
+Denim,2020,12,11,94.17
+Denim,2020,12,15,25.01
+Denim,2020,12,25,49.42
+Denim,2021,1,22,22.29
+Denim,2021,1,23,47.92
+Denim,2021,1,28,6.72
+Denim,2021,1,29,66.78
+Denim,2021,2,9,12.22
+Denim,2021,3,13,64.8
+Denim,2021,3,25,54.74
+Denim,2021,3,31,42.18
+Denim,2021,4,19,35.62
+Denim,2021,4,24,37.37
+Denim,2021,4,27,87.27
+Denim,2021,6,7,29.84
+Denim,2021,6,14,94.93
+Denim,2021,7,8,55.29
+Denim,2021,7,19,69.29
+Denim,2021,8,3,94.81
+Denim,2021,8,17,50.62
+Denim,2021,8,26,34.91
+Denim,2021,10,9,66.51
+Denim,2021,10,21,50.75
+Denim,2021,10,25,83.89
+Denim,2021,11,7,33.22
+Denim,2021,11,25,95.86
+Denim,2021,11,30,31.14
+Denim,2021,12,21,21.24
+Denim,2021,12,24,93.17
+Denim,2022,1,5,32.47
+Denim,2022,1,11,7.41
+Denim,2022,1,12,84.84
+Denim,2022,1,25,1.38
+Denim,2022,2,4,7.21
+Denim,2022,2,16,51.97
+Denim,2022,2,28,88.86
+Denim,2022,3,25,33.7
+Denim,2022,4,6,2.2
+Denim,2022,4,10,97.98
+Denim,2022,5,29,17.41
+Denim,2022,6,11,73.87
+Denim,2022,6,26,64.9
+Denim,2022,7,3,78.54
+Denim,2022,7,18,8.06
+Denim,2022,7,27,28.95
+Denim,2022,8,22,77.63
+Denim,2022,9,8,41.73
+Denim,2022,9,30,48.38
+Denim,2022,11,18,96.78
+Denim,2022,11,23,38.53
+Denim,2023,1,13,40.25
+Denim,2023,1,21,54.1
+Denim,2023,1,26,35.49
+Denim,2023,2,4,76.24
+Denim,2023,3,7,90.85
+Denim,2023,3,15,51.33
+Denim,2023,3,21,48.07
+Denim,2023,4,26,74.31
+Denim,2023,4,27,84.92
+Denim,2023,5,14,110.92
+Denim,2023,6,27,51.94
+Denim,2023,6,28,68.08
+Denim,2023,7,8,29.65
+Denim,2023,8,7,16.48
+Denim,2023,9,8,96.71
+Denim,2023,9,18,23.61
+Denim,2023,9,30,84.8
+Denim,2023,10,3,30.74
+Denim,2023,10,18,59.41
+Denim,2023,10,19,51.96
+Denim,2023,11,13,81.15
+Denim,2023,12,8,34.36
+Denim,2023,12,11,50.99
+Denim,2024,1,4,33.88
+Denim,2024,1,14,44.25
+Denim,2024,2,20,36.73
+Denim,2024,3,2,95.71
+Denim,2024,3,4,57.97
+Denim,2024,4,16,78.9
+Denim,2024,4,30,23.13
+Denim,2024,5,3,82.78
+Denim,2024,5,25,34.66
+Denim,2024,5,28,82.71
+Denim,2024,6,6,31.2
+Denim,2024,6,7,61.3
+Denim,2024,9,2,66.86
+Denim,2024,9,11,36.14
+Denim,2024,9,14,34.18
+Denim,2024,9,15,45.89
+Denim,2024,10,12,9.36
+Denim,2024,10,21,20.77
+Denim,2024,10,23,70.83
+Denim,2024,10,30,86.97
+Denim,2024,12,14,9.05
+Denim,2024,12,20,13.12
+Denim,2024,12,26,81.77
