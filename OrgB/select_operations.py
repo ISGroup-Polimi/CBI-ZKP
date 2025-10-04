@@ -115,10 +115,6 @@ def CLI_slice_and_dice():
         dim_indices = [int(idx.strip()) - 1 for idx in dim_choices.split(",") if idx.strip().isdigit()]
         slice_dice_dict = {}
 
-        # For intersection of date_ids
-        date_filters = []
-        date_dim_indices = []
-
         for dim_idx in dim_indices:
             if 0 <= dim_idx < len(dimensions):
                 dim_name = dimensions[dim_idx]
@@ -126,29 +122,38 @@ def CLI_slice_and_dice():
                 print(f"\nYou selected to slice or dice on: {dim_name}")
 
                 # If dimension is a Date: "Year", "Month", or "Day"
-                if dim_name in ["Year", "Month", "Day"]:
-                    value_input = input(f"Enter the {dim_name} value(s) to filter (comma separated, e.g., 2 or 2,3,4 for multiple): ")
-                    # Allow multiple values, comma separated
-                    values = [v.strip() for v in value_input.split(",") if v.strip()]
-                    try:
-                        values = [int(v) for v in values]
-                        if len(values) == 1:
-                            value = values[0]
-                        else:
-                            value = values
-                        date_filters.append((value, dim_name))
-                        date_dim_indices.append(dim_col_idx)
-                    except ValueError:
-                        print("Invalid input for value(s).")
+                if dim_name == "Year":
+                    values = CLI_Year()
+                    if values is None:
+                        print("No values selected.")
                         return None
-                    try:
-                        value = int(value_input.strip())
-                        date_filters.append((value, dim_name))
-                        date_dim_indices.append(dim_col_idx)
-                    except ValueError:
-                        print("Invalid input for value.")
-                        return None
+                    if len(values) == 1:
+                        slice_dice_dict[dim_col_idx] = values[0]
+                    else:
+                        slice_dice_dict[dim_col_idx] = values
                     continue  # Skip the rest of the loop for this dimension
+
+                elif dim_name == "Month":
+                    values = CLI_Month()
+                    if values is None:
+                        print("No values selected.")
+                        return None
+                    if len(values) == 1:
+                        slice_dice_dict[dim_col_idx] = values[0]
+                    else:
+                        slice_dice_dict[dim_col_idx] = values
+                    continue
+
+                elif dim_name == "Day":
+                    values = CLI_Day()
+                    if values is None:
+                        print("No values selected.")
+                        return None
+                    if len(values) == 1:
+                        slice_dice_dict[dim_col_idx] = values[0]
+                    else:
+                        slice_dice_dict[dim_col_idx] = values
+                    continue
 
                 # For all other dimensions: "Product Name", "Category", "Material"
                 else:
@@ -194,41 +199,59 @@ def CLI_slice_and_dice():
                 print("Invalid dimension selection.")
                 return None
 
-        # Process intersection of date filters, if any
-        if date_filters:
-            current_ids = None
-            for value, dim_name in date_filters:
-                current_ids = filter_data(value, dim_name, current_ids)
-            # Assign the intersected date_ids to the first date dimension index
-            if date_dim_indices:
-                slice_dice_dict[date_dim_indices[-1]] = current_ids
-
         print(f"You selected dicing: {slice_dice_dict}")
         return {"Dicing": [slice_dice_dict]}
     except ValueError:
         print("Please enter valid numbers for dimensions.")
         return None
     
-# Returns a list of date_ids where the given type (Year, Month, or Day) equals number.
-# Example: number=2, type="Month" returns all date_ids for February.
-def filter_data(number, type, current_ids=None):
-    date_df = pd.read_csv("Org1/PR_DB/DimTab/Date.csv")
+def CLI_Year():
+    start_date = dfm_json["START_DATE"]
+    end_date = dfm_json["END_DATE"]
 
-    # Normalize type input
-    type = type.capitalize()
+    years = list(range(int(start_date[:4]), int(end_date[:4]) + 1))
+    print("Available years:")
+    for i, year in enumerate(years):
+        print(f"{i}] {year}")
+    years_input = input("Enter the years you want to select (comma separated, e.g. 2021,2022): ")
+    selected_years = []
+    for y in years_input.split(","):
+        y = y.strip()
+        if y.isdigit() and int(y) in years:
+            selected_years.append(int(y))
+    if not selected_years:
+        print("No valid years selected.")
+        return None
+    return selected_years
 
-    if type not in ["Year", "Month", "Day"]:
-        raise ValueError("type must be 'Year', 'Month', or 'Day'")
+def CLI_Month():
+    months = list(range(1, 13))
+    print("Available months:")
+    for i, month in enumerate(months):
+        print(f"{i}] {month}")
+    months_input = input("Enter the months you want to select (comma separated, e.g. 1,2 for Jan, Feb): ")
+    selected_months = []
+    for m in months_input.split(","):
+        m = m.strip()
+        if m.isdigit() and int(m) in months:
+            selected_months.append(int(m))
+    if not selected_months:
+        print("No valid months selected.")
+        return None
+    return selected_months
 
-    # Allow number to be a list or a single value
-    if isinstance(number, list):
-        filtered = date_df[date_df[type].isin(number)]
-    else:
-        filtered = date_df[date_df[type] == number]
-
-    # If current_ids is provided, further filter to keep only those IDs
-    if current_ids is not None:
-        filtered = filtered[filtered["Date_Id"].isin(current_ids)]
-
-    # Return the list of Date_Id as integers
-    return filtered["Date_Id"].tolist()
+def CLI_Day():
+    days = list(range(1, 32))
+    print("Available days:")
+    for i, day in enumerate(days):
+        print(f"{i}] {day}")
+    days_input = input("Enter the days you want to select (comma separated, e.g. 1,15 for 1st and 15th): ")
+    selected_days = []
+    for d in days_input.split(","):
+        d = d.strip()
+        if d.isdigit() and int(d) in days:
+            selected_days.append(int(d))
+    if not selected_days:
+        print("No valid days selected.")
+        return None
+    return selected_days
