@@ -106,9 +106,9 @@ async def op_query(org_n, timestamp):
     # Define the OLAP operations to apply
     
     operations = {
-        "Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
-                   ["Date", "Day"]], # rollup dimension
-        "Dicing": [{4: [1]}] # select values == 0 or 2 for column index 2 (Category)
+        #"Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
+        #           ["Date", "Day"]], # rollup dimension
+        "Dicing": [{3: [1]}] # select values == 0 or 2 for column index 2 (Category)
         
         # {2: 3, 4: [0, 2]} allowed
     }
