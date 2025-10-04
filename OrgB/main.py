@@ -108,7 +108,7 @@ async def op_query(org_n, timestamp):
     operations = {
         #"Rollup": [["Clothes Type", "Product Name"], # rollup entire hierarchy 
         #           ["Date", "Day"]], # rollup dimension
-        "Dicing": [{3: [1]}] # select values == 0 or 2 for column index 2 (Category)
+        "Dicing": [{3: [2022]}] # select values == 0 or 2 for column index 2 (Category)
         
         # {2: 3, 4: [0, 2]} allowed
     }
