@@ -43,8 +43,13 @@ def select_operations():
                 print("Invalid selection.")
         except ValueError:
             print("Please enter a valid number.")
+            
     print("Final operations result:", result)
-    return result
+
+    condensed = condense_operation(result)
+    print("Final operations result:", condensed)
+
+    return condensed
 
 
 def CLI_rollup():
@@ -249,3 +254,31 @@ def CLI_Day():
         print("No valid days selected.")
         return None
     return selected_days
+
+# Condense operations to merge multiple same operations
+# operations = {"Dicing": [{3: [2022]}], "Dicing": [{3: [2020]}]} into {"Dicing": [{3: [2022, 2020]}]}  
+def condense_operation(result):
+    condensed = {}
+    for op in result:
+        if op not in condensed:
+            condensed[op] = []
+        condensed[op].extend(result[op])
+
+    # For Dicing and Rollup, merge dicts with same keys
+    for op in ["Dicing", "Rollup"]:
+        if op in condensed:
+            merged = {}
+            for d in condensed[op]:
+                for k, v in d.items():
+                    if k not in merged:
+                        merged[k] = []
+                    # Always treat v as a list for merging
+                    if isinstance(v, list):
+                        merged[k].extend(v)
+                    else:
+                        merged[k].append(v)
+            # Remove duplicates and sort
+            for k in merged:
+                merged[k] = sorted(set(merged[k]))
+            condensed[op] = [merged]
+    return condensed
