@@ -264,21 +264,27 @@ def condense_operation(result):
             condensed[op] = []
         condensed[op].extend(result[op])
 
-    # For Dicing and Rollup, merge dicts with same keys
-    for op in ["Dicing", "Rollup"]:
-        if op in condensed:
-            merged = {}
-            for d in condensed[op]:
-                for k, v in d.items():
-                    if k not in merged:
-                        merged[k] = []
-                    # Always treat v as a list for merging
-                    if isinstance(v, list):
-                        merged[k].extend(v)
-                    else:
-                        merged[k].append(v)
-            # Remove duplicates and sort
-            for k in merged:
-                merged[k] = sorted(set(merged[k]))
-            condensed[op] = [merged]
+    # Merge Dicing dicts
+    if "Dicing" in condensed:
+        merged = {}
+        for d in condensed["Dicing"]:
+            for k, v in d.items():
+                if k not in merged:
+                    merged[k] = []
+                if isinstance(v, list):
+                    merged[k].extend(v)
+                else:
+                    merged[k].append(v)
+        for k in merged:
+            merged[k] = sorted(set(merged[k]))
+        condensed["Dicing"] = [merged]
+
+    # Flatten Rollup lists
+    if "Rollup" in condensed:
+        merged = []
+        for d in condensed["Rollup"]:
+            if isinstance(d, list):
+                merged.append(d)
+        condensed["Rollup"] = merged
+
     return condensed
