@@ -1,12 +1,12 @@
-Category,Material,Year,Month,Day,Total Emissions (kgCO2e)
-Shoes,Leather,2021,12,10,75.53
-Shoes,Leather,2022,12,19,92.42
-Shoes,Leather,2024,12,7,67.67
-Shoes,Leather,2024,12,17,15.08
-Pants,Leather,2020,12,21,72.41
-Pants,Leather,2024,12,27,53.06
-Shirts,Leather,2020,12,15,45.97
-Shirts,Leather,2020,12,24,98.16
-Shirts,Leather,2022,12,12,25.73
-Shirts,Leather,2024,12,16,11.89
-Shirts,Leather,2024,12,17,79.5
+Product Name,Category,Material,Year,Month,Day,Total Emissions (kgCO2e)
+Sandals,Shoes,Leather,2020,2,12,66.43
+Sandals,Shoes,Leather,2020,3,31,6.76
+Sandals,Shoes,Leather,2020,7,6,42.13
+Sandals,Shoes,Leather,2021,4,11,76.83
+Sandals,Shoes,Leather,2021,9,25,45.55
+Sandals,Shoes,Leather,2022,8,20,43.29
+Sandals,Shoes,Leather,2022,10,11,33.48
+Sandals,Shoes,Leather,2022,12,19,92.42
+Sandals,Shoes,Leather,2023,6,12,73.68
+Sandals,Shoes,Leather,2024,7,11,12.17
+Sandals,Shoes,Leather,2024,8,9,31.94
