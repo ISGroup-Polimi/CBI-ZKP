@@ -1,4 +1,4 @@
-# This program allows the user to select OLAP operations (Rollup, Slicing/Dicing)
+# This program allows the user to select OLAP operations (Rollup, Slicing/Dicing) with a CLI
 import json
 import os
 import pandas as pd

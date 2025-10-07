@@ -115,6 +115,7 @@ def sale_Gen():
 
     print("\nFile generated using StarSchemeGenerator and saved as 'Sale_PR.csv' in Org1/PR_DB folder.")
 
+# Update Sale_PR.csv with new sales records (rows)
 def sale_update():
     selected_file = "Org1/PR_DB/Sale_PR.csv"
 
