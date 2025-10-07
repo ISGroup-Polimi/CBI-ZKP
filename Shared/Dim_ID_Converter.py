@@ -4,6 +4,8 @@ import pandas as pd
 import json
 import os
 
+from Org1.StarSchemeGenerator import product_Gen
+
 with open("Shared/DFM_Sale.json", "r") as f:
     dfm_json = json.load(f)
 START_DATE = dfm_json["START_DATE"]
@@ -130,6 +132,9 @@ def get_ids_from_categories(category_names):
 
 # Convert a CSV with Dim IDs to a human-readable CSV, saving it in the "test" folder
 def CSV_converter():
+    # Regenerate Products dimension table in case it was updated
+    product_Gen()
+
     path = os.path.join("Org1", "PR_DB", "Sale_PR.csv")
     df = pd.read_csv(path)
 
