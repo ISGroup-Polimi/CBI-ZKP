@@ -153,6 +153,7 @@ def sale_update():
 
     print(f"\n'{selected_file}' was updated with new rows.")
 
+# Update Products dimension table and DFM_Sale.json with new products and categories
 def update_products():
     products_file = "Org1/PR_DB/DimTab/Products.csv"
     products = pd.read_csv(products_file)
@@ -168,6 +169,38 @@ def update_products():
     updated_products = pd.concat([products, new_products_df], ignore_index=True)
     updated_products.to_csv(products_file, index=False)
     print(f"\n'{products_file}' was updated with new products.")
+
+    # --------------------------------------------------Update DFM_Sale.json
+    with open("Shared/DFM_Sale.json", "r") as f:
+        dfm_json = json.load(f)
+
+    # Update Product Name mapping
+    product_name_dict = dfm_json["Product Name"]
+    for prod in new_products:
+        product_name_dict[prod["Product_Name"]] = prod["Product_Id"]
+
+    # Update Category_range if needed
+    category_range = dfm_json.get("Category_range", {})
+    for prod in new_products:
+        cat = prod["Category"]
+        pid = prod["Product_Id"]
+        if cat not in category_range:
+            category_range[cat] = [pid, pid]
+        else:
+            # Expand the range if needed
+            category_range[cat][0] = min(category_range[cat][0], pid)
+            category_range[cat][1] = max(category_range[cat][1], pid)
+    dfm_json["Category_range"] = category_range
+
+    # Optionally update Category section
+    if "Category" in dfm_json and "Hat" not in dfm_json["Category"]:
+        # Assign a new category ID for "Hat"
+        max_cat_id = max(dfm_json["Category"].values())
+        dfm_json["Category"]["Hat"] = max_cat_id + 1
+
+    with open("Shared/DFM_Sale.json", "w") as f:
+        json.dump(dfm_json, f, indent=4)
+    print("\n'Shared/DFM_Sale.json' was updated with new products and categories.")
 
 
 def main():
