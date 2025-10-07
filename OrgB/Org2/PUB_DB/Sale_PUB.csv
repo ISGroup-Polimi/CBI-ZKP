@@ -1,13 +1,12 @@
-Product Name,Category,Material,Total Emissions (kgCO2e)
-Running Shoes,Shoes,Polyester,644.97
-Leather Boots,Shoes,Polyester,507.19
-Slip-On Sneakers,Shoes,Polyester,457.27
-Sandals,Shoes,Polyester,251.99
-Denim Jeans,Pants,Polyester,617.64
-Cargo Pants,Pants,Polyester,690.38
-Chino Pants,Pants,Polyester,603.25
-Shorts,Pants,Polyester,730.37
-Classic T-Shirt,Shirts,Polyester,607.6
-Formal Shirt,Shirts,Polyester,863.73
-Polo Shirt,Shirts,Polyester,660.08
-Tank Top,Shirts,Polyester,187.35
+Category,Material,Year,Month,Day,Total Emissions (kgCO2e)
+Shoes,Leather,2021,12,10,75.53
+Shoes,Leather,2022,12,19,92.42
+Shoes,Leather,2024,12,7,67.67
+Shoes,Leather,2024,12,17,15.08
+Pants,Leather,2020,12,21,72.41
+Pants,Leather,2024,12,27,53.06
+Shirts,Leather,2020,12,15,45.97
+Shirts,Leather,2020,12,24,98.16
+Shirts,Leather,2022,12,12,25.73
+Shirts,Leather,2024,12,16,11.89
+Shirts,Leather,2024,12,17,79.5
