@@ -2,6 +2,7 @@ import os
 import json
 import pandas as pd
 import torch
+import torch.nn as nn
 import onnx
 import numpy as np
 from Org1.models.olap_cube import OLAPCube
@@ -12,6 +13,16 @@ from Org1.ezkl_workflow.generate_proof import generate_proof
 
 output_dir = os.path.join('Org1', 'output')
 os.makedirs(output_dir, exist_ok=True)
+
+# Compose all OLAP operations into a single nn.Module
+class ComposedOLAPModel(nn.Module):
+    def __init__(self, operations):
+        super().__init__()
+        self.operations = nn.ModuleList(operations)
+    def forward(self, x):
+        for op in self.operations:
+            x = op(x)
+        return x
 
 def decode_operations(operations, columns_to_remove_idx):
     decoded_ops = []
@@ -59,16 +70,34 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
 
     decoded_operations = decode_operations(operations, columns_to_remove_idx)
 
-    # Apply the operations to the tensor data 
+    # Apply the operations to the tensor data (Python-side)
     final_tensor = apply_olap_operations(cube, tensor_data, decoded_operations)
 
+    # Compare Python-side and ONNX-side results
+    if final_tensor.shape == final_tensor_onnx.shape:
+        diff = (final_tensor - final_tensor_onnx).abs().max().item()
+        print(f"Max absolute difference between Python and ONNX outputs: {diff}")
+    else:
+        print(f"Shape mismatch: Python {final_tensor.shape}, ONNX {final_tensor_onnx.shape}")
+
+    """
     # Export the model in ONNX format
     final_operation = decoded_operations[-1]  
     final_operation.to(torch.device("cpu"))
     final_operation.eval()
+    """
 
+    # Compose all operations into a single model (ONNX-side)
+    composed_model = ComposedOLAPModel(decoded_operations)
+    composed_model.to(torch.device("cpu"))
+    composed_model.eval()
+
+    # Apply the composed model to the tensor data
+    final_tensor_onnx = composed_model(tensor_data)
+
+    # Export the composed model in ONNX format
     model_onnx_path = os.path.join(output_dir, 'model.onnx')
-    torch.onnx.export(final_operation, tensor_data, model_onnx_path,
+    torch.onnx.export(composed_model, tensor_data, model_onnx_path,
                       export_params=True, opset_version=11, do_constant_folding=True,
                       input_names=['input'], output_names=['output'])
 
@@ -78,7 +107,7 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     data = dict(
         input_shapes=[tensor_data.shape],
         input_data=[(tensor_data).detach().numpy().reshape([-1]).tolist()],
-        output_data=[final_tensor.detach().numpy().reshape([-1]).tolist()]
+        output_data=[final_tensor_onnx.detach().numpy().reshape([-1]).tolist()]
     )
     input_json_path = os.path.join(output_dir, 'input.json')
     with open(input_json_path, 'w') as f:

@@ -9,7 +9,7 @@ deactivate
     ### Project
 pip install -r requirements.txt
 
-In different terminals:
+Launch the Ethereum Blockchain
 geth --dev --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,web3,personal,net
 
 cd Carboni_Thesis/Blockchain
