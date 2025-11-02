@@ -73,13 +73,6 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     # Apply the operations to the tensor data (Python-side)
     final_tensor = apply_olap_operations(cube, tensor_data, decoded_operations)
 
-    # Compare Python-side and ONNX-side results
-    if final_tensor.shape == final_tensor_onnx.shape:
-        diff = (final_tensor - final_tensor_onnx).abs().max().item()
-        print(f"Max absolute difference between Python and ONNX outputs: {diff}")
-    else:
-        print(f"Shape mismatch: Python {final_tensor.shape}, ONNX {final_tensor_onnx.shape}")
-
     """
     # Export the model in ONNX format
     final_operation = decoded_operations[-1]  
@@ -94,6 +87,13 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
 
     # Apply the composed model to the tensor data
     final_tensor_onnx = composed_model(tensor_data)
+
+    # Compare Python-side and ONNX-side results
+    if final_tensor.shape == final_tensor_onnx.shape:
+        diff = (final_tensor - final_tensor_onnx).abs().max().item()
+        print(f"Max absolute difference between Python and ONNX outputs: {diff}")
+    else:
+        print(f"Shape mismatch: Python {final_tensor.shape}, ONNX {final_tensor_onnx.shape}")
 
     # Export the composed model in ONNX format
     model_onnx_path = os.path.join(output_dir, 'model.onnx')
