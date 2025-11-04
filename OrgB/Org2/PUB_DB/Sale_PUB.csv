@@ -1,13 +1,9 @@
 Product Name,Category,Material,Total Emissions (kgCO2e)
-Running Shoes,Shoes,Denim,808.18
-Leather Boots,Shoes,Denim,431.58
-Slip-On Sneakers,Shoes,Denim,781.61
-Sandals,Shoes,Denim,537.51
-Denim Jeans,Pants,Denim,900.03
-Cargo Pants,Pants,Denim,367.05
-Chino Pants,Pants,Denim,457.65
-Shorts,Pants,Denim,991.75
-Classic T-Shirt,Shirts,Denim,543.31
-Formal Shirt,Shirts,Denim,841.3
-Polo Shirt,Shirts,Denim,621.39
-Tank Top,Shirts,Denim,262.03
+Denim Jeans,Pants,Cotton,335.82
+Cargo Pants,Pants,Cotton,596.55
+Chino Pants,Pants,Cotton,452.05
+Shorts,Pants,Cotton,308.28
+Classic T-Shirt,Shirts,Cotton,326.29
+Formal Shirt,Shirts,Cotton,358.7
+Polo Shirt,Shirts,Cotton,349.17
+Tank Top,Shirts,Cotton,951.36
