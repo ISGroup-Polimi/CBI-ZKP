@@ -1,9 +1,38 @@
-Product Name,Category,Material,Total Emissions (kgCO2e)
-Denim Jeans,Pants,Cotton,335.82
-Cargo Pants,Pants,Cotton,596.55
-Chino Pants,Pants,Cotton,452.05
-Shorts,Pants,Cotton,308.28
-Classic T-Shirt,Shirts,Cotton,326.29
-Formal Shirt,Shirts,Cotton,358.7
-Polo Shirt,Shirts,Cotton,349.17
-Tank Top,Shirts,Cotton,951.36
+Product Name,Category,Material,Year,Total Emissions (kgCO2e)
+Denim Jeans,Pants,Cotton,2020,112.79
+Denim Jeans,Pants,Cotton,2021,62.92
+Denim Jeans,Pants,Cotton,2022,86.02
+Denim Jeans,Pants,Cotton,2023,53.15
+Denim Jeans,Pants,Cotton,2024,20.94
+Cargo Pants,Pants,Cotton,2020,37.01
+Cargo Pants,Pants,Cotton,2021,96.69
+Cargo Pants,Pants,Cotton,2022,82.35
+Cargo Pants,Pants,Cotton,2023,305.2
+Cargo Pants,Pants,Cotton,2024,75.3
+Chino Pants,Pants,Cotton,2020,95.91
+Chino Pants,Pants,Cotton,2021,8.58
+Chino Pants,Pants,Cotton,2022,92.07
+Chino Pants,Pants,Cotton,2023,212.73
+Chino Pants,Pants,Cotton,2024,42.76
+Shorts,Pants,Cotton,2020,73.64
+Shorts,Pants,Cotton,2021,49.04
+Shorts,Pants,Cotton,2022,134.38
+Shorts,Pants,Cotton,2023,49.67
+Shorts,Pants,Cotton,2024,1.55
+Classic T-Shirt,Shirts,Cotton,2020,38.92
+Classic T-Shirt,Shirts,Cotton,2021,46.88
+Classic T-Shirt,Shirts,Cotton,2022,133.84
+Classic T-Shirt,Shirts,Cotton,2023,106.65
+Formal Shirt,Shirts,Cotton,2020,161.23
+Formal Shirt,Shirts,Cotton,2021,48.48
+Formal Shirt,Shirts,Cotton,2022,105.65
+Formal Shirt,Shirts,Cotton,2023,43.34
+Polo Shirt,Shirts,Cotton,2021,32.1
+Polo Shirt,Shirts,Cotton,2022,160.03
+Polo Shirt,Shirts,Cotton,2023,95.79
+Polo Shirt,Shirts,Cotton,2024,61.25
+Tank Top,Shirts,Cotton,2020,61.4
+Tank Top,Shirts,Cotton,2021,135.69
+Tank Top,Shirts,Cotton,2022,259.36
+Tank Top,Shirts,Cotton,2023,191.95
+Tank Top,Shirts,Cotton,2024,302.96
