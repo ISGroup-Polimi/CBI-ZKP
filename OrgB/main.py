@@ -118,6 +118,7 @@ async def op_query(org_n, timestamp):
 
     query_dimensions, columns_to_remove_idx = get_query_dimensions(operations) # MAIN.py
 
+    print(query_dimensions)
 
     # Verify if the query is allowed by calling the smart contract in the blockchain
     is_query_allowed = verify_query_allowed(query_dimensions, data_fact_model_address) # HASH_UTILS.py
