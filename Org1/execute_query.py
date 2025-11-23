@@ -15,13 +15,16 @@ output_dir = os.path.join('Org1', 'output')
 os.makedirs(output_dir, exist_ok=True)
 
 # Compose all OLAP operations into a single nn.Module
+# define a new PyTorch neural network module that combines multiple OLAP operations
 class ComposedOLAPModel(nn.Module):
     def __init__(self, operations):
         super().__init__()
-        self.operations = nn.ModuleList(operations)
+        # stores the operations in a special PyTorch container that registers them as submodules
+        self.operations = nn.ModuleList(operations) 
+
     def forward(self, x):
         for op in self.operations:
-            x = op(x)
+            x = op(x) # apply each operation sequentially to the input tensor x
         return x
 
 def decode_operations(operations, columns_to_remove_idx):
@@ -88,6 +91,7 @@ async def op_execute_query(operations, columns_to_remove_idx, timestamp):
     # Apply the composed model to the tensor data
     final_tensor_onnx = composed_model(tensor_data)
 
+    # TEST
     # Compare Python-side and ONNX-side results
     if final_tensor.shape == final_tensor_onnx.shape:
         diff = (final_tensor - final_tensor_onnx).abs().max().item()
