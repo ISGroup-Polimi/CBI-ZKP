@@ -1,38 +1,158 @@
-Product Name,Category,Material,Year,Total Emissions (kgCO2e)
-Denim Jeans,Pants,Cotton,2020,112.79
-Denim Jeans,Pants,Cotton,2021,62.92
-Denim Jeans,Pants,Cotton,2022,86.02
-Denim Jeans,Pants,Cotton,2023,53.15
-Denim Jeans,Pants,Cotton,2024,20.94
-Cargo Pants,Pants,Cotton,2020,37.01
-Cargo Pants,Pants,Cotton,2021,96.69
-Cargo Pants,Pants,Cotton,2022,82.35
-Cargo Pants,Pants,Cotton,2023,305.2
-Cargo Pants,Pants,Cotton,2024,75.3
-Chino Pants,Pants,Cotton,2020,95.91
-Chino Pants,Pants,Cotton,2021,8.58
-Chino Pants,Pants,Cotton,2022,92.07
-Chino Pants,Pants,Cotton,2023,212.73
-Chino Pants,Pants,Cotton,2024,42.76
-Shorts,Pants,Cotton,2020,73.64
-Shorts,Pants,Cotton,2021,49.04
-Shorts,Pants,Cotton,2022,134.38
-Shorts,Pants,Cotton,2023,49.67
-Shorts,Pants,Cotton,2024,1.55
-Classic T-Shirt,Shirts,Cotton,2020,38.92
-Classic T-Shirt,Shirts,Cotton,2021,46.88
-Classic T-Shirt,Shirts,Cotton,2022,133.84
-Classic T-Shirt,Shirts,Cotton,2023,106.65
-Formal Shirt,Shirts,Cotton,2020,161.23
-Formal Shirt,Shirts,Cotton,2021,48.48
-Formal Shirt,Shirts,Cotton,2022,105.65
-Formal Shirt,Shirts,Cotton,2023,43.34
-Polo Shirt,Shirts,Cotton,2021,32.1
-Polo Shirt,Shirts,Cotton,2022,160.03
-Polo Shirt,Shirts,Cotton,2023,95.79
-Polo Shirt,Shirts,Cotton,2024,61.25
-Tank Top,Shirts,Cotton,2020,61.4
-Tank Top,Shirts,Cotton,2021,135.69
-Tank Top,Shirts,Cotton,2022,259.36
-Tank Top,Shirts,Cotton,2023,191.95
-Tank Top,Shirts,Cotton,2024,302.96
+Category,Material,Year,Month,Total Emissions (kgCO2e)
+Shoes,Cotton,2022,1,85.48
+Shoes,Cotton,2022,2,15.87
+Shoes,Cotton,2022,5,59.5
+Shoes,Cotton,2022,6,83.0
+Shoes,Cotton,2022,7,37.66
+Shoes,Cotton,2022,8,86.39
+Shoes,Cotton,2022,10,65.17
+Shoes,Cotton,2022,12,73.45
+Shoes,Cotton,2023,1,26.89
+Shoes,Cotton,2023,2,83.85
+Shoes,Cotton,2023,3,150.62
+Shoes,Cotton,2023,6,99.16
+Shoes,Cotton,2023,7,24.2
+Shoes,Cotton,2023,8,19.73
+Shoes,Cotton,2023,9,21.37
+Shoes,Cotton,2023,10,70.54
+Shoes,Leather,2022,1,106.0
+Shoes,Leather,2022,2,50.42
+Shoes,Leather,2022,4,15.05
+Shoes,Leather,2022,5,1.23
+Shoes,Leather,2022,8,43.29
+Shoes,Leather,2022,9,125.15
+Shoes,Leather,2022,10,106.0
+Shoes,Leather,2022,11,52.06
+Shoes,Leather,2022,12,92.42
+Shoes,Leather,2023,6,159.21
+Shoes,Leather,2023,8,84.98
+Shoes,Leather,2023,9,101.71
+Shoes,Polyester,2022,2,67.74
+Shoes,Polyester,2022,4,104.2
+Shoes,Polyester,2022,6,11.61
+Shoes,Polyester,2022,9,42.72
+Shoes,Polyester,2022,10,146.57
+Shoes,Polyester,2022,12,40.63
+Shoes,Polyester,2023,3,54.88
+Shoes,Polyester,2023,6,66.09
+Shoes,Polyester,2023,7,48.66
+Shoes,Polyester,2023,10,129.14
+Shoes,Polyester,2023,12,19.19
+Shoes,Denim,2022,1,7.41
+Shoes,Denim,2022,3,33.7
+Shoes,Denim,2022,4,2.2
+Shoes,Denim,2022,5,17.41
+Shoes,Denim,2022,7,8.06
+Shoes,Denim,2022,8,77.63
+Shoes,Denim,2022,9,48.38
+Shoes,Denim,2022,11,135.31
+Shoes,Denim,2023,1,35.49
+Shoes,Denim,2023,3,51.33
+Shoes,Denim,2023,5,68.03
+Shoes,Denim,2023,6,51.94
+Shoes,Denim,2023,8,16.48
+Shoes,Denim,2023,9,23.61
+Shoes,Denim,2023,11,81.15
+Shoes,Denim,2023,12,50.99
+Pants,Cotton,2022,5,7.36
+Pants,Cotton,2022,7,88.36
+Pants,Cotton,2022,8,129.15
+Pants,Cotton,2022,11,94.96
+Pants,Cotton,2022,12,74.99
+Pants,Cotton,2023,2,99.78
+Pants,Cotton,2023,4,7.38
+Pants,Cotton,2023,5,13.76
+Pants,Cotton,2023,6,51.99
+Pants,Cotton,2023,7,42.29
+Pants,Cotton,2023,8,173.84
+Pants,Cotton,2023,10,93.18
+Pants,Cotton,2023,11,85.38
+Pants,Cotton,2023,12,53.15
+Pants,Leather,2022,5,94.48
+Pants,Leather,2022,7,27.12
+Pants,Leather,2022,10,53.99
+Pants,Leather,2022,11,34.13
+Pants,Leather,2023,1,64.89
+Pants,Leather,2023,5,143.91
+Pants,Leather,2023,7,19.39
+Pants,Leather,2023,9,10.53
+Pants,Leather,2023,10,75.34
+Pants,Leather,2023,11,45.87
+Pants,Polyester,2022,1,94.82
+Pants,Polyester,2022,3,71.45
+Pants,Polyester,2022,4,56.95
+Pants,Polyester,2022,6,5.74
+Pants,Polyester,2022,8,92.31
+Pants,Polyester,2022,10,129.63
+Pants,Polyester,2022,11,268.86
+Pants,Polyester,2022,12,152.27
+Pants,Polyester,2023,1,261.17
+Pants,Polyester,2023,3,98.91
+Pants,Polyester,2023,4,49.14
+Pants,Polyester,2023,6,50.96
+Pants,Polyester,2023,12,50.48
+Pants,Denim,2022,1,84.84
+Pants,Denim,2022,2,148.04
+Pants,Denim,2022,6,73.87
+Pants,Denim,2022,7,78.54
+Pants,Denim,2023,1,94.35
+Pants,Denim,2023,2,76.24
+Pants,Denim,2023,3,48.07
+Pants,Denim,2023,4,74.31
+Pants,Denim,2023,9,96.71
+Pants,Denim,2023,10,30.74
+Pants,Denim,2023,12,34.36
+Shirts,Cotton,2022,4,25.7
+Shirts,Cotton,2022,5,120.41
+Shirts,Cotton,2022,6,61.4
+Shirts,Cotton,2022,8,82.25
+Shirts,Cotton,2022,9,44.58
+Shirts,Cotton,2022,10,135.37
+Shirts,Cotton,2022,11,94.8
+Shirts,Cotton,2022,12,94.37
+Shirts,Cotton,2023,1,43.34
+Shirts,Cotton,2023,2,94.26
+Shirts,Cotton,2023,4,102.91
+Shirts,Cotton,2023,9,99.53
+Shirts,Cotton,2023,11,1.8
+Shirts,Cotton,2023,12,95.89
+Shirts,Leather,2022,1,176.97
+Shirts,Leather,2022,3,32.94
+Shirts,Leather,2022,4,49.23
+Shirts,Leather,2022,5,134.16
+Shirts,Leather,2022,8,30.49
+Shirts,Leather,2022,9,22.58
+Shirts,Leather,2022,11,84.88
+Shirts,Leather,2022,12,25.73
+Shirts,Leather,2023,1,71.07
+Shirts,Leather,2023,3,80.85
+Shirts,Leather,2023,4,44.18
+Shirts,Leather,2023,5,61.36
+Shirts,Leather,2023,7,42.54
+Shirts,Leather,2023,9,5.23
+Shirts,Polyester,2022,1,235.78
+Shirts,Polyester,2022,2,84.07
+Shirts,Polyester,2022,3,65.11
+Shirts,Polyester,2022,4,154.1
+Shirts,Polyester,2022,6,133.9
+Shirts,Polyester,2022,7,23.35
+Shirts,Polyester,2022,9,29.78
+Shirts,Polyester,2022,10,27.67
+Shirts,Polyester,2022,11,79.54
+Shirts,Polyester,2022,12,76.11
+Shirts,Polyester,2023,3,1.06
+Shirts,Polyester,2023,5,102.78
+Shirts,Polyester,2023,7,114.57
+Shirts,Polyester,2023,11,172.38
+Shirts,Denim,2022,1,33.85
+Shirts,Denim,2022,4,97.98
+Shirts,Denim,2022,6,64.9
+Shirts,Denim,2022,7,28.95
+Shirts,Denim,2022,9,41.73
+Shirts,Denim,2023,3,90.85
+Shirts,Denim,2023,4,84.92
+Shirts,Denim,2023,5,42.89
+Shirts,Denim,2023,6,68.08
+Shirts,Denim,2023,7,29.65
+Shirts,Denim,2023,9,84.8
+Shirts,Denim,2023,10,111.37
