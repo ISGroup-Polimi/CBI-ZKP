@@ -18,7 +18,7 @@ contract DataFactModel {
 
     constructor() {
         allowedDimensions.ProductName = false;
-        allowedDimensions.Category = false;
+        allowedDimensions.Category = true;
         allowedDimensions.Material = true;
         allowedDimensions.Year = true;
         allowedDimensions.Month = true;
