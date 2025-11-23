@@ -1,5 +1,21 @@
-Material,Total Emissions (kgCO2e)
-Cotton,5745.7
-Leather,6231.69
-Polyester,6821.82
-Denim,6412.01
+Material,Year,Total Emissions (kgCO2e)
+Cotton,2020,1028.95
+Cotton,2021,1037.03
+Cotton,2022,1560.22
+Cotton,2023,1554.84
+Cotton,2024,564.66
+Leather,2020,1701.32
+Leather,2021,988.97
+Leather,2022,1358.32
+Leather,2023,1011.06
+Leather,2024,1172.02
+Polyester,2020,1397.92
+Polyester,2021,915.71
+Polyester,2022,2194.91
+Polyester,2023,1219.41
+Polyester,2024,1093.87
+Denim,2020,1561.31
+Denim,2021,1383.38
+Denim,2022,982.8
+Denim,2023,1346.36
+Denim,2024,1138.16
