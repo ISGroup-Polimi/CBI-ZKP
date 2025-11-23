@@ -1,0 +1,6 @@
+pandas
+torch
+onnx
+scikit-learn
+web3
+ezkl
