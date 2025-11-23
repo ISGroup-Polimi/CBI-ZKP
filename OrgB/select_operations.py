@@ -71,7 +71,7 @@ def CLI_rollup():
             if 0 <= hier_idx < len(hierarchies):
                 selected_hier = hierarchies[hier_idx]
                 dimensions = dim_hierarchy[selected_hier]
-                print(f"\nSelect a dimension to roll-up on for '{selected_hier}':")
+                print(f"\nSelect the lowest level to hide for '{selected_hier}' hierarchy (e.g., selecting 'Day' will show only 'Year' and 'Month'):")
                 for j, dim in enumerate(dimensions, 1):
                     print(f"{j}] {dim}")
                 # Clothes Type        Date         Material
