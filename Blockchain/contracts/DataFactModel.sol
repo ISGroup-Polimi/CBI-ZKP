@@ -26,9 +26,6 @@ contract DataFactModel {
         allowedDimensions.TotalEmissionsKgCO2e = true;
     }
 
-    for d in query_dimensions:
-        print(repr(d))
-
     function isQueryAllowed(string[] memory queryDimensions) public view returns (bool) {
         for (uint i = 0; i < queryDimensions.length; i++) {
             if (keccak256(abi.encodePacked(queryDimensions[i])) == keccak256(abi.encodePacked("Product Name")) && !allowedDimensions.ProductName) return false;
