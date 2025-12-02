@@ -118,30 +118,26 @@ async def main():
 
     while True:
         print("\n\nORG 1 (data provider) select an option:")
-        print("[1] Generate (and Convert) File")
-        print("[2] Update (and Convert) File")
-        print("([3] Convert File)")
+        print("[1] Generate Data")
+        print("[2] Update Data")
+        print("[3] Update Dimension Table")
         print("[4] Publish Hash")
-        print("[5] Update Dimension Table")
         print("[0] Exit")
-        sub_choice = input("Enter your choice (1, 2, 3, 4, 5, or 0): ")
+        sub_choice = input("Enter your choice (1, 2, 3, 4, or 0): ")
 
-        if sub_choice == "1":  # GENERATE (AND CONVERT) FILE
+        if sub_choice == "1":  # GENERATE FILE
             generate_star_scheme()
             CSV_converter()
 
-        elif sub_choice == "2":  # UPDATE (AND CONVERT) FILE
+        elif sub_choice == "2":  # UPDATE FILE
             sale_update()
             CSV_converter()
 
-        elif sub_choice == "3":  # CONVERT FILE
-            CSV_converter()
+        elif sub_choice == "3":  # UPDATE DIMENSION TABLE
+            update_products()
 
         elif sub_choice == "4":  # PUBLISH HASH
             await CLI_publish_hash()
-
-        elif sub_choice == "5":  # UPDATE DIMENSION TABLE
-            update_products()
 
         elif sub_choice == "0":
             print("Exiting.")

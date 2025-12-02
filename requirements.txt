@@ -4,9 +4,3 @@ onnx
 scikit-learn
 web3
 ezkl
-pandas
-torch
-onnx
-scikit-learn
-web3
-ezkl
